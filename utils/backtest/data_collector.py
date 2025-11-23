@@ -13,7 +13,7 @@ from utils.logger import logger
 
 class BacktestDataCollector:
     """
-    🎯 Правильний збір даних для бектесту з PyArrow ParquetWriter
+    🎯 Правильний збір даних для бектесту з PyArrow
     
     Рівні зберігання:
     - RAW (7 днів): orderbook snapshots (5s) + trades + signals
@@ -21,10 +21,10 @@ class BacktestDataCollector:
     - METADATA (90 днів): тільки результати сигналів
     
     Виправлення:
-    - Використання pq.ParquetWriter замість pd.to_parquet для append
-    - PyArrow schemas для валідації
+    - Використання PyArrow для Parquet з правильною валідацією
+    - PyArrow schemas для структурованих даних
     - JSON serialization для складних структур
-    - Правильне керування writer lifecycle
+    - Батчовий запис для оптимізації
     """
     
     def __init__(self, storage):
@@ -46,9 +46,6 @@ class BacktestDataCollector:
             'signals': {},
             'positions': {}
         }
-        
-        # ParquetWriter instances (один writer на файл для append)
-        self.writers: Dict[str, pq.ParquetWriter] = {}
         
         # Schemas для кожного типу даних
         self.schemas = self._create_schemas()
@@ -151,9 +148,6 @@ class BacktestDataCollector:
         # Фінальний flush всіх буферів
         self._flush_all_buffers()
         
-        # Закриття всіх writers
-        self._close_all_writers()
-        
         logger.info("✅ [BACKTEST_DATA_COLLECTOR] Stopped successfully")
     
     async def _snapshot_loop(self):
@@ -173,7 +167,8 @@ class BacktestDataCollector:
                     bid_levels = [(lvl.price, lvl.size) for lvl in ob.bids[:10]]
                     ask_levels = [(lvl.price, lvl.size) for lvl in ob.asks[:10]]
                     
-                    spread_bps = ((ob.best_ask - ob.best_bid) / ob.best_bid) * 10000
+                    # Захист відділення на нуль
+                    spread_bps = ((ob.best_ask - ob.best_bid) / ob.best_bid) * 10000 if ob.best_bid > 0 else 0.0
                     
                     snapshot = {
                         'timestamp': ob.ts,
@@ -285,7 +280,7 @@ class BacktestDataCollector:
                 logger.error(f"❌ [FLUSH_LOOP] Error: {e}")
     
     def _flush_buffer(self, buffer_type: str, symbol: str):
-        """Запис буфера в Parquet з використанням ParquetWriter"""
+        """Запис буфера в Parquet"""
         key = f"{symbol}_{buffer_type}"
         
         if key not in self.buffers[buffer_type] or not self.buffers[buffer_type][key]:
@@ -303,35 +298,25 @@ class BacktestDataCollector:
             date_path.mkdir(parents=True, exist_ok=True)
             file_path = date_path / f"{symbol}_{buffer_type}.parquet"
             
-            # Використання ParquetWriter для append
-            writer_key = str(file_path)
-            
-            if writer_key not in self.writers:
-                # Створення нового writer
-                if file_path.exists():
-                    # Файл існує - відкриваємо для append
-                    # Читаємо існуючі дані
-                    existing_table = pq.read_table(file_path)
-                    # Об'єднуємо з новими
-                    combined_table = pa.concat_tables([existing_table, table])
-                    # Перезаписуємо файл
-                    pq.write_table(
-                        combined_table,
-                        file_path,
-                        compression='snappy',
-                        version='2.6'
-                    )
-                else:
-                    # Новий файл - просто записуємо
-                    pq.write_table(
-                        table,
-                        file_path,
-                        compression='snappy',
-                        version='2.6'
-                    )
+            # Append до існуючого файлу або створення нового
+            if file_path.exists():
+                # Файл існує - читаємо, об'єднуємо та перезаписуємо
+                existing_table = pq.read_table(file_path)
+                combined_table = pa.concat_tables([existing_table, table])
+                pq.write_table(
+                    combined_table,
+                    file_path,
+                    compression='snappy',
+                    version='2.6'
+                )
             else:
-                # Writer вже існує - append
-                self.writers[writer_key].write_table(table)
+                # Новий файл - просто записуємо
+                pq.write_table(
+                    table,
+                    file_path,
+                    compression='snappy',
+                    version='2.6'
+                )
             
             # Очищення буфера
             self.buffers[buffer_type][key] = []
@@ -347,17 +332,6 @@ class BacktestDataCollector:
         for buffer_type in self.buffers.keys():
             for symbol in settings.pairs.trade_pairs:
                 self._flush_buffer(buffer_type, symbol)
-    
-    def _close_all_writers(self):
-        """Закриття всіх ParquetWriter"""
-        for writer_key, writer in self.writers.items():
-            try:
-                writer.close()
-                logger.debug(f"✅ [WRITER_CLOSE] {writer_key}")
-            except Exception as e:
-                logger.error(f"❌ [WRITER_CLOSE] {writer_key}: {e}")
-        
-        self.writers.clear()
     
     async def _rotation_loop(self):
         """Ротація даних"""
@@ -454,15 +428,15 @@ class BacktestDataCollector:
             # Зберігаємо тільки закриті позиції для аналізу
             if position.status == "CLOSED" and hasattr(position, 'closed_timestamp'):
                 trade_result = {
-                    'timestamp': position.timestamp,
-                    'closed_timestamp': position.closed_timestamp,
-                    'symbol': position.symbol,
-                    'side': position.side,
-                    'entry_price': position.entry_price,
+                    'timestamp': getattr(position, 'timestamp', 0.0),
+                    'closed_timestamp': getattr(position, 'closed_timestamp', 0.0),
+                    'symbol': getattr(position, 'symbol', ''),
+                    'side': getattr(position, 'side', ''),
+                    'entry_price': getattr(position, 'entry_price', 0.0),
                     'exit_price': getattr(position, 'avg_exit_price', 0.0),
                     'pnl': getattr(position, 'realised_pnl', 0.0),
                     'close_reason': getattr(position, 'close_reason', 'UNKNOWN'),
-                    'lifetime_sec': position.closed_timestamp - position.timestamp,
+                    'lifetime_sec': getattr(position, 'closed_timestamp', 0.0) - getattr(position, 'timestamp', 0.0),
                     'stop_loss': getattr(position, 'stop_loss', 0.0),
                     'take_profit': getattr(position, 'take_profit', 0.0),
                 }

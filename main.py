@@ -16,6 +16,7 @@ from trading.orchestrator import TradingOrchestrator
 
 # 🆕 BACKTEST IMPORTS
 from utils.backtest.main_backtest import BacktestOrchestrator
+from utils.backtest.data_collector import BacktestDataCollector
 
 if sys.platform.startswith("win"):
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -273,8 +274,7 @@ async def main():
     if settings.backtest.enable_backtest:
         logger.info("🔧 [8/8] Initializing Backtest System...")
         try:
-            # ✅ ДОДАНО: Ініціалізуємо DataCollector
-            from utils.backtest.data_collector import BacktestDataCollector
+            # Ініціалізуємо DataCollector
             backtest_data_collector = BacktestDataCollector(storage)
             await backtest_data_collector.start()
             logger.info("✅ [8a/8] Backtest Data Collector ready")
