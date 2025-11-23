@@ -1,0 +1,627 @@
+2025-11-22 21:28:04 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 21:29:37 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 21:35:28 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 21:39:50 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 21:44:53 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 21:51:02 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 21:54:11 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-22 22:04:28 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:08:03 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:08:03 | ERROR | bot | ❌ [PRIVATE_WS] Authentication error: no close frame received or sent
+2025-11-22 22:08:03 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:11:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:14:13 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:14:13 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:16:56 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:19:29 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:19:29 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:21:40 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:23:36 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:25:36 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:25:36 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:27:18 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:27:19 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:29:06 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:30:40 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:32:18 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:32:19 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:33:40 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:35:06 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:43:34 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:45:44 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:51:24 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 22:55:11 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-22 23:00:04 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): sent 1011 (internal error) keepalive ping timeout; no close frame received
+2025-11-22 23:04:50 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-22 23:04:52 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:09:50 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:13:36 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:13:37 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:16:55 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:16:55 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:19:49 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:19:49 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:22:20 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:24:01 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:24:02 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:25:51 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:25:51 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:34:09 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:43:32 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:46:37 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-22 23:54:20 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:54:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): sent 1011 (internal error) keepalive ping timeout; no close frame received
+2025-11-22 23:57:36 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-22 23:57:36 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:00:35 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:00:35 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:03:23 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:03:24 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:05:55 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:05:55 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:08:30 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:08:30 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:10:39 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:12:48 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:14:52 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:16:58 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:18:47 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:20:45 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:22:26 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:24:13 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:26:03 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:27:58 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:27:59 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:29:57 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:32:01 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:32:01 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:34:08 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:36:12 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:38:08 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:40:12 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:42:20 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:42:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:44:31 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:46:39 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:48:26 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:48:26 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:50:11 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:51:50 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:53:30 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:55:54 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:55:55 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 00:58:39 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:01:27 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:01:27 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:04:20 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:04:20 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:07:11 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:07:12 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:10:09 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:10:09 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:12:57 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:12:58 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:15:50 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:15:50 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:18:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:21:45 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:21:45 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:24:47 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:26:55 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:26:56 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:28:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:30:29 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:32:17 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:32:17 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:34:08 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:36:15 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:36:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:38:25 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:40:32 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:40:32 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:42:39 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:42:39 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:44:52 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:47:14 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:49:36 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:51:52 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:54:05 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:54:06 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:56:34 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:58:59 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 01:59:00 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:12:59 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:18:00 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:22:43 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:25:43 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:29:12 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:29:18 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:33:52 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:38:03 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:38:04 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:42:43 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:42:43 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:46:59 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:47:00 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:50:25 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:50:26 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:53:05 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:53:06 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:55:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:57:31 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 02:59:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:12:06 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:14:54 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:21:22 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:26:08 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:30:53 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:30:53 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:35:30 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:35:31 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:39:34 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:39:34 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:43:18 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:43:18 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:46:25 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:46:25 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:49:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:51:44 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:51:44 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:52:48 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:53:58 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:55:34 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:57:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 03:59:14 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:01:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:03:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:05:25 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:07:38 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:10:01 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:10:02 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:12:29 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:15:03 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:15:03 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:17:36 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:20:00 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:20:01 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:22:23 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:24:49 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:24:49 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:26:45 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:28:41 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:30:42 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:30:43 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:32:43 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:34:48 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:34:49 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:36:51 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:36:51 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:38:52 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:40:50 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:40:51 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:42:57 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:45:05 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:45:06 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:47:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:49:44 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:52:14 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:52:14 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:54:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:57:13 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 04:59:41 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:09:17 | ERROR | bot | ❌ [REPLAY] No data found
+2025-11-23 05:11:28 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:11:31 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): sent 1000 (OK); no close frame received
+2025-11-23 05:13:02 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:14:28 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:16:05 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:17:40 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:19:24 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:19:24 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:21:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:23:13 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:25:10 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:27:06 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:28:59 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:30:54 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:32:48 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:34:48 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:34:48 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:36:59 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:36:59 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:39:18 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:39:19 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:41:44 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:41:45 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:44:20 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:44:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:46:54 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:46:55 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:49:13 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:49:13 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:51:18 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:53:13 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:55:05 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:56:55 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:56:56 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 05:58:52 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:00:46 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:00:48 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:02:47 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:04:48 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:04:48 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:06:42 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:08:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:10:51 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:10:52 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:13:14 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:15:46 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:15:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:18:20 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:18:20 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:21:04 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:24:00 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:24:01 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:27:12 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:30:20 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:30:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:33:35 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:36:34 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:36:34 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:39:35 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:39:35 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:42:26 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:42:26 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:45:01 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:47:25 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:49:56 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:52:20 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:52:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:54:34 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:54:34 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:56:22 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 06:58:24 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:00:19 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:00:20 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:02:37 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:02:38 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:05:04 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:07:28 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:09:55 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:09:56 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:12:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:14:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:17:16 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:17:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:19:46 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:19:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:22:15 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:24:44 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:27:06 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:27:07 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:29:18 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:29:19 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:31:33 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:33:27 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:33:27 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:35:12 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:37:01 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:38:56 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:40:58 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:43:18 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:43:18 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:45:39 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:47:58 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:50:16 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:50:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:52:38 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:52:38 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:55:02 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:55:02 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:57:28 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 07:59:55 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:02:23 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:02:24 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:04:56 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:04:57 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:07:34 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:10:04 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:10:05 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:12:33 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 08:12:36 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:17:11 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:19:07 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:21:05 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:22:51 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:24:32 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 08:24:36 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:26:21 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:28:01 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:29:34 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 08:31:15 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:32:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:34:18 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:36:32 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:38:42 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:40:41 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 08:40:45 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:44:39 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:46:30 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 08:48:28 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:50:22 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:52:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 08:56:24 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 08:58:29 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:00:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:03:09 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:05:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:07:19 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:11:23 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:13:27 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:17:43 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:19:48 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:22:02 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:23:54 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:23:54 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:25:57 | ERROR | bot | ❌ [PRIVATE_WS] Authentication error: 
+2025-11-23 09:25:57 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:26:00 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): 
+2025-11-23 09:30:10 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:32:04 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:36:08 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:37:35 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:39:10 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:40:44 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:42:28 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:46:02 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:47:46 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:51:22 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:51:22 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:53:14 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:53:14 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:56:55 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:56:55 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 09:58:52 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 09:58:56 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:00:59 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:02:38 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:04:27 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:06:25 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:08:09 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:10:00 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:13:41 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:15:31 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:15:34 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:19:14 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:21:09 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:25:00 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:26:55 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:26:59 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:30:35 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:30:36 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:32:23 | ERROR | bot | ❌ [PRIVATE_WS] Authentication error: 
+2025-11-23 10:32:23 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:32:26 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): 
+2025-11-23 10:35:54 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:37:53 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:41:34 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:45:31 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:45:31 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:47:22 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:47:22 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:51:05 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:53:04 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:57:01 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:57:01 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 10:58:54 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 10:58:54 | ERROR | bot | ❌ [PRIVATE_WS] Authentication error: 
+2025-11-23 10:58:58 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): 
+2025-11-23 11:02:41 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:04:27 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:04:31 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:06:21 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:07:56 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:11:33 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:15:11 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:15:11 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:16:59 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:18:44 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:20:37 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:20:41 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:24:16 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:26:14 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:28:04 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:28:09 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:29:53 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:33:36 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:35:20 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:37:08 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:38:59 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:42:58 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:45:16 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:47:23 | ERROR | bot | ❌ [PRIVATE_WS] Authentication error: 
+2025-11-23 11:47:28 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): 
+2025-11-23 11:47:28 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:49:43 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:49:43 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:54:10 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:54:11 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 11:56:19 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 11:56:19 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 12:00:28 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:02:25 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:04:20 | ERROR | bot | ❌ [PRIVATE_WS] Authentication error: 
+2025-11-23 12:04:25 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): 
+2025-11-23 12:04:25 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:06:21 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 12:08:27 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:13:01 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:13:02 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:14:29 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 12:16:09 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:17:53 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:19:24 | ERROR | bot | ❌ [PRIVATE_WS] Authentication error: 
+2025-11-23 12:21:04 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 1): 
+2025-11-23 12:21:05 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): sent 1011 (internal error) keepalive ping timeout; no close frame received
+2025-11-23 12:22:41 | ERROR | bot | ❌ [PRIVATE_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 12:22:41 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 12:26:05 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:29:39 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:33:48 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:37:41 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:41:21 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:42:59 | ERROR | bot | [PUBLIC_WS] Error (attempt 2): timed out during opening handshake
+2025-11-23 12:46:18 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
+2025-11-23 12:49:18 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): no close frame received or sent
