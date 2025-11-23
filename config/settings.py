@@ -87,7 +87,7 @@ class TradingSettings(BaseSettings):
     # 🆕 АДАПТИВНИЙ МОНІТОРИНГ
     monitor_positions_interval_sec: float = 5.0
     enable_parallel_monitoring: bool = True
-    monitoring_batch_size: int = 5
+    monitoring_batch_size: int = 3
     
     reverse_signals: bool = True
     reverse_double_size: bool = False
@@ -101,7 +101,7 @@ class RiskSettings(BaseSettings):
     max_position_notional_pct: float = 1.0
     
     # 🆕 АДАПТИВНИЙ LIFETIME
-    base_position_lifetime_minutes: int = 30
+    base_position_lifetime_minutes: int = 40
     enable_adaptive_lifetime: bool = True
     
     low_volatility_lifetime_multiplier: float = 1.5
@@ -118,7 +118,7 @@ class RiskSettings(BaseSettings):
     max_tp_pct: float = 0.06
     
     sl_vol_multiplier: float = 1.5
-    tp_vol_multiplier: float = 3.0
+    tp_vol_multiplier: float = 2.0
     max_vol_used_pct: float = 5.0
     
     # 🆕 Динамічне співвідношення TP/SL
@@ -129,8 +129,8 @@ class RiskSettings(BaseSettings):
     
     # 🆕 TRAILING STOP
     enable_trailing_stop: bool = True
-    trailing_stop_activation_pct: float = 0.01
-    trailing_stop_distance_pct: float = 0.005
+    trailing_stop_activation_pct: float = 0.007
+    trailing_stop_distance_pct: float = 0.003
     
     position_history_size: int = 100
     min_history_for_adaptation: int = 20
@@ -162,7 +162,7 @@ class ExecutionSettings(BaseSettings):
 
 class WebSocketSettings(BaseSettings):
     """Налаштування WebSocket"""
-    subscription_depth: int = 50
+    subscription_depth: int = 20
     ping_interval: float = 20.0
     reconnect_delay_seconds: float = 5.0
     data_retention_seconds: int = 300

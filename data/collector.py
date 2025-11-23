@@ -131,7 +131,12 @@ class DataCollector:
                 break
             except Exception as e:
                 attempt += 1
-                logger.error(f"[PUBLIC_WS] Error (attempt {attempt}): {e}")
+                # Знизити log level для нормальних reconnect помилок
+                error_msg = str(e)
+                if any(msg in error_msg for msg in ["no close frame", "keepalive ping timeout", "timed out during opening handshake"]):
+                    logger.warning(f"[PUBLIC_WS] Reconnect (attempt {attempt}): {error_msg}")
+                else:
+                    logger.error(f"[PUBLIC_WS] Error (attempt {attempt}): {e}")
                 
                 if self._running:
                     delay = min(self.cfg.reconnect_delay_seconds * attempt, 30)
