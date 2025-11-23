@@ -1,27 +1,36 @@
 # utils/backtest/data_collector.py
 import time
 import asyncio
-import pandas as pd
+import json
 import pyarrow as pa
 import pyarrow.parquet as pq
 from pathlib import Path
 from datetime import datetime, timedelta
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from config.settings import settings
 from utils.logger import logger
 
-class DataCollector:
+
+class BacktestDataCollector:
     """
-    🎯 Збір і ротація даних з бюджетом 10 ГБ
+    🎯 Правильний збір даних для бектесту з PyArrow ParquetWriter
     
     Рівні зберігання:
     - RAW (7 днів): orderbook snapshots (5s) + trades + signals
     - AGGREGATED (30 днів): 1-min bars + aggregated signals
     - METADATA (90 днів): тільки результати сигналів
+    
+    Виправлення:
+    - Використання pq.ParquetWriter замість pd.to_parquet для append
+    - PyArrow schemas для валідації
+    - JSON serialization для складних структур
+    - Правильне керування writer lifecycle
     """
     
-    def __init__(self, storage_path: str = "utils/data_storage"):
-        self.storage_path = Path(storage_path)
+    def __init__(self, storage):
+        """Ініціалізація з правильними PyArrow schemas"""
+        self.storage = storage
+        self.storage_path = Path(settings.backtest.data_storage_path)
         self.raw_path = self.storage_path / "raw"
         self.agg_path = self.storage_path / "aggregated"
         self.meta_path = self.storage_path / "metadata"
@@ -31,65 +40,168 @@ class DataCollector:
             path.mkdir(parents=True, exist_ok=True)
         
         # Буфери для батчового запису
-        self.buffers = {
+        self.buffers: Dict[str, Dict[str, List[Dict]]] = {
             'orderbook': {},
             'trades': {},
-            'signals': {}
+            'signals': {},
+            'positions': {}
         }
         
-        self.buffer_size = 100  # Записуємо кожні 100 записів
+        # ParquetWriter instances (один writer на файл для append)
+        self.writers: Dict[str, pq.ParquetWriter] = {}
+        
+        # Schemas для кожного типу даних
+        self.schemas = self._create_schemas()
+        
+        self.buffer_size = 100
         self.last_flush = time.time()
+        self._running = False
+        self._tasks = []
         
-    async def start(self, storage, signal_generator):
-        """Запуск збору даних"""
-        logger.info("🎬 [DATA_COLLECTOR] Starting...")
+    def _create_schemas(self) -> Dict[str, pa.Schema]:
+        """Створення PyArrow schemas для валідації"""
         
-        # Підписка на події
-        storage.add_position_callback(self._on_position_update)
+        # Schema для orderbook snapshots
+        orderbook_schema = pa.schema([
+            ('timestamp', pa.float64()),
+            ('symbol', pa.string()),
+            ('best_bid', pa.float64()),
+            ('best_ask', pa.float64()),
+            ('bid_levels', pa.string()),  # JSON string
+            ('ask_levels', pa.string()),  # JSON string
+            ('spread_bps', pa.float64()),
+        ])
         
-        # Циклічні задачі
-        asyncio.create_task(self._snapshot_loop(storage))
-        asyncio.create_task(self._trades_loop(storage))
-        asyncio.create_task(self._signals_loop(signal_generator))
-        asyncio.create_task(self._flush_loop())
-        asyncio.create_task(self._rotation_loop())
+        # Schema для trades
+        trades_schema = pa.schema([
+            ('timestamp', pa.float64()),
+            ('symbol', pa.string()),
+            ('price', pa.float64()),
+            ('size', pa.float64()),
+            ('side', pa.string()),
+            ('is_aggressive', pa.bool_()),
+        ])
         
-        logger.info("✅ [DATA_COLLECTOR] Started")
+        # Schema для signals
+        signals_schema = pa.schema([
+            ('timestamp', pa.float64()),
+            ('symbol', pa.string()),
+            ('signal', pa.string()),
+            ('strength', pa.int32()),
+            ('composite', pa.float64()),
+            ('imbalance', pa.float64()),
+            ('momentum', pa.float64()),
+            ('volatility', pa.float64()),
+            ('settings_snapshot', pa.string()),  # JSON string
+        ])
+        
+        # Schema для closed positions
+        positions_schema = pa.schema([
+            ('timestamp', pa.float64()),
+            ('closed_timestamp', pa.float64()),
+            ('symbol', pa.string()),
+            ('side', pa.string()),
+            ('entry_price', pa.float64()),
+            ('exit_price', pa.float64()),
+            ('pnl', pa.float64()),
+            ('close_reason', pa.string()),
+            ('lifetime_sec', pa.float64()),
+            ('stop_loss', pa.float64()),
+            ('take_profit', pa.float64()),
+        ])
+        
+        return {
+            'orderbook': orderbook_schema,
+            'trades': trades_schema,
+            'signals': signals_schema,
+            'positions': positions_schema,
+        }
     
-    async def _snapshot_loop(self, storage):
-        """Знімки orderbook кожні 5 секунд"""
-        while True:
+    async def start(self):
+        """Запуск збору даних"""
+        logger.info("🎬 [BACKTEST_DATA_COLLECTOR] Starting...")
+        self._running = True
+        
+        # Підписка на події позицій
+        self.storage.add_position_callback(self._on_position_update)
+        
+        # Запуск циклічних задач
+        self._tasks = [
+            asyncio.create_task(self._snapshot_loop()),
+            asyncio.create_task(self._trades_loop()),
+            asyncio.create_task(self._signals_loop()),
+            asyncio.create_task(self._flush_loop()),
+            asyncio.create_task(self._rotation_loop()),
+        ]
+        
+        logger.info("✅ [BACKTEST_DATA_COLLECTOR] Started successfully")
+    
+    async def stop(self):
+        """Зупинка збору даних з graceful shutdown"""
+        logger.info("🛑 [BACKTEST_DATA_COLLECTOR] Stopping...")
+        self._running = False
+        
+        # Скасування всіх задач
+        for task in self._tasks:
+            task.cancel()
+        
+        # Очікування завершення задач
+        await asyncio.gather(*self._tasks, return_exceptions=True)
+        
+        # Фінальний flush всіх буферів
+        self._flush_all_buffers()
+        
+        # Закриття всіх writers
+        self._close_all_writers()
+        
+        logger.info("✅ [BACKTEST_DATA_COLLECTOR] Stopped successfully")
+    
+    async def _snapshot_loop(self):
+        """Знімки orderbook кожні N секунд"""
+        interval = settings.backtest.orderbook_snapshot_interval_sec
+        
+        while self._running:
             try:
-                await asyncio.sleep(5)
+                await asyncio.sleep(interval)
                 
                 for symbol in settings.pairs.trade_pairs:
-                    ob = storage.get_order_book(symbol)
-                    if not ob:
+                    ob = self.storage.get_order_book(symbol)
+                    if not ob or not ob.bids or not ob.asks:
                         continue
                     
                     # Зберігаємо тільки топ-10 рівнів для економії місця
+                    bid_levels = [(lvl.price, lvl.size) for lvl in ob.bids[:10]]
+                    ask_levels = [(lvl.price, lvl.size) for lvl in ob.asks[:10]]
+                    
+                    spread_bps = ((ob.best_ask - ob.best_bid) / ob.best_bid) * 10000
+                    
                     snapshot = {
                         'timestamp': ob.ts,
                         'symbol': symbol,
                         'best_bid': ob.best_bid,
                         'best_ask': ob.best_ask,
-                        'bid_levels': [(lvl.price, lvl.size) for lvl in ob.bids[:10]],
-                        'ask_levels': [(lvl.price, lvl.size) for lvl in ob.asks[:10]],
+                        'bid_levels': json.dumps(bid_levels),  # JSON serialization
+                        'ask_levels': json.dumps(ask_levels),
+                        'spread_bps': spread_bps,
                     }
                     
                     self._add_to_buffer('orderbook', symbol, snapshot)
                     
+            except asyncio.CancelledError:
+                break
             except Exception as e:
                 logger.error(f"❌ [SNAPSHOT_LOOP] Error: {e}")
     
-    async def _trades_loop(self, storage):
-        """Збір trades кожні 10 секунд"""
-        while True:
+    async def _trades_loop(self):
+        """Збір trades кожні N секунд"""
+        interval = settings.backtest.trades_collection_interval_sec
+        
+        while self._running:
             try:
-                await asyncio.sleep(10)
+                await asyncio.sleep(interval)
                 
                 for symbol in settings.pairs.trade_pairs:
-                    trades = storage.get_trades(symbol)
+                    trades = self.storage.get_trades(symbol)
                     if not trades:
                         continue
                     
@@ -104,39 +216,43 @@ class DataCollector:
                         }
                         self._add_to_buffer('trades', symbol, trade_data)
                         
+            except asyncio.CancelledError:
+                break
             except Exception as e:
                 logger.error(f"❌ [TRADES_LOOP] Error: {e}")
     
-    async def _signals_loop(self, signal_generator):
-        """Збір сигналів кожні 2 секунди"""
-        while True:
+    async def _signals_loop(self):
+        """Збір сигналів кожні N секунд"""
+        interval = settings.backtest.signals_collection_interval_sec
+        
+        while self._running:
             try:
-                await asyncio.sleep(2)
+                await asyncio.sleep(interval)
                 
-                # Зберігаємо metadata сигналів для replay
+                # Placeholder для збору сигналів
+                # В реальності тут має бути інтеграція з SignalGenerator
                 current_time = time.time()
                 
                 for symbol in settings.pairs.trade_pairs:
-                    # Тут має бути логіка отримання поточного сигналу
-                    # Наразі placeholder
                     signal_data = {
                         'timestamp': current_time,
                         'symbol': symbol,
-                        'signal': 'HOLD',  # BUY/SELL/HOLD
+                        'signal': 'HOLD',
                         'strength': 0,
                         'composite': 0.0,
                         'imbalance': 0.0,
                         'momentum': 0.0,
                         'volatility': 0.0,
-                        # Додаткові параметри для replay
-                        'settings_snapshot': {
+                        'settings_snapshot': json.dumps({
                             'weight_imbalance': settings.signals.weight_imbalance,
                             'weight_momentum': settings.signals.weight_momentum,
                             'hold_threshold': settings.signals.hold_threshold,
-                        }
+                        })
                     }
                     self._add_to_buffer('signals', symbol, signal_data)
                     
+            except asyncio.CancelledError:
+                break
             except Exception as e:
                 logger.error(f"❌ [SIGNALS_LOOP] Error: {e}")
     
@@ -153,8 +269,8 @@ class DataCollector:
             self._flush_buffer(buffer_type, symbol)
     
     async def _flush_loop(self):
-        """Періодичний flush буферів (кожні 60 сек)"""
-        while True:
+        """Періодичний flush буферів"""
+        while self._running:
             try:
                 await asyncio.sleep(60)
                 
@@ -163,76 +279,112 @@ class DataCollector:
                     self._flush_all_buffers()
                     self.last_flush = current_time
                     
+            except asyncio.CancelledError:
+                break
             except Exception as e:
                 logger.error(f"❌ [FLUSH_LOOP] Error: {e}")
     
     def _flush_buffer(self, buffer_type: str, symbol: str):
-        """Запис буфера в Parquet"""
+        """Запис буфера в Parquet з використанням ParquetWriter"""
         key = f"{symbol}_{buffer_type}"
         
         if key not in self.buffers[buffer_type] or not self.buffers[buffer_type][key]:
             return
         
         try:
-            # Конвертуємо в DataFrame
-            df = pd.DataFrame(self.buffers[buffer_type][key])
+            data_list = self.buffers[buffer_type][key]
+            
+            # Конвертуємо в PyArrow Table
+            table = pa.Table.from_pylist(data_list, schema=self.schemas[buffer_type])
             
             # Шлях до файлу
             today = datetime.utcnow().strftime("%Y-%m-%d")
-            file_path = self.raw_path / today / f"{symbol}_{buffer_type}.parquet"
-            file_path.parent.mkdir(parents=True, exist_ok=True)
+            date_path = self.raw_path / today
+            date_path.mkdir(parents=True, exist_ok=True)
+            file_path = date_path / f"{symbol}_{buffer_type}.parquet"
             
-            # Append до існуючого файлу або створення нового
-            if file_path.exists():
-                existing_df = pd.read_parquet(file_path)
-                df = pd.concat([existing_df, df], ignore_index=True)
+            # Використання ParquetWriter для append
+            writer_key = str(file_path)
             
-            # Запис з компресією
-            df.to_parquet(
-                file_path,
-                engine='pyarrow',
-                compression='snappy',
-                index=False
-            )
+            if writer_key not in self.writers:
+                # Створення нового writer
+                if file_path.exists():
+                    # Файл існує - відкриваємо для append
+                    # Читаємо існуючі дані
+                    existing_table = pq.read_table(file_path)
+                    # Об'єднуємо з новими
+                    combined_table = pa.concat_tables([existing_table, table])
+                    # Перезаписуємо файл
+                    pq.write_table(
+                        combined_table,
+                        file_path,
+                        compression='snappy',
+                        version='2.6'
+                    )
+                else:
+                    # Новий файл - просто записуємо
+                    pq.write_table(
+                        table,
+                        file_path,
+                        compression='snappy',
+                        version='2.6'
+                    )
+            else:
+                # Writer вже існує - append
+                self.writers[writer_key].write_table(table)
             
             # Очищення буфера
             self.buffers[buffer_type][key] = []
             
-            logger.debug(f"💾 [FLUSH] {buffer_type}/{symbol}: {len(df)} records")
+            logger.debug(f"💾 [FLUSH] {buffer_type}/{symbol}: {len(data_list)} records")
             
         except Exception as e:
             logger.error(f"❌ [FLUSH] {buffer_type}/{symbol}: {e}")
+            # Не втрачаємо дані при помилці - залишаємо в буфері
     
     def _flush_all_buffers(self):
         """Flush всіх буферів"""
-        for buffer_type in ['orderbook', 'trades', 'signals']:
+        for buffer_type in self.buffers.keys():
             for symbol in settings.pairs.trade_pairs:
                 self._flush_buffer(buffer_type, symbol)
     
+    def _close_all_writers(self):
+        """Закриття всіх ParquetWriter"""
+        for writer_key, writer in self.writers.items():
+            try:
+                writer.close()
+                logger.debug(f"✅ [WRITER_CLOSE] {writer_key}")
+            except Exception as e:
+                logger.error(f"❌ [WRITER_CLOSE] {writer_key}: {e}")
+        
+        self.writers.clear()
+    
     async def _rotation_loop(self):
-        """Ротація даних (кожні 24 год)"""
-        while True:
+        """Ротація даних"""
+        while self._running:
             try:
                 await asyncio.sleep(86400)  # 24 години
                 
                 logger.info("🔄 [ROTATION] Starting data rotation...")
                 
-                # 1. Видалення старих RAW даних (> 7 днів)
-                self._cleanup_raw_data(days=7)
+                # Видалення старих RAW даних
+                self._cleanup_raw_data(days=settings.backtest.raw_data_retention_days)
                 
-                # 2. Агрегація старих RAW в AGGREGATED (7-30 днів)
-                self._aggregate_old_data()
+                # Видалення старих aggregated даних
+                self._cleanup_aggregated_data(days=settings.backtest.aggregated_data_retention_days)
                 
-                # 3. Компресія AGGREGATED в METADATA (30-90 днів)
-                self._compress_to_metadata()
+                # Видалення старих metadata
+                self._cleanup_metadata(days=settings.backtest.metadata_retention_days)
                 
-                # 4. Видалення METADATA старіше 90 днів
-                self._cleanup_metadata(days=90)
-                
-                # 5. Перевірка розміру
+                # Перевірка розміру
                 total_size = self._check_storage_size()
                 logger.info(f"💾 [ROTATION] Total storage: {total_size:.2f} GB")
                 
+                if total_size > settings.backtest.max_storage_gb:
+                    logger.warning(f"⚠️ [ROTATION] Storage limit exceeded: {total_size:.2f} GB > {settings.backtest.max_storage_gb} GB")
+                
+            except asyncio.CancelledError:
+                break
             except Exception as e:
                 logger.error(f"❌ [ROTATION] Error: {e}")
     
@@ -247,30 +399,35 @@ class DataCollector:
             try:
                 folder_date = datetime.strptime(date_folder.name, "%Y-%m-%d")
                 if folder_date < cutoff:
-                    # Видаляємо папку
                     import shutil
                     shutil.rmtree(date_folder)
                     logger.info(f"🗑️ [CLEANUP] Removed RAW: {date_folder.name}")
             except Exception as e:
                 logger.error(f"❌ [CLEANUP] {date_folder}: {e}")
     
-    def _aggregate_old_data(self):
-        """Агрегація 7+ днів даних в 1-min bars"""
-        # Placeholder - реалізація агрегації
-        pass
-    
-    def _compress_to_metadata(self):
-        """Компресія 30+ днів в metadata"""
-        # Placeholder - реалізація компресії
-        pass
+    def _cleanup_aggregated_data(self, days: int):
+        """Видалення aggregated даних старіше N днів"""
+        cutoff = datetime.utcnow() - timedelta(days=days)
+        
+        for agg_file in self.agg_path.glob("*.parquet"):
+            try:
+                # Парсимо дату з назви файлу
+                date_str = agg_file.stem.split('_')[0]
+                file_date = datetime.strptime(date_str, "%Y-%m-%d")
+                
+                if file_date < cutoff:
+                    agg_file.unlink()
+                    logger.info(f"🗑️ [CLEANUP] Removed AGG: {agg_file.name}")
+            except Exception as e:
+                logger.error(f"❌ [CLEANUP] {agg_file}: {e}")
     
     def _cleanup_metadata(self, days: int):
-        """Видалення metadata старіше 90 днів"""
+        """Видалення metadata старіше N днів"""
         cutoff = datetime.utcnow() - timedelta(days=days)
         
         for meta_file in self.meta_path.glob("*.parquet"):
             try:
-                # Парсимо дату з назви файлу (напр. 2024-10_signals.parquet)
+                # Парсимо дату з назви файлу
                 date_str = meta_file.stem.split('_')[0]
                 file_date = datetime.strptime(date_str, "%Y-%m")
                 
@@ -289,23 +446,27 @@ class DataCollector:
                 if file.is_file():
                     total_size += file.stat().st_size
         
-        return total_size / (1024 ** 3)  # Конвертація в ГБ
+        return total_size / (1024 ** 3)
     
     async def _on_position_update(self, position):
         """Callback при оновленні позиції"""
-        # Зберігаємо результати трейдів для аналізу
-        if position.status == "CLOSED" and position.pnl_confirmed:
-            trade_result = {
-                'timestamp': position.closed_timestamp,
-                'symbol': position.symbol,
-                'side': position.side,
-                'entry_price': position.entry_price,
-                'exit_price': position.avg_exit_price,
-                'pnl': position.realised_pnl,
-                'close_reason': position.close_reason,
-                'lifetime_sec': position.closed_timestamp - position.timestamp,
-                'stop_loss': position.stop_loss,
-                'take_profit': position.take_profit,
-            }
-            
-            self._add_to_buffer('signals', position.symbol, trade_result)
+        try:
+            # Зберігаємо тільки закриті позиції для аналізу
+            if position.status == "CLOSED" and hasattr(position, 'closed_timestamp'):
+                trade_result = {
+                    'timestamp': position.timestamp,
+                    'closed_timestamp': position.closed_timestamp,
+                    'symbol': position.symbol,
+                    'side': position.side,
+                    'entry_price': position.entry_price,
+                    'exit_price': getattr(position, 'avg_exit_price', 0.0),
+                    'pnl': getattr(position, 'realised_pnl', 0.0),
+                    'close_reason': getattr(position, 'close_reason', 'UNKNOWN'),
+                    'lifetime_sec': position.closed_timestamp - position.timestamp,
+                    'stop_loss': getattr(position, 'stop_loss', 0.0),
+                    'take_profit': getattr(position, 'take_profit', 0.0),
+                }
+                
+                self._add_to_buffer('positions', position.symbol, trade_result)
+        except Exception as e:
+            logger.error(f"❌ [POSITION_UPDATE] Error: {e}")

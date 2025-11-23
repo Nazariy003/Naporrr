@@ -266,13 +266,22 @@ async def main():
     orchestrator = TradingOrchestrator(storage, imb_analyzer, vol_analyzer, signal_generator, executor)
     logger.info("✅ [7/8] Trading Orchestrator ready")
 
-    # 🆕 Ініціалізація Backtest Orchestrator
+    # 🆕 Ініціалізація Backtest System
     backtest_orchestrator = None
+    backtest_data_collector = None
+    
     if settings.backtest.enable_backtest:
-        logger.info("🔧 [8/8] Initializing Backtest Orchestrator...")
+        logger.info("🔧 [8/8] Initializing Backtest System...")
         try:
+            # ✅ ДОДАНО: Ініціалізуємо DataCollector
+            from utils.backtest.data_collector import BacktestDataCollector
+            backtest_data_collector = BacktestDataCollector(storage)
+            await backtest_data_collector.start()
+            logger.info("✅ [8a/8] Backtest Data Collector ready")
+            
+            # Ініціалізуємо Orchestrator
             backtest_orchestrator = BacktestOrchestrator(storage, signal_generator)
-            logger.info("✅ [8/8] Backtest Orchestrator ready")
+            logger.info("✅ [8b/8] Backtest Orchestrator ready")
         except Exception as e:
             logger.error(f"❌ [8/8] Backtest initialization failed: {e}")
             logger.warning("⚠️  Continuing without backtest system")
@@ -407,7 +416,8 @@ async def main():
             orchestrator, 
             executor, 
             api_manager,
-            backtest_orchestrator
+            backtest_orchestrator,
+            backtest_data_collector
         )
         
         logger.info("")
@@ -415,45 +425,55 @@ async def main():
         logger.info("✅ BOT STOPPED SAFELY")
         logger.info("=" * 70)
 
-async def safe_shutdown(collector, orchestrator, executor, api_manager, backtest_orchestrator=None):
+async def safe_shutdown(collector, orchestrator, executor, api_manager, backtest_orchestrator=None, backtest_data_collector=None):
     """Безпечна зупинка всіх компонентів"""
-    logger.info("  [1/5] Stopping Data Collector...")
+    logger.info("  [1/6] Stopping Data Collector...")
     try:
         await collector.stop()
-        logger.info("  ✅ [1/5] Data Collector stopped")
+        logger.info("  ✅ [1/6] Data Collector stopped")
     except Exception as e:
-        logger.error(f"  ❌ [1/5] Error: {e}")
+        logger.error(f"  ❌ [1/6] Error: {e}")
     
-    logger.info("  [2/5] Stopping Trading Orchestrator...")
+    logger.info("  [2/6] Stopping Trading Orchestrator...")
     try:
         await orchestrator.stop()
-        logger.info("  ✅ [2/5] Trading Orchestrator stopped")
+        logger.info("  ✅ [2/6] Trading Orchestrator stopped")
     except Exception as e:
-        logger.error(f"  ❌ [2/5] Error: {e}")
+        logger.error(f"  ❌ [2/6] Error: {e}")
     
-    logger.info("  [3/5] Stopping Trade Executor...")
+    logger.info("  [3/6] Stopping Trade Executor...")
     try:
         await executor.stop()
-        logger.info("  ✅ [3/5] Trade Executor stopped")
+        logger.info("  ✅ [3/6] Trade Executor stopped")
     except Exception as e:
-        logger.error(f"  ❌ [3/5] Error: {e}")
+        logger.error(f"  ❌ [3/6] Error: {e}")
+    
+    if backtest_data_collector:
+        logger.info("  [4/6] Stopping Backtest Data Collector...")
+        try:
+            await backtest_data_collector.stop()
+            logger.info("  ✅ [4/6] Backtest Data Collector stopped")
+        except Exception as e:
+            logger.error(f"  ❌ [4/6] Error: {e}")
+    else:
+        logger.info("  ⏩ [4/6] Backtest Data Collector skipped")
     
     if backtest_orchestrator:
-        logger.info("  [4/5] Stopping Backtest Orchestrator...")
+        logger.info("  [5/6] Stopping Backtest Orchestrator...")
         try:
             await backtest_orchestrator.stop()
-            logger.info("  ✅ [4/5] Backtest Orchestrator stopped")
+            logger.info("  ✅ [5/6] Backtest Orchestrator stopped")
         except Exception as e:
-            logger.error(f"  ❌ [4/5] Error: {e}")
+            logger.error(f"  ❌ [5/6] Error: {e}")
     else:
-        logger.info("  ⏩ [4/5] Backtest skipped")
+        logger.info("  ⏩ [5/6] Backtest Orchestrator skipped")
     
-    logger.info("  [5/5] Closing API connections...")
+    logger.info("  [6/6] Closing API connections...")
     try:
         await api_manager.close()
-        logger.info("  ✅ [5/5] API connections closed")
+        logger.info("  ✅ [6/6] API connections closed")
     except Exception as e:
-        logger.error(f"  ❌ [5/5] Error: {e}")
+        logger.error(f"  ❌ [6/6] Error: {e}")
 
 if __name__ == "__main__":
     try:
