@@ -265,7 +265,11 @@ class TradingOrchestrator:
             signal_parts = []
             if is_reverse:
                 signal_parts.append("REVERSE")
-            signal_parts.append(f"{action.upper()}{strength}")
+            display_action = "SELL" if action == "BUY" else "BUY" if action == "SELL" else action
+            if self.executor.tcfg. reverse_signals:
+                signal_parts.append(f"{display_action.upper()}{strength}")
+            else:
+                signal_parts.append(f"{action.upper()}{strength}")
 
             factors = sig.get('factors', {})
             raw_values = factors.get('raw_values', {})
