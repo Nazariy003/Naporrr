@@ -107,12 +107,7 @@ class PrivateWSCollector:
                 break
             except Exception as e:
                 attempt += 1
-                # Знизити log level для нормальних reconnect помилок
-                error_msg = str(e)
-                if any(msg in error_msg for msg in ["no close frame", "keepalive ping timeout", "timed out during opening handshake"]):
-                    logger.warning(f"[PRIVATE_WS] Reconnect (attempt {attempt}): {error_msg}")
-                else:
-                    logger.error(f"❌ [PRIVATE_WS] Error (attempt {attempt}): {e}")
+                logger.error(f"❌ [PRIVATE_WS] Error (attempt {attempt}): {e}")
                 
                 if attempt >= max_attempts:
                     logger.error(f"[PRIVATE_WS] Max reconnect attempts reached, stopping")

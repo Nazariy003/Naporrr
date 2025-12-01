@@ -87,7 +87,7 @@ class TradingSettings(BaseSettings):
     # 🆕 АДАПТИВНИЙ МОНІТОРИНГ
     monitor_positions_interval_sec: float = 5.0
     enable_parallel_monitoring: bool = True
-    monitoring_batch_size: int = 3
+    monitoring_batch_size: int = 5
     
     reverse_signals: bool = True
     reverse_double_size: bool = False
@@ -101,7 +101,7 @@ class RiskSettings(BaseSettings):
     max_position_notional_pct: float = 1.0
     
     # 🆕 АДАПТИВНИЙ LIFETIME
-    base_position_lifetime_minutes: int = 40
+    base_position_lifetime_minutes: int = 30
     enable_adaptive_lifetime: bool = True
     
     low_volatility_lifetime_multiplier: float = 1.5
@@ -118,7 +118,7 @@ class RiskSettings(BaseSettings):
     max_tp_pct: float = 0.06
     
     sl_vol_multiplier: float = 1.5
-    tp_vol_multiplier: float = 2.0
+    tp_vol_multiplier: float = 3.0
     max_vol_used_pct: float = 5.0
     
     # 🆕 Динамічне співвідношення TP/SL
@@ -129,8 +129,8 @@ class RiskSettings(BaseSettings):
     
     # 🆕 TRAILING STOP
     enable_trailing_stop: bool = True
-    trailing_stop_activation_pct: float = 0.007
-    trailing_stop_distance_pct: float = 0.003
+    trailing_stop_activation_pct: float = 0.01
+    trailing_stop_distance_pct: float = 0.005
     
     position_history_size: int = 100
     min_history_for_adaptation: int = 20
@@ -162,7 +162,7 @@ class ExecutionSettings(BaseSettings):
 
 class WebSocketSettings(BaseSettings):
     """Налаштування WebSocket"""
-    subscription_depth: int = 20
+    subscription_depth: int = 50
     ping_interval: float = 20.0
     reconnect_delay_seconds: float = 5.0
     data_retention_seconds: int = 300
@@ -267,128 +267,6 @@ class SpreadSettings(BaseSettings):
     """Налаштування spread"""
     max_spread_threshold_bps: float = 20.0
 
-class BacktestSettings(BaseSettings):
-    """🎯 Налаштування бектестингу та оптимізації"""
-    
-    # === ОСНОВНІ ===
-    enable_backtest: bool = True
-    """Увімкнути автоматичний бектест"""
-    
-    cycle_hours: int = 24
-    """Періодичність запуску бектесту (години)"""
-    
-    backtest_start_time: str = "03:00"
-    """Час запуску бектесту (UTC, HH:MM)"""
-    
-    # === ДАНІ ===
-    lookback_days: int = 14
-    """Кількість днів історії для бектесту"""
-    
-    min_trades_required: int = 30
-    """Мінімум трейдів для валідних результатів"""
-    
-    # === ОПТИМІЗАЦІЯ ===
-    enable_optimization: bool = True
-    """Увімкнути оптимізацію параметрів"""
-    
-    max_optimization_combinations: int = 100
-    """Максимум комбінацій для grid search (None = всі)"""
-    
-    optimization_symbols: list = []
-    """Символи для оптимізації ([] = всі з trade_pairs)"""
-    
-    # === WALK-FORWARD VALIDATION ===
-    enable_walk_forward: bool = True
-    """Увімкнути walk-forward validation"""
-    
-    walk_forward_splits: int = 3
-    """Кількість fold для walk-forward"""
-    
-    walk_forward_train_ratio: float = 0.6
-    """Частка даних для training (0.6 = 60%)"""
-    
-    # === AUTO-APPLY ===
-    auto_apply_params: bool = False
-    """⚠️ Автоматично застосовувати кращі параметри"""
-    
-    require_manual_approval: bool = True
-    """Вимагати ручне підтвердження через Telegram"""
-    
-    min_improvement_threshold_pct: float = 10.0
-    """Мінімальне покращення для auto-apply (%)"""
-    
-    gradual_adjustment: bool = True
-    """Поступове оновлення параметрів (змішування зі старими)"""
-    
-    adjustment_factor: float = 0.5
-    """Фактор змішування (0.5 = 50% старе + 50% нове)"""
-    
-    # === МЕТРИКИ ДЛЯ ОПТИМІЗАЦІЇ ===
-    target_metrics: dict = {
-        "min_win_rate": 45.0,
-        "min_profit_factor": 1.5,
-        "min_sharpe_ratio": 1.0,
-        "max_drawdown_pct": 20.0,
-    }
-    """Цільові значення метрик"""
-    
-    # === НОТИФІКАЦІЇ ===
-    notify_on_completion: bool = True
-    """Повідомлення після завершення бектесту"""
-    
-    notify_on_better_params: bool = True
-    """Повідомлення при знаходженні кращих параметрів"""
-    
-    notify_threshold_improvement: float = 15.0
-    """Поріг покращення для нотифікації (%)"""
-    
-    # === DATA STORAGE ===
-    data_storage_path: str = "utils/data_storage"
-    """Шлях до сховища даних"""
-    
-    max_storage_gb: float = 10.0
-    """Максимальний розмір сховища (ГБ)"""
-    
-    raw_data_retention_days: int = 7
-    """Зберігання RAW даних (дні)"""
-    
-    aggregated_data_retention_days: int = 30
-    """Зберігання агрегованих даних (дні)"""
-    
-    metadata_retention_days: int = 90
-    """Зберігання metadata (дні)"""
-    
-    # === SNAPSHOT SETTINGS ===
-    orderbook_snapshot_interval_sec: int = 5
-    """Інтервал знімків orderbook (секунди)"""
-    
-    trades_collection_interval_sec: int = 10
-    """Інтервал збору trades (секунди)"""
-    
-    signals_collection_interval_sec: int = 2
-    """Інтервал збору сигналів (секунди)"""
-    
-    # === БЕЗПЕКА ===
-    max_parameter_change_pct: float = 50.0
-    """Максимальна зміна параметра за раз (%)"""
-    
-    backup_settings_count: int = 10
-    """Кількість backup файлів settings.py"""
-    
-    enable_rollback_on_error: bool = True
-    """Автоматичний rollback при помилках"""
-    
-    # === DEBUG ===
-    debug_mode: bool = False
-    """Детальний лог бектесту"""
-    
-    save_intermediate_results: bool = True
-    """Зберігати проміжні результати"""
-    
-    log_level_backtest: str = "INFO"
-    """Рівень логування: DEBUG/INFO/WARNING"""
-
-
 class Settings(BaseSettings):
     """Головний клас налаштувань"""
     system: SystemSettings = SystemSettings()
@@ -405,7 +283,5 @@ class Settings(BaseSettings):
     adaptive: AdaptiveSettings = AdaptiveSettings()
     signals: SignalSettings = SignalSettings()
     spread: SpreadSettings = SpreadSettings()
-    backtest: BacktestSettings = BacktestSettings()
 
-    
 settings = Settings()
