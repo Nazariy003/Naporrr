@@ -105,9 +105,19 @@ class VolumeAnalyzer:
         self.storage = storage
         self.cfg = settings.volume
         self.adaptive_cfg = settings.adaptive
+        self.ohara_cfg = settings.ohara
         self.tape_analyzer = TapeAnalyzer(large_trade_threshold_usdt=5000)
         self._last_calculations = {}
         self._adaptive_windows_cache = {}
+        
+        # 🆕 O'HARA METHOD 3: Trade Frequency Analysis
+        self._trade_frequency_baseline = {}  # {symbol: baseline_rate}
+        
+        # 🆕 O'HARA METHOD 5: Volume Confirmation
+        self._volume_baseline = {}  # {symbol: deque of volumes}
+        
+        # 🆕 O'HARA METHOD 2: Large Order Tracker (Enhanced)
+        self._large_order_history = {}  # {symbol: deque of large orders}
 
     def get_adaptive_window(self, base_window: int, symbol: str, current_volatility: float) -> int:
         """Адаптивне розширення/звуження вікна на основі волатильності"""
@@ -117,29 +127,23 @@ class VolumeAnalyzer:
         cache_key = f"{symbol}_{base_window}"
         if cache_key in self._adaptive_windows_cache:
             cached_data = self._adaptive_windows_cache[cache_key]
-            if time.time() - cached_data['timestamp'] < 30:  # Кеш на 30 сек
+            if time.time() - cached_data['timestamp'] < 30:
                 return cached_data['window']
 
-        # Розрахунок адаптивного множника
         base_vol = self.adaptive_cfg.base_volatility_threshold
         if current_volatility <= base_vol * 0.7:
-            # Дуже низька волатильність - розширюємо вікно
             multiplier = self.adaptive_cfg.low_volatility_multiplier
         elif current_volatility >= base_vol * 2.0:
-            # Дуже висока волатильність - звужуємо вікно
             multiplier = self.adaptive_cfg.high_volatility_multiplier
         else:
-            # Нормальна волатильність - незмінне вікно
             multiplier = 1.0
 
         adaptive_window = int(base_window * multiplier)
         
-        # Обмеження розміру вікна
         max_window = int(base_window * self.adaptive_cfg.max_window_expansion)
         min_window = int(base_window * self.adaptive_cfg.min_window_reduction)
         adaptive_window = max(min_window, min(adaptive_window, max_window))
 
-        # Кешуємо результат
         self._adaptive_windows_cache[cache_key] = {
             'window': adaptive_window,
             'timestamp': time.time(),
@@ -194,6 +198,27 @@ class VolumeAnalyzer:
         # Перераховуємо метрики з адаптивними вікнами
         volume_metrics = self._calculate_adaptive_volume_metrics(symbol, trades, now, adaptive_short_window, adaptive_long_window)
         
+        # 🆕 O'HARA METHOD 3: Trade Frequency Analysis
+        if self.cfg.enable_trade_frequency_analysis:
+            frequency_data = self._analyze_trade_frequency(symbol, trades, now)
+            volume_metrics['frequency_data'] = frequency_data
+        else:
+            volume_metrics['frequency_data'] = self._empty_frequency_data()
+        
+        # 🆕 O'HARA METHOD 5: Volume Confirmation
+        if self.cfg.enable_volume_confirmation:
+            volume_confirm = self._analyze_volume_confirmation(symbol, trades, now, volume_metrics)
+            volume_metrics['volume_confirmation'] = volume_confirm
+        else:
+            volume_metrics['volume_confirmation'] = self._empty_volume_confirmation()
+        
+        # 🆕 O'HARA METHOD 2: Large Order Tracker (Enhanced)
+        if self.cfg.enable_large_order_tracker:
+            large_order_data = self._track_large_orders(symbol, trades, now)
+            volume_metrics['large_order_data'] = large_order_data
+        else:
+            volume_metrics['large_order_data'] = self._empty_large_order_data()
+        
         result = {**volume_metrics, **volatility_metrics}
         result["volatility"] = result["range_position_lifetime"]
         result["adaptive_windows"] = {
@@ -206,28 +231,239 @@ class VolumeAnalyzer:
         
         return result
 
+    def _analyze_trade_frequency(self, symbol: str, trades: List[TradeEntry], now: float) -> Dict[str, Any]:
+        """
+        🆕 O'HARA METHOD 3: Trade Frequency Analysis
+        Аналізує частоту трейдів vs baseline для виявлення аномальної активності
+        """
+        baseline_window = self.cfg.frequency_baseline_window_sec
+        
+        # Базовий період (5 хвилин)
+        baseline_start = now - baseline_window
+        baseline_trades = [t for t in trades if baseline_start <= t.ts < now]
+        
+        if len(baseline_trades) < 10:
+            return self._empty_frequency_data()
+        
+        # Рахуємо baseline rate (trades/minute)
+        baseline_rate = len(baseline_trades) / (baseline_window / 60.0)
+        
+        # Зберігаємо baseline для майбутнього використання
+        if symbol not in self._trade_frequency_baseline:
+            self._trade_frequency_baseline[symbol] = deque(maxlen=20)
+        self._trade_frequency_baseline[symbol].append(baseline_rate)
+        
+        # Середній baseline
+        avg_baseline = statistics.mean(self._trade_frequency_baseline[symbol]) if self._trade_frequency_baseline[symbol] else baseline_rate
+        
+        # Поточна частота (останні 30 секунд)
+        current_window = 30
+        current_start = now - current_window
+        current_trades = [t for t in trades if t.ts >= current_start]
+        current_rate = len(current_trades) / (current_window / 60.0)
+        
+        # Визначаємо рівень активності
+        if avg_baseline > 0:
+            ratio = current_rate / avg_baseline
+        else:
+            ratio = 1.0
+        
+        if ratio >= self.cfg.frequency_very_high_multiplier:
+            activity_level = "VERY_HIGH"
+            risk_signal = "AVOID"  # Щось відбувається - можливо новини
+        elif ratio >= self.cfg.frequency_high_multiplier:
+            activity_level = "HIGH"
+            risk_signal = "CAUTION"
+        elif ratio <= self.cfg.frequency_very_low_multiplier:
+            activity_level = "VERY_LOW"
+            risk_signal = "LOW_LIQUIDITY"  # Тихо перед бурею
+        else:
+            activity_level = "NORMAL"
+            risk_signal = "OK"
+        
+        return {
+            'current_rate': round(current_rate, 2),
+            'baseline_rate': round(avg_baseline, 2),
+            'ratio': round(ratio, 2),
+            'activity_level': activity_level,
+            'risk_signal': risk_signal,
+            'current_trades': len(current_trades),
+            'baseline_trades': len(baseline_trades)
+        }
+
+    def _analyze_volume_confirmation(self, symbol: str, trades: List[TradeEntry], 
+                                    now: float, volume_metrics: Dict) -> Dict[str, Any]:
+        """
+        🆕 O'HARA METHOD 5: Volume Confirmation
+        Перевіряє чи обсяг підтверджує рух ціни
+        """
+        # Ініціалізуємо історію обсягів (24 години по 5 хв = 288 записів)
+        if symbol not in self._volume_baseline:
+            self._volume_baseline[symbol] = deque(maxlen=288)
+        
+        current_volume = volume_metrics.get('total_volume_short', 0)
+        
+        # Додаємо поточний обсяг до історії
+        self._volume_baseline[symbol].append({
+            'timestamp': now,
+            'volume': current_volume
+        })
+        
+        if len(self._volume_baseline[symbol]) < 10:
+            return self._empty_volume_confirmation()
+        
+        # Рахуємо середній обсяг за період
+        avg_volume = statistics.mean([v['volume'] for v in self._volume_baseline[symbol]])
+        
+        if avg_volume == 0:
+            return self._empty_volume_confirmation()
+        
+        volume_ratio = current_volume / avg_volume
+        
+        # Визначаємо рух ціни (порівнюємо VWAP з поточною ціною)
+        if len(trades) >= 10:
+            recent_trades = trades[-10:]
+            first_price = recent_trades[0].price
+            last_price = recent_trades[-1].price
+            price_change_pct = (last_price - first_price) / first_price * 100 if first_price > 0 else 0
+        else:
+            price_change_pct = 0
+        
+        # Логіка підтвердження згідно O'Hara
+        if abs(price_change_pct) > 1.0:  # Значний рух ціни (>1%)
+            if volume_ratio >= self.cfg.volume_confirmation_multiplier:
+                confirmation = "CONFIRMED"  # Справжній рух
+                strength = "STRONG"
+            elif volume_ratio >= 1.0:
+                confirmation = "MODERATE"
+                strength = "MEDIUM"
+            elif volume_ratio < self.cfg.volume_weak_threshold:
+                confirmation = "WEAK"  # Фейковий рух
+                strength = "WEAK"
+            else:
+                confirmation = "NEUTRAL"
+                strength = "MEDIUM"
+        else:
+            confirmation = "NEUTRAL"
+            strength = "WEAK"
+        
+        return {
+            'current_volume': round(current_volume, 2),
+            'avg_volume': round(avg_volume, 2),
+            'volume_ratio': round(volume_ratio, 2),
+            'price_change_pct': round(price_change_pct, 2),
+            'confirmation': confirmation,
+            'strength': strength
+        }
+
+    def _track_large_orders(self, symbol: str, trades: List[TradeEntry], now: float) -> Dict[str, Any]:
+        """
+        🆕 O'HARA METHOD 2: Large Order Tracking (Enhanced)
+        Відстежує великі ордери як сигнал інформованих трейдерів
+        """
+        lookback = self.cfg.large_order_lookback_sec
+        lookback_start = now - lookback
+        
+        recent_trades = [t for t in trades if t.ts >= lookback_start]
+        
+        if len(recent_trades) < 10:
+            return self._empty_large_order_data()
+        
+        # Розраховуємо середній розмір ордера
+        avg_order_size = statistics.mean([t.size * t.price for t in recent_trades])
+        
+        # Поріг для великого ордера
+        large_threshold = avg_order_size * self.cfg.large_order_significance_multiplier
+        
+        # Фільтруємо великі ордери
+        large_buys = [t for t in recent_trades if t.size * t.price >= large_threshold and t.side.lower() == 'buy']
+        large_sells = [t for t in recent_trades if t.size * t.price >= large_threshold and t.side.lower() == 'sell']
+        
+        large_buy_count = len(large_buys)
+        large_sell_count = len(large_sells)
+        large_net = large_buy_count - large_sell_count
+        
+        # Визначаємо напрямок інформованих трейдерів згідно O'Hara
+        if large_buy_count >= self.cfg.large_order_strong_threshold and large_net >= 2:
+            informed_direction = "STRONG_BUY"
+        elif large_sell_count >= self.cfg.large_order_strong_threshold and large_net <= -2:
+            informed_direction = "STRONG_SELL"
+        elif large_net >= 1:
+            informed_direction = "MEDIUM_BUY"
+        elif large_net <= -1:
+            informed_direction = "MEDIUM_SELL"
+        else:
+            informed_direction = "NEUTRAL"
+        
+        # Обсяги великих ордерів
+        large_buy_volume = sum(t.size * t.price for t in large_buys)
+        large_sell_volume = sum(t.size * t.price for t in large_sells)
+        
+        return {
+            'large_buy_count': large_buy_count,
+            'large_sell_count': large_sell_count,
+            'large_net': large_net,
+            'informed_direction': informed_direction,
+            'avg_order_size': round(avg_order_size, 2),
+            'large_threshold': round(large_threshold, 2),
+            'large_buy_volume': round(large_buy_volume, 2),
+            'large_sell_volume': round(large_sell_volume, 2)
+        }
+
+    def _empty_frequency_data(self) -> Dict[str, Any]:
+        """Порожні дані для frequency analysis"""
+        return {
+            'current_rate': 0.0,
+            'baseline_rate': 0.0,
+            'ratio': 1.0,
+            'activity_level': 'UNKNOWN',
+            'risk_signal': 'UNKNOWN',
+            'current_trades': 0,
+            'baseline_trades': 0
+        }
+
+    def _empty_volume_confirmation(self) -> Dict[str, Any]:
+        """Порожні дані для volume confirmation"""
+        return {
+            'current_volume': 0.0,
+            'avg_volume': 0.0,
+            'volume_ratio': 1.0,
+            'price_change_pct': 0.0,
+            'confirmation': 'UNKNOWN',
+            'strength': 'UNKNOWN'
+        }
+
+    def _empty_large_order_data(self) -> Dict[str, Any]:
+        """Порожні дані для large order tracking"""
+        return {
+            'large_buy_count': 0,
+            'large_sell_count': 0,
+            'large_net': 0,
+            'informed_direction': 'NEUTRAL',
+            'avg_order_size': 0.0,
+            'large_threshold': 0.0,
+            'large_buy_volume': 0.0,
+            'large_sell_volume': 0.0
+        }
+
     def _calculate_volatility_metrics(self, symbol: str, trades: List[TradeEntry], now: float) -> Dict[str, Any]:
         """Правильний розрахунок волатильності з реальними даними"""
         position_lifetime_minutes = settings.risk.position_lifetime_minutes
         window_seconds = position_lifetime_minutes * 60
         
-        # Отримуємо трейди за останній період
         recent_trades = [t for t in trades if t.ts >= now - window_seconds]
         
         if len(recent_trades) < 10:
-            # Недостатньо даних для точного розрахунку
             return {
-                "range_position_lifetime": 0.1,  # Мінімальна волатильність
+                "range_position_lifetime": 0.1,
                 "atr_position_lifetime": 0.05,
                 "recent_volatility": 0.1,
                 "volatility_score": 10.0,
                 "position_lifetime_minutes": position_lifetime_minutes
             }
         
-        # Сортуємо трейди за часом
         recent_trades.sort(key=lambda x: x.ts)
         
-        # Розраховуємо справжню волатильність
         prices = [t.price for t in recent_trades]
         high_price = max(prices)
         low_price = min(prices)
@@ -242,7 +478,6 @@ class VolumeAnalyzer:
                 "position_lifetime_minutes": position_lifetime_minutes
             }
         
-        # True Range та ATR
         true_ranges = []
         for i in range(1, len(recent_trades)):
             current_high = max(recent_trades[i].price, recent_trades[i-1].price)
@@ -253,17 +488,14 @@ class VolumeAnalyzer:
         atr = statistics.mean(true_ranges) if true_ranges else 0
         atr_pct = (atr / avg_price) * 100 if avg_price > 0 else 0.05
         
-        # Price Range
         price_range_pct = ((high_price - low_price) / avg_price) * 100
         
-        # Стандартне відхилення
         if len(prices) >= 2:
             price_std = statistics.stdev(prices)
             volatility_std = (price_std / avg_price) * 100
         else:
             volatility_std = 0.1
         
-        # Комбінована волатильність
         combined_volatility = max(0.1, (price_range_pct + atr_pct + volatility_std) / 3)
         
         logger.info(f"[VOLATILITY_REAL] {symbol}: {len(recent_trades)} trades, "
@@ -281,7 +513,6 @@ class VolumeAnalyzer:
     def _calculate_volatility_score(self, range_vol: float, atr_vol: float, std_vol: float) -> float:
         """Розрахунок оцінки волатильності"""
         avg_volatility = (range_vol + atr_vol + std_vol) / 3
-        # Нормалізуємо до шкали 0-100
         score = min(100.0, avg_volatility * 10)
         return round(score, 1)
     
@@ -297,10 +528,8 @@ class VolumeAnalyzer:
         if len(short_trades) < self.cfg.default_min_trades:
             return self._get_default_volume_data(symbol, now, len(short_trades), len(long_trades))
         
-        # Багаточасовий моментум з адаптивними вікнами
         momentum_metrics = {}
         if self.cfg.enable_multi_timeframe_momentum:
-            # Отримуємо поточну волатильність з уже розрахованих даних
             current_volatility = self._last_calculations.get(symbol, {}).get("recent_volatility", 0.1)
             momentum_metrics = self.calculate_adaptive_multi_timeframe_momentum(symbol, trades, now, current_volatility)
         else:
@@ -413,5 +642,8 @@ class VolumeAnalyzer:
                 "short_sec": self.cfg.short_window_sec,
                 "long_sec": self.cfg.long_window_sec,
                 "volatility": 0.1
-            }
+            },
+            "frequency_data": self._empty_frequency_data(),
+            "volume_confirmation": self._empty_volume_confirmation(),
+            "large_order_data": self._empty_large_order_data()
         }

@@ -51,10 +51,10 @@ class SecretsSettings(BaseSettings):
     telegram_chat_id: str = Field(default="", alias="TELEGRAM_CHAT_ID")
 
     class Config:
-        env_file = "config/.env"  # 🔑 Шлях до вашого .env файлу
+        env_file = "config/.env"
         env_file_encoding = "utf-8"
         extra = "ignore"
-        populate_by_name = True  # Дозволяє використовувати alias
+        populate_by_name = True
 
 class PairsSettings(BaseSettings):
     """Налаштування торгових пар"""
@@ -84,7 +84,6 @@ class TradingSettings(BaseSettings):
     reopen_cooldown_sec: float = 10.0
     min_position_hold_time_sec: float = 30.0
     
-    # 🆕 АДАПТИВНИЙ МОНІТОРИНГ
     monitor_positions_interval_sec: float = 5.0
     enable_parallel_monitoring: bool = True
     monitoring_batch_size: int = 5
@@ -95,12 +94,12 @@ class TradingSettings(BaseSettings):
     enable_aggressive_filtering: bool = True
 
 class RiskSettings(BaseSettings):
-    """🆕 ОНОВЛЕНІ налаштування ризик-менеджменту"""
+    """Налаштування ризик-менеджменту"""
     
     max_open_positions: int = 5
     max_position_notional_pct: float = 1.0
     
-    # 🆕 АДАПТИВНИЙ LIFETIME
+    # Адаптивний lifetime
     base_position_lifetime_minutes: int = 30
     enable_adaptive_lifetime: bool = True
     
@@ -109,7 +108,7 @@ class RiskSettings(BaseSettings):
     volatility_threshold_low: float = 0.5
     volatility_threshold_high: float = 2.0
     
-    # 🆕 ДИНАМІЧНЕ TP/SL
+    # Динамічне TP/SL
     enable_dynamic_tpsl: bool = True
     
     min_sl_pct: float = 0.005
@@ -121,13 +120,13 @@ class RiskSettings(BaseSettings):
     tp_vol_multiplier: float = 3.0
     max_vol_used_pct: float = 5.0
     
-    # 🆕 Динамічне співвідношення TP/SL
+    # Динамічне співвідношення TP/SL
     enable_dynamic_tpsl_ratio: bool = True
     tpsl_ratio_high_winrate: float = 2.0
     tpsl_ratio_medium_winrate: float = 2.5
     tpsl_ratio_low_winrate: float = 3.0
     
-    # 🆕 TRAILING STOP
+    # Trailing stop
     enable_trailing_stop: bool = True
     trailing_stop_activation_pct: float = 0.01
     trailing_stop_distance_pct: float = 0.005
@@ -137,12 +136,10 @@ class RiskSettings(BaseSettings):
     
     @property
     def position_lifetime_minutes(self) -> int:
-        """Для сумісності"""
         return self.base_position_lifetime_minutes
     
     @property
     def max_position_lifetime_sec(self) -> int:
-        """Для сумісності"""
         return self.base_position_lifetime_minutes * 60
 
 class ExecutionSettings(BaseSettings):
@@ -220,6 +217,25 @@ class VolumeSettings(BaseSettings):
     enable_multi_timeframe_momentum: bool = True
     momentum_windows: list = [15, 30, 60, 120]
     momentum_weights: list = [0.4, 0.3, 0.2, 0.1]
+    
+    # 🆕 O'HARA METHOD 3: Trade Frequency Analysis
+    enable_trade_frequency_analysis: bool = True
+    frequency_baseline_window_sec: int = 300  # 5 хвилин для baseline
+    frequency_very_high_multiplier: float = 5.0  # >5x від baseline = VERY_HIGH
+    frequency_high_multiplier: float = 2.5  # >2.5x від baseline = HIGH
+    frequency_very_low_multiplier: float = 0.3  # <0.3x від baseline = VERY_LOW
+    
+    # 🆕 O'HARA METHOD 5: Volume Confirmation
+    enable_volume_confirmation: bool = True
+    volume_baseline_window_sec: int = 86400  # 24 години для baseline
+    volume_confirmation_multiplier: float = 2.0  # Обсяг повинен бути >2x від середнього
+    volume_weak_threshold: float = 0.8  # <0.8x від середнього = слабкий рух
+    
+    # 🆕 O'HARA METHOD 2: Large Order Tracking (Enhanced)
+    enable_large_order_tracker: bool = True
+    large_order_lookback_sec: int = 600  # 10 хвилин історії
+    large_order_significance_multiplier: float = 5.0  # >5x від середнього = великий
+    large_order_strong_threshold: int = 3  # 3+ великих ордера = сильний сигнал
 
 class AdaptiveSettings(BaseSettings):
     """Налаштування адаптивних механізмів"""
@@ -234,8 +250,12 @@ class AdaptiveSettings(BaseSettings):
 
 class SignalSettings(BaseSettings):
     """Налаштування генерації сигналів"""
-    weight_imbalance: float = 0.4
-    weight_momentum: float = 0.4
+    weight_imbalance: float = 0.3  # Зменшено з 0.4
+    weight_momentum: float = 0.25  # Зменшено з 0.4
+    weight_ohara_bayesian: float = 0.15  # 🆕 O'Hara Bayesian
+    weight_ohara_large_orders: float = 0.15  # 🆕 O'Hara Large Orders
+    weight_ohara_frequency: float = 0.075  # 🆕 O'Hara Frequency
+    weight_ohara_volume_confirm: float = 0.075  # 🆕 O'Hara Volume Confirm
     spike_bonus: float = 0.1
     
     smoothing_alpha: float = 0.4
@@ -264,8 +284,48 @@ class SignalSettings(BaseSettings):
     volatility_filter_threshold: float = 0.25
 
 class SpreadSettings(BaseSettings):
-    """Налаштування spread"""
+    """🆕 O'HARA METHOD 7: Spread as Risk Measure"""
+    enable_spread_monitor: bool = True
+    
+    # Базові пороги spread (в basis points)
     max_spread_threshold_bps: float = 20.0
+    high_risk_spread_multiplier: float = 3.0  # >3x від середнього = HIGH_RISK
+    very_high_risk_spread_multiplier: float = 5.0  # >5x = VERY_HIGH_RISK
+    
+    # Історія для розрахунку baseline
+    spread_history_size: int = 100
+    spread_baseline_window_sec: int = 3600  # 1 година
+    
+    # Фільтрація торгівлі
+    avoid_trading_on_very_high_spread: bool = True
+    reduce_size_on_high_spread: bool = True
+    high_spread_size_reduction_pct: float = 0.5  # Зменшити на 50%
+
+class OHaraSettings(BaseSettings):
+    """🆕 O'HARA METHODS: Comprehensive Settings"""
+    
+    # METHOD 1: Bayesian Price Updating
+    enable_bayesian_updating: bool = True
+    bayesian_update_step: float = 0.05  # Крок оновлення ймовірності
+    bayesian_bullish_threshold: float = 0.65  # >65% = BULLISH
+    bayesian_bearish_threshold: float = 0.35  # <35% = BEARISH
+    bayesian_decay_factor: float = 0.98  # Згасання для повернення до 0.5
+    
+    # METHOD 2: Large Order Detection (Enhanced)
+    large_order_min_count_strong: int = 3  # 3+ великих = сильний сигнал
+    large_order_min_count_medium: int = 2  # 2 великих = середній сигнал
+    large_order_net_threshold: int = 2  # Різниця buy/sell >= 2
+    
+    # METHOD 3: Trade Frequency (див. VolumeSettings)
+    # METHOD 4: Buy/Sell Imbalance (вже в ImbalanceSettings)
+    # METHOD 5: Volume Confirmation (див. VolumeSettings)
+    
+    # METHOD 7: Spread Risk (див. SpreadSettings)
+    
+    # Combined Signal Scoring
+    enable_combined_ohara_score: bool = True
+    min_ohara_score_for_trade: int = 5  # Мінімум 5 балів з усіх методів
+    strong_ohara_score_threshold: int = 8  # 8+ балів = дуже сильний сигнал
 
 class Settings(BaseSettings):
     """Головний клас налаштувань"""
@@ -283,5 +343,6 @@ class Settings(BaseSettings):
     adaptive: AdaptiveSettings = AdaptiveSettings()
     signals: SignalSettings = SignalSettings()
     spread: SpreadSettings = SpreadSettings()
+    ohara: OHaraSettings = OHaraSettings()  # 🆕 O'Hara settings
 
 settings = Settings()

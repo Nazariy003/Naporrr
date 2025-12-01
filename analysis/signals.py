@@ -1,4 +1,4 @@
-#\analysis\signals.py
+# analysis/signals.py
 import time
 import math
 from typing import Dict, Any, Tuple
@@ -80,11 +80,93 @@ class SignalQualityMonitor:
             "strong_signals_count": self.performance_metrics["total_strong"]
         }
 
+class SpreadMonitor:
+    """🆕 O'HARA METHOD 7: Spread as Risk Measure"""
+    
+    def __init__(self):
+        self.cfg = settings.spread
+        self._spread_history = {}  # {symbol: deque of spreads}
+        self._spread_baseline = {}  # {symbol: avg_spread}
+    
+    def update(self, symbol: str, bid: float, ask: float):
+        """Оновлення spread даних"""
+        if bid <= 0 or ask <= 0 or bid >= ask:
+            return
+        
+        spread_abs = ask - bid
+        spread_bps = (spread_abs / bid) * 10000  # basis points
+        
+        # Ініціалізація історії
+        if symbol not in self._spread_history:
+            self._spread_history[symbol] = deque(maxlen=self.cfg.spread_history_size)
+        
+        # Додаємо до історії
+        self._spread_history[symbol].append({
+            'timestamp': time.time(),
+            'spread_bps': spread_bps
+        })
+        
+        # Оновлюємо baseline (середній spread)
+        if len(self._spread_history[symbol]) >= 10:
+            avg_spread = sum(s['spread_bps'] for s in self._spread_history[symbol]) / len(self._spread_history[symbol])
+            self._spread_baseline[symbol] = avg_spread
+    
+    def get_risk_level(self, symbol: str, current_spread_bps: float) -> Dict[str, Any]:
+        """
+        Визначення рівня ризику на основі spread згідно O'Hara
+        """
+        if symbol not in self._spread_baseline or len(self._spread_history.get(symbol, [])) < 10:
+            return {
+                'risk_level': 'UNKNOWN',
+                'current_spread_bps': round(current_spread_bps, 2),
+                'avg_spread_bps': 0,
+                'spread_ratio': 1.0,
+                'should_avoid': False,
+                'should_reduce_size': False
+            }
+        
+        avg_spread = self._spread_baseline[symbol]
+        
+        if avg_spread == 0:
+            spread_ratio = 1.0
+        else:
+            spread_ratio = current_spread_bps / avg_spread
+        
+        # Визначаємо рівень ризику
+        if spread_ratio >= self.cfg.very_high_risk_spread_multiplier:
+            risk_level = "VERY_HIGH_RISK"
+            should_avoid = self.cfg.avoid_trading_on_very_high_spread
+            should_reduce_size = True
+        elif spread_ratio >= self.cfg.high_risk_spread_multiplier:
+            risk_level = "HIGH_RISK"
+            should_avoid = False
+            should_reduce_size = self.cfg.reduce_size_on_high_spread
+        elif current_spread_bps > self.cfg.max_spread_threshold_bps:
+            risk_level = "ELEVATED"
+            should_avoid = False
+            should_reduce_size = False
+        else:
+            risk_level = "NORMAL"
+            should_avoid = False
+            should_reduce_size = False
+        
+        return {
+            'risk_level': risk_level,
+            'current_spread_bps': round(current_spread_bps, 2),
+            'avg_spread_bps': round(avg_spread, 2),
+            'spread_ratio': round(spread_ratio, 2),
+            'should_avoid': should_avoid,
+            'should_reduce_size': should_reduce_size,
+            'size_reduction_pct': self.cfg.high_spread_size_reduction_pct if should_reduce_size else 0
+        }
+
 class SignalGenerator:
     def __init__(self):
         self.cfg = settings.signals
+        self.ohara_cfg = settings.ohara
         self._state = {}
         self.quality_monitor = SignalQualityMonitor()
+        self.spread_monitor = SpreadMonitor()  # 🆕 O'Hara Method 7
 
     def _init_symbol(self, symbol: str):
         if symbol not in self._state:
@@ -97,7 +179,6 @@ class SignalGenerator:
             }
 
     def generate(self, symbol: str, imbalance_data: Dict, volume_data: Dict, spread_bps: float = None) -> Dict[str, Any]:
-        # ІНІЦІАЛІЗАЦІЯ ДО ВСЬОГО
         self._init_symbol(symbol)
 
         mom_score = volume_data.get("momentum_score", 0)
@@ -120,14 +201,23 @@ class SignalGenerator:
         depth_analysis = imbalance_data.get("depth_analysis", {})
         cluster_analysis = imbalance_data.get("cluster_analysis", {})
 
+        # 🆕 O'HARA DATA
+        bayesian_data = imbalance_data.get("bayesian_data", {})
+        trade_imbalance = imbalance_data.get("trade_imbalance", {})
+        frequency_data = volume_data.get("frequency_data", {})
+        volume_confirm = volume_data.get("volume_confirmation", {})
+        large_order_data = volume_data.get("large_order_data", {})
+
         logger.debug(f"[SIGNAL_DEBUG] {symbol}: imb={imb_score}, mom={mom_score}, vol={volatility}")
-        logger.debug(f"[SIGNAL_DEBUG] {symbol}: tape={tape_analysis.get('large_net', 0)}, "
-                     f"depth_ratio={depth_analysis.get('support_resistance_ratio', 0.5)}, "
-                     f"poc_dist={cluster_analysis.get('poc_distance_pct', 0)}")
+        logger.debug(f"[SIGNAL_DEBUG] {symbol}: bayesian={bayesian_data.get('signal')}, "
+                     f"freq={frequency_data.get('activity_level')}, "
+                     f"vol_confirm={volume_confirm.get('confirmation')}")
 
         factors = self._calculate_all_factors(
             imb_score, mom_score, tape_analysis, depth_analysis,
-            cluster_analysis, spread_bps, volatility
+            cluster_analysis, spread_bps, volatility,
+            bayesian_data, trade_imbalance, frequency_data, 
+            volume_confirm, large_order_data
         )
 
         composite_score = self._calculate_composite_score(factors)
@@ -146,7 +236,6 @@ class SignalGenerator:
         return result
 
     def debug_signal_calculation(self, symbol: str, imb_data: Dict, vol_data: Dict, spread_bps: float = None):
-        # Додаткова гарантія ініціалізації
         self._init_symbol(symbol)
 
         imb_score = imb_data.get("effective_imbalance", 0)
@@ -157,9 +246,17 @@ class SignalGenerator:
         depth_analysis = imb_data.get("depth_analysis", {})
         cluster_analysis = imb_data.get("cluster_analysis", {})
         
+        bayesian_data = imb_data.get("bayesian_data", {})
+        trade_imbalance = imb_data.get("trade_imbalance", {})
+        frequency_data = vol_data.get("frequency_data", {})
+        volume_confirm = vol_data.get("volume_confirmation", {})
+        large_order_data = vol_data.get("large_order_data", {})
+        
         factors = self._calculate_all_factors(
             imb_score, mom_score, tape_analysis, depth_analysis,
-            cluster_analysis, spread_bps, volatility
+            cluster_analysis, spread_bps, volatility,
+            bayesian_data, trade_imbalance, frequency_data,
+            volume_confirm, large_order_data
         )
         
         composite_score = self._calculate_composite_score(factors)
@@ -168,9 +265,10 @@ class SignalGenerator:
         logger.info(f"🔍 [SIGNAL_DEBUG] {symbol}: ")
         logger.info(f"   - Imbalance: {imb_score:.1f} -> factor: {factors['imbalance']:.3f}")
         logger.info(f"   - Momentum: {mom_score:.1f} -> factor: {factors['momentum']:.3f}") 
-        logger.info(f"   - Volatility: {volatility:.3f}% -> factor: {factors['volatility']:.3f}")
-        logger.info(f"   - Tape: large_net={tape_analysis.get('large_net', 0)} -> factor: {factors['tape']:.3f}")
-        logger.info(f"   - Depth: ratio={depth_analysis.get('support_resistance_ratio', 0):.2f} -> factor: {factors['depth']:.3f}")
+        logger.info(f"   - Bayesian: {bayesian_data.get('signal')} -> factor: {factors['ohara_bayesian']:.3f}")
+        logger.info(f"   - Large Orders: {large_order_data.get('informed_direction')} -> factor: {factors['ohara_large_orders']:.3f}")
+        logger.info(f"   - Frequency: {frequency_data.get('activity_level')} -> factor: {factors['ohara_frequency']:.3f}")
+        logger.info(f"   - Vol Confirm: {volume_confirm.get('confirmation')} -> factor: {factors['ohara_volume_confirm']:.3f}")
         logger.info(f"   - Composite: {composite_score:.3f}, EMA: {ema_score:.3f}")
         
         action, strength, reason = self._generate_action_strength(symbol, ema_score, vol_data, factors)
@@ -179,7 +277,9 @@ class SignalGenerator:
         return action, strength
 
     def _calculate_all_factors(self, imb_score, mom_score, tape_analysis, 
-                             depth_analysis, cluster_analysis, spread_bps, volatility):
+                             depth_analysis, cluster_analysis, spread_bps, volatility,
+                             bayesian_data, trade_imbalance, frequency_data,
+                             volume_confirm, large_order_data):
         imb_norm = imb_score / 100.0
         mom_norm = mom_score / 100.0
         
@@ -189,6 +289,12 @@ class SignalGenerator:
         spread_factor = self._calculate_spread_factor(spread_bps)
         volatility_factor = self._calculate_volatility_factor(volatility)
         
+        # 🆕 O'HARA FACTORS
+        bayesian_factor = self._calculate_bayesian_factor(bayesian_data)
+        large_order_factor = self._calculate_large_order_factor(large_order_data)
+        frequency_factor = self._calculate_frequency_factor(frequency_data)
+        volume_confirm_factor = self._calculate_volume_confirm_factor(volume_confirm)
+        
         return {
             "imbalance": imb_norm,
             "momentum": mom_norm,
@@ -197,15 +303,79 @@ class SignalGenerator:
             "cluster": cluster_factor,
             "spread": spread_factor,
             "volatility": volatility_factor,
+            "ohara_bayesian": bayesian_factor,
+            "ohara_large_orders": large_order_factor,
+            "ohara_frequency": frequency_factor,
+            "ohara_volume_confirm": volume_confirm_factor,
             "raw_values": {
                 "imbalance_score": imb_score,
                 "momentum_score": mom_score,
                 "large_net": tape_analysis.get("large_net", 0),
                 "volume_acceleration": tape_analysis.get("volume_acceleration", 0),
                 "support_ratio": depth_analysis.get("support_resistance_ratio", 0.5),
-                "poc_distance": cluster_analysis.get("poc_distance_pct", 0)
+                "poc_distance": cluster_analysis.get("poc_distance_pct", 0),
+                "bayesian_signal": bayesian_data.get("signal", "NEUTRAL"),
+                "informed_direction": large_order_data.get("informed_direction", "NEUTRAL"),
+                "activity_level": frequency_data.get("activity_level", "UNKNOWN"),
+                "vol_confirmation": volume_confirm.get("confirmation", "UNKNOWN")
             }
         }
+
+    def _calculate_bayesian_factor(self, bayesian_data: Dict) -> float:
+        """🆕 O'HARA METHOD 1: Bayesian factor"""
+        signal = bayesian_data.get("signal", "NEUTRAL")
+        confidence = bayesian_data.get("confidence", 0)
+        
+        if signal == "BULLISH":
+            return confidence * 0.5  # Позитивний фактор
+        elif signal == "BEARISH":
+            return -confidence * 0.5  # Негативний фактор
+        else:
+            return 0.0
+
+    def _calculate_large_order_factor(self, large_order_data: Dict) -> float:
+        """🆕 O'HARA METHOD 2: Large orders factor"""
+        direction = large_order_data.get("informed_direction", "NEUTRAL")
+        
+        if direction == "STRONG_BUY":
+            return 0.8
+        elif direction == "MEDIUM_BUY":
+            return 0.4
+        elif direction == "STRONG_SELL":
+            return -0.8
+        elif direction == "MEDIUM_SELL":
+            return -0.4
+        else:
+            return 0.0
+
+    def _calculate_frequency_factor(self, frequency_data: Dict) -> float:
+        """🆕 O'HARA METHOD 3: Trade frequency factor"""
+        activity_level = frequency_data.get("activity_level", "UNKNOWN")
+        risk_signal = frequency_data.get("risk_signal", "OK")
+        
+        # Штраф за аномальну активність
+        if risk_signal == "AVOID":
+            return -0.5  # Дуже висока активність - не торгувати
+        elif risk_signal == "CAUTION":
+            return -0.2  # Висока активність - обережно
+        elif risk_signal == "LOW_LIQUIDITY":
+            return -0.3  # Дуже низька активність - тихо перед бурею
+        else:
+            return 0.0
+
+    def _calculate_volume_confirm_factor(self, volume_confirm: Dict) -> float:
+        """🆕 O'HARA METHOD 5: Volume confirmation factor"""
+        confirmation = volume_confirm.get("confirmation", "UNKNOWN")
+        strength = volume_confirm.get("strength", "WEAK")
+        
+        if confirmation == "CONFIRMED" and strength == "STRONG":
+            return 0.3  # Обсяг підтверджує рух
+        elif confirmation == "MODERATE":
+            return 0.1
+        elif confirmation == "WEAK":
+            return -0.2  # Фейковий рух
+        else:
+            return 0.0
 
     def _calculate_tape_factor(self, tape_analysis: Dict) -> float:
         large_net = tape_analysis.get("large_net", 0)
@@ -248,14 +418,17 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_spread_factor(self, spread_bps: float) -> float:
+        """🆕 O'HARA METHOD 7: Spread factor"""
         if spread_bps is None:
             return 0.0
         
+        # Отримуємо рівень ризику від SpreadMonitor
+        # Тут spread_bps вже передано, тож просто перевіряємо поріг
         max_spread = settings.spread.max_spread_threshold_bps
-        if spread_bps > max_spread:
-            return -0.5
-        elif spread_bps > max_spread * 0.7:
-            return -0.2
+        if spread_bps > max_spread * 2:
+            return -0.5  # Дуже широкий spread
+        elif spread_bps > max_spread:
+            return -0.2  # Широкий spread
         else:
             return 0.0
 
@@ -268,14 +441,19 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_composite_score(self, factors: Dict) -> float:
+        """Розрахунок composite score з O'Hara факторами"""
         score = (
             factors["imbalance"] * self.cfg.weight_imbalance +
             factors["momentum"] * self.cfg.weight_momentum +
-            factors["tape"] * 0.3 +
-            factors["depth"] * 0.2 +
-            factors["cluster"] * 0.1 +
-            factors["spread"] * 0.15 +
-            factors["volatility"] * 0.1
+            factors["ohara_bayesian"] * self.cfg.weight_ohara_bayesian +
+            factors["ohara_large_orders"] * self.cfg.weight_ohara_large_orders +
+            factors["ohara_frequency"] * self.cfg.weight_ohara_frequency +
+            factors["ohara_volume_confirm"] * self.cfg.weight_ohara_volume_confirm +
+            factors["tape"] * 0.15 +
+            factors["depth"] * 0.1 +
+            factors["cluster"] * 0.05 +
+            factors["spread"] * 0.075 +
+            factors["volatility"] * 0.05
         )
         
         if factors["raw_values"]["volume_acceleration"] > 50:
@@ -293,13 +471,23 @@ class SignalGenerator:
     def _generate_action_strength(
         self, symbol: str, ema_score: float, volume_data: Dict, factors: Dict
     ) -> Tuple[str, int, str]:
-        """Генерація дії та сили з оптимізованими параметрами"""
+        """Генерація дії та сили з O'Hara фільтрами"""
         abs_score = abs(ema_score)
         raw_values = factors["raw_values"]
 
-        # Фільтр волатильності з оптимізованим порогом
+        # 🆕 O'HARA FILTER: Trade Frequency
+        if self.cfg.enable_volume_validation:
+            activity_level = raw_values.get("activity_level", "UNKNOWN")
+            if activity_level == "VERY_HIGH":
+                logger.debug(f"[OHARA_FILTER] {symbol}: VERY_HIGH activity - avoiding trade")
+                return "HOLD", 0, "very_high_activity"
+            elif activity_level == "VERY_LOW":
+                logger.debug(f"[OHARA_FILTER] {symbol}: VERY_LOW activity - low liquidity")
+                return "HOLD", 0, "very_low_activity"
+
+        # Фільтр волатильності
         volatility_percent = volume_data.get("volatility", 0)
-        if volatility_percent < self.cfg.volatility_filter_threshold:  # 0.25% оптимізовано
+        if volatility_percent < self.cfg.volatility_filter_threshold:
             logger.debug(f"[VOL_FILTER] {symbol} filtered: {volatility_percent:.3f}% < {self.cfg.volatility_filter_threshold}%")
             return "HOLD", 0, "low_volatility"
 
@@ -360,11 +548,23 @@ class SignalGenerator:
         return "ok"
 
     def _validate_signal_quality(self, action: str, strength: int, raw_values: Dict) -> str:
-        """Перевірка якості сигналів"""
+        """Перевірка якості сигналів з O'Hara"""
         large_net = raw_values.get("large_net", 0)
         support_ratio = raw_values.get("support_ratio", 0.5)
         momentum_score = raw_values.get("momentum_score", 0)
         imbalance_score = raw_values.get("imbalance_score", 0)
+        
+        # 🆕 O'HARA VALIDATION: Large orders consistency
+        informed_direction = raw_values.get("informed_direction", "NEUTRAL")
+        if action == "BUY" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
+            return "contradictory_large_orders"
+        if action == "SELL" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
+            return "contradictory_large_orders"
+        
+        # 🆕 O'HARA VALIDATION: Volume confirmation
+        vol_confirmation = raw_values.get("vol_confirmation", "UNKNOWN")
+        if vol_confirmation == "WEAK" and strength >= 4:
+            return "weak_volume_confirmation"
         
         if abs(momentum_score) > 95 and strength >= 3:
             return "extreme_momentum"
@@ -373,11 +573,6 @@ class SignalGenerator:
             return "contradictory_signals"
         if action == "SELL" and imbalance_score > 20 and momentum_score < -80:
             return "contradictory_signals"
-        
-        if action == "BUY" and large_net < -3:
-            return "contradictory_large_trades"
-        if action == "SELL" and large_net > 3:
-            return "contradictory_large_trades"
         
         if action == "BUY" and support_ratio < 0.3:
             return "weak_support"
@@ -419,7 +614,8 @@ class SignalGenerator:
             "cooldown_until": st.get("cooldown_until", 0.0),
             "cooldown_active": now < st.get("cooldown_until", 0.0),
             "reason": reason,
-            "factors": {}
+            "factors": {},
+            "ohara_score": 0
         }
 
     def _create_cooldown_response(self, symbol: str, action: str, strength: int, 
@@ -442,7 +638,8 @@ class SignalGenerator:
             "cooldown_until": st["cooldown_until"],
             "cooldown_active": True,
             "reason": "cooldown",
-            "factors": factors
+            "factors": factors,
+            "ohara_score": self._calculate_ohara_score(factors)
         }
 
     def _update_state(self, symbol: str, action: str, strength: int):
@@ -450,7 +647,7 @@ class SignalGenerator:
         now = time.time()
         
         if action in ("BUY", "SELL") and strength >= self.cfg.strong_cooldown_level:
-            st["cooldown_until"] = now + self.cfg.cooldown_seconds  # 3 хвилини оптимізовано
+            st["cooldown_until"] = now + self.cfg.cooldown_seconds
         
         if action != "HOLD":
             st["last_action"] = action
@@ -463,6 +660,8 @@ class SignalGenerator:
                               factors: Dict, reason: str) -> Dict[str, Any]:
         st = self._state[symbol]
         now = time.time()
+        
+        ohara_score = self._calculate_ohara_score(factors)
         
         return {
             "symbol": symbol,
@@ -479,26 +678,70 @@ class SignalGenerator:
             "cooldown_until": st["cooldown_until"],
             "cooldown_active": now < st["cooldown_until"],
             "reason": reason,
-            "factors": factors
+            "factors": factors,
+            "ohara_score": ohara_score  # 🆕 Combined O'Hara score
         }
+
+    def _calculate_ohara_score(self, factors: Dict) -> int:
+        """
+        🆕 Розрахунок комбінованого O'Hara score (0-10 балів)
+        """
+        score = 0
+        raw_values = factors.get("raw_values", {})
+        
+        # Bayesian (0-2 бали)
+        bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
+        if bayesian_signal in ["BULLISH", "BEARISH"]:
+            score += 2
+        elif bayesian_signal != "NEUTRAL":
+            score += 1
+        
+        # Large Orders (0-3 бали)
+        informed_dir = raw_values.get("informed_direction", "NEUTRAL")
+        if informed_dir in ["STRONG_BUY", "STRONG_SELL"]:
+            score += 3
+        elif informed_dir in ["MEDIUM_BUY", "MEDIUM_SELL"]:
+            score += 2
+        
+        # Frequency (0-2 бали - штраф за аномалії)
+        activity = raw_values.get("activity_level", "UNKNOWN")
+        if activity == "NORMAL":
+            score += 2
+        elif activity in ["HIGH", "LOW"]:
+            score += 1
+        # VERY_HIGH, VERY_LOW = 0 балів
+        
+        # Volume Confirmation (0-2 бали)
+        vol_conf = raw_values.get("vol_confirmation", "UNKNOWN")
+        if vol_conf == "CONFIRMED":
+            score += 2
+        elif vol_conf == "MODERATE":
+            score += 1
+        
+        # Trade Imbalance (0-1 бал) - вже врахований в imbalance
+        # Spread (додатковий штраф вже в spread_factor)
+        
+        return min(10, score)
 
     def _log_signal_generation(self, symbol: str, signal: Dict, factors: Dict):
         raw_values = factors["raw_values"]
         
         if signal["strength"] >= 3:
+            ohara_score = signal.get("ohara_score", 0)
             logger.info(
                 f"🎯 [STRONG_SIGNAL] {symbol}: {signal['action']}{signal['strength']} "
                 f"score={signal['score_smoothed']:.3f} "
+                f"ohara={ohara_score}/10 "
                 f"imb={raw_values['imbalance_score']:.0f}, "
                 f"mom={raw_values['momentum_score']:.0f}, "
-                f"large_net={raw_values['large_net']:+d}, "
-                f"depth_ratio={raw_values['support_ratio']:.2f}, "
-                f"vol={factors.get('volatility', 0):.1f}%, "
+                f"bayesian={raw_values.get('bayesian_signal', 'N/A')}, "
+                f"large_orders={raw_values.get('informed_direction', 'N/A')}, "
+                f"vol_conf={raw_values.get('vol_confirmation', 'N/A')}, "
                 f"reason={signal.get('reason', 'ok')}"
             )
             
             if abs(raw_values['momentum_score']) > 90:
-                logger.warning(f"⚠️  [EXTREME_MOMENTUM] {symbol}: momentum={raw_values['momentum_score']:.0f}")
+                logger.warning(f"⚠️ [EXTREME_MOMENTUM] {symbol}: momentum={raw_values['momentum_score']:.0f}")
                 
         elif signal["strength"] >= 1:
             logger.debug(

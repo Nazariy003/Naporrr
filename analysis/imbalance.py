@@ -13,11 +13,19 @@ class ImbalanceAnalyzer:
         self.cfg = settings.imbalance
         self.adaptive_cfg = settings.adaptive
         self.pairs_cfg = settings.pairs
+        self.ohara_cfg = settings.ohara
         self.symbol_stats = {}
         self.last_imbalance = {}
         self.historical_imbalance = {}
         self.imbalance_history = {}
-        self._last_volatility_cache = {}  # Додано кеш для волатильності
+        self._last_volatility_cache = {}
+        
+        # 🆕 O'HARA METHOD 1: Bayesian Price Updating
+        self._bayesian_priors = {}  # {symbol: prior_prob_high}
+        
+        # 🆕 O'HARA METHOD 4: Buy/Sell Imbalance (Enhanced)
+        self._trade_imbalance_history = {}  # {symbol: deque of buy/sell counts}
+        
         self._init_historical_settings()
 
     def _init_historical_settings(self):
@@ -32,10 +40,10 @@ class ImbalanceAnalyzer:
         if not ob:
             return self._empty_result(symbol)
         
-        # Основний розрахунок імбаллансу
+        # Основний розрахунок імбалансу
         imb_result = self.compute_imbalance(symbol, ob)
         
-        # Історичний аналіз імбаллансу
+        # Історичний аналіз імбалансу
         if self.historical_enabled:
             historical_analysis = self.compute_historical_imbalance(symbol, imb_result['imbalance_score'])
             imb_result.update({
@@ -51,6 +59,17 @@ class ImbalanceAnalyzer:
                 "imbalance_volatility": 0,
                 "combined_imbalance": imb_result['imbalance_score']
             })
+        
+        # 🆕 O'HARA METHOD 1: Bayesian updating на основі трейдів
+        if self.ohara_cfg.enable_bayesian_updating:
+            bayesian_data = self._compute_bayesian_update(symbol)
+            imb_result['bayesian_data'] = bayesian_data
+        else:
+            imb_result['bayesian_data'] = self._empty_bayesian_data()
+        
+        # 🆕 O'HARA METHOD 4: Enhanced Buy/Sell imbalance
+        trade_imbalance = self._compute_trade_imbalance(symbol)
+        imb_result['trade_imbalance'] = trade_imbalance
         
         # Додаємо аналіз глибини
         depth_analysis = self.analyze_orderbook_depth(ob)
@@ -76,9 +95,129 @@ class ImbalanceAnalyzer:
         logger.debug(f"[IMBALANCE] {symbol}: imb={imb_result['imbalance_score']:.1f}, "
                     f"hist={imb_result.get('historical_imbalance', 0):.1f}, "
                     f"weighted={weighted_imbalance:.1f}, effective={effective_imbalance:.1f}, "
-                    f"depth_ratio={depth_analysis.get('support_resistance_ratio', 0):.2f}")
+                    f"bayesian={imb_result['bayesian_data']['signal']}, "
+                    f"trade_imb={trade_imbalance['imbalance_pct']:.1f}%")
         
         return imb_result
+
+    def _compute_bayesian_update(self, symbol: str) -> Dict[str, Any]:
+        """
+        🆕 O'HARA METHOD 1: Bayesian Price Updating
+        Оновлюємо ймовірність "висока ціна" на основі напрямку трейдів
+        """
+        # Ініціалізація prior для символу
+        if symbol not in self._bayesian_priors:
+            self._bayesian_priors[symbol] = 0.5  # Нейтральна початкова ймовірність
+        
+        # Отримуємо останні трейди
+        trades = self.storage.get_trades(symbol)
+        if not trades or len(trades) < 3:
+            return self._empty_bayesian_data()
+        
+        # Беремо останні N трейдів (останні 30 секунд)
+        now = time.time()
+        recent_trades = [t for t in trades if t.ts >= now - 30]
+        
+        if len(recent_trades) < 3:
+            return self._empty_bayesian_data()
+        
+        # Рахуємо покупки vs продажі
+        buy_count = sum(1 for t in recent_trades if t.side.lower() == 'buy')
+        sell_count = len(recent_trades) - buy_count
+        
+        # Оновлюємо prior на основі кожного трейду
+        prior = self._bayesian_priors[symbol]
+        update_step = self.ohara_cfg.bayesian_update_step
+        
+        # Простий байєсівський апдейт
+        for trade in recent_trades[-10:]:  # Останні 10 трейдів
+            if trade.side.lower() == 'buy':
+                prior += update_step
+            else:
+                prior -= update_step
+        
+        # Обмеження 0-1
+        prior = max(0.0, min(1.0, prior))
+        
+        # Природне згасання до 0.5 (нейтральності)
+        decay = self.ohara_cfg.bayesian_decay_factor
+        prior = prior * decay + 0.5 * (1 - decay)
+        
+        # Зберігаємо оновлений prior
+        self._bayesian_priors[symbol] = prior
+        
+        # Визначаємо сигнал
+        if prior > self.ohara_cfg.bayesian_bullish_threshold:
+            signal = "BULLISH"
+            confidence = (prior - 0.5) * 2  # 0-1 scale
+        elif prior < self.ohara_cfg.bayesian_bearish_threshold:
+            signal = "BEARISH"
+            confidence = (0.5 - prior) * 2  # 0-1 scale
+        else:
+            signal = "NEUTRAL"
+            confidence = 0.0
+        
+        return {
+            'prior_prob_high': round(prior, 3),
+            'signal': signal,
+            'confidence': round(confidence, 3),
+            'buy_count': buy_count,
+            'sell_count': sell_count,
+            'recent_trades': len(recent_trades)
+        }
+
+    def _compute_trade_imbalance(self, symbol: str) -> Dict[str, Any]:
+        """
+        🆕 O'HARA METHOD 4: Buy/Sell Trade Imbalance (Enhanced)
+        Рахуємо дисбаланс не тільки по orderbook, а й по фактичних трейдах
+        """
+        trades = self.storage.get_trades(symbol)
+        if not trades or len(trades) < 10:
+            return {'imbalance_pct': 0.0, 'signal': 'NEUTRAL', 'buy_count': 0, 'sell_count': 0}
+        
+        # Беремо останні 50 трейдів
+        recent_trades = trades[-50:]
+        
+        buy_count = sum(1 for t in recent_trades if t.side.lower() == 'buy')
+        sell_count = len(recent_trades) - buy_count
+        
+        # Дисбаланс у відсотках
+        total = buy_count + sell_count
+        if total == 0:
+            return {'imbalance_pct': 0.0, 'signal': 'NEUTRAL', 'buy_count': 0, 'sell_count': 0}
+        
+        imbalance_pct = (buy_count - sell_count) / total * 100.0
+        
+        # Визначаємо сигнал згідно таблиці O'Hara
+        if imbalance_pct > 40:
+            signal = "STRONG_BUY"
+        elif imbalance_pct > 20:
+            signal = "MEDIUM_BUY"
+        elif imbalance_pct < -40:
+            signal = "STRONG_SELL"
+        elif imbalance_pct < -20:
+            signal = "MEDIUM_SELL"
+        else:
+            signal = "NEUTRAL"
+        
+        return {
+            'imbalance_pct': round(imbalance_pct, 1),
+            'signal': signal,
+            'buy_count': buy_count,
+            'sell_count': sell_count,
+            'total_trades': total
+        }
+
+    def _empty_bayesian_data(self) -> Dict[str, Any]:
+        """Порожні дані для байєсівського аналізу"""
+        return {
+            'prior_prob_high': 0.5,
+            'signal': 'NEUTRAL',
+            'confidence': 0.0,
+            'buy_count': 0,
+            'sell_count': 0,
+            'recent_trades': 0
+        }
 
     def compute_historical_imbalance(self, symbol: str, current_imb: float) -> Dict[str, Any]:
         """Адаптивний історичний аналіз імбалансу"""
@@ -90,18 +229,17 @@ class ImbalanceAnalyzer:
         # Адаптивна кількість семплів на основі волатильності
         base_samples = self.cfg.historical_samples
         if current_volatility <= self.adaptive_cfg.base_volatility_threshold * 0.7:
-            adaptive_samples = int(base_samples * 1.5)  # Більше семплів при низькій волатильності
+            adaptive_samples = int(base_samples * 1.5)
         elif current_volatility >= self.adaptive_cfg.base_volatility_threshold * 2.0:
-            adaptive_samples = int(base_samples * 0.7)  # Менше семплів при високій волатильності
+            adaptive_samples = int(base_samples * 0.7)
         else:
             adaptive_samples = base_samples
             
-        adaptive_samples = max(5, min(adaptive_samples, 50))  # Обмеження 5-50 семплів
+        adaptive_samples = max(5, min(adaptive_samples, 50))
         
         if symbol not in self.imbalance_history:
             self.imbalance_history[symbol] = deque(maxlen=adaptive_samples)
         else:
-            # Оновлюємо maxlen якщо потрібно
             if self.imbalance_history[symbol].maxlen != adaptive_samples:
                 old_data = list(self.imbalance_history[symbol])
                 self.imbalance_history[symbol] = deque(old_data, maxlen=adaptive_samples)
@@ -154,7 +292,7 @@ class ImbalanceAnalyzer:
         }
 
     def compute_imbalance(self, symbol: str, ob) -> Dict[str, Any]:
-        """Основний розрахунок імбаллансу"""
+        """Основний розрахунок імбалансу"""
         if not ob or not ob.bids or not ob.asks:
             return self._empty_imbalance_data(symbol, ob.ts if ob else time.time())
 
@@ -203,7 +341,7 @@ class ImbalanceAnalyzer:
         }
 
     def calculate_weighted_imbalance(self, ob) -> float:
-        """Розрахунок імбаллансу з вагами для різних рівнів"""
+        """Розрахунок імбалансу з вагами для різних рівнів"""
         bids = ob.bids[:5] if ob.bids else []
         asks = ob.asks[:5] if ob.asks else []
         
@@ -255,19 +393,17 @@ class ImbalanceAnalyzer:
 
     def volume_cluster_analysis(self, symbol: str, ob, lookback_minutes: int = 15) -> Dict[str, Any]:
         """Кластерний аналіз з адаптивними вікнами"""
-        # Отримуємо поточну волатильність з кешу
         current_volatility = self._last_volatility_cache.get(symbol, 0.1)
         
-        # Адаптивне вікно для кластерного аналізу
         base_lookback = lookback_minutes
         if current_volatility <= self.adaptive_cfg.base_volatility_threshold * 0.7:
-            adaptive_lookback = int(base_lookback * 1.5)  # Розширюємо вікно при низькій волатильності
+            adaptive_lookback = int(base_lookback * 1.5)
         elif current_volatility >= self.adaptive_cfg.base_volatility_threshold * 2.0:
-            adaptive_lookback = int(base_lookback * 0.7)  # Звужуємо вікно при високій волатильності
+            adaptive_lookback = int(base_lookback * 0.7)
         else:
             adaptive_lookback = base_lookback
             
-        adaptive_lookback = max(5, min(adaptive_lookback, 60))  # Обмеження 5-60 хвилин
+        adaptive_lookback = max(5, min(adaptive_lookback, 60))
 
         trades = self.storage.get_trades(symbol)
         if not trades or len(trades) < 20:
@@ -325,7 +461,7 @@ class ImbalanceAnalyzer:
 
         if cluster_strength > 0.3 or abs(poc_distance_pct) > 1.0:
             logger.info(f"[ADAPTIVE_CLUSTER] {symbol}: {adaptive_lookback}min - "
-                       f"POC={poc_level:.4f} (dist={poc_distance_pct:.2f}%), "
+                       f"POC={poc_level:4f} (dist={poc_distance_pct:.2f}%), "
                        f"strength={cluster_strength:.2f}, "
                        f"supports={len(support_resistance['support'])}, "
                        f"resistances={len(support_resistance['resistance'])}")
@@ -415,7 +551,7 @@ class ImbalanceAnalyzer:
         return max(eff_bid, 0.0), max(eff_ask, 0.0), spoof_filtered
 
     def apply_imbalance_constraints(self, symbol: str, imbalance_score: float) -> float:
-        """Обмеження та згладжування імбаллансу"""
+        """Обмеження та згладжування імбалансу"""
         if imbalance_score > self.cfg.universal_imbalance_cap:
             imbalance_score = self.cfg.universal_imbalance_cap
         elif imbalance_score < -self.cfg.universal_imbalance_cap:
@@ -446,7 +582,9 @@ class ImbalanceAnalyzer:
             "historical_imbalance": 0.0,
             "imbalance_trend": 0.0,
             "imbalance_volatility": 0.0,
-            "combined_imbalance": 0.0
+            "combined_imbalance": 0.0,
+            "bayesian_data": self._empty_bayesian_data(),
+            "trade_imbalance": {'imbalance_pct': 0.0, 'signal': 'NEUTRAL', 'buy_count': 0, 'sell_count': 0}
         })
         return empty_data
 

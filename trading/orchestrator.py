@@ -12,7 +12,7 @@ from analysis.signals import SignalGenerator
 from trading.executor import TradeExecutor
 
 class TradingOrchestrator:
-    """🆕 ОНОВЛЕНИЙ Orchestrator з передачею volatility_data"""
+    """Оновлений Orchestrator з O'Hara методами"""
     
     def __init__(self, storage: DataStorage, imbalance_analyzer: ImbalanceAnalyzer,
                  volume_analyzer: VolumeAnalyzer, signal_generator: SignalGenerator, executor: TradeExecutor):
@@ -113,7 +113,7 @@ class TradingOrchestrator:
         await asyncio.gather(*tasks, return_exceptions=True)
 
     async def _process_single_symbol(self, symbol: str):
-        """Обробка одного символу"""
+        """Обробка одного символу з O'Hara методами"""
         try:
             can_process = await self._fast_check_exchange_position_status(symbol)
             if not can_process:
@@ -130,12 +130,16 @@ class TradingOrchestrator:
             # Оновлюємо кеш волатильності
             self.imb.update_volatility_cache(symbol, vol_data)
             
-            # Spread
-            spread_bps = None
-            if ob and ob.best_bid and ob.best_ask and ob.best_bid > 0 and ob.best_ask > 0:
+            # 🆕 O'HARA METHOD 7: Spread calculation
+            spread_bps = self.storage.get_current_spread_bps(symbol)
+            if spread_bps is None and ob and ob.best_bid and ob.best_ask and ob.best_bid > 0 and ob.best_ask > 0:
                 spread_bps = (ob.best_ask - ob.best_bid) / ob.best_bid * 10000
                 if spread_bps < 0 or spread_bps > 1000:
                     spread_bps = None
+            
+            # Update spread monitor
+            if spread_bps is not None and ob and ob.best_bid and ob.best_ask:
+                self.sig_gen.spread_monitor.update(symbol, ob.best_bid, ob.best_ask)
 
             sig = self.sig_gen.generate(symbol, imb_data, vol_data, spread_bps)
             self._last_signal[symbol] = sig
@@ -151,9 +155,7 @@ class TradingOrchestrator:
             logger.error(f"❌ [ORCH] Error processing {symbol}: {e}")
 
     async def _optimized_maybe_open(self, symbol: str, sig: Dict, ob, vol_data: Dict):
-        """
-        🆕 ОНОВЛЕНА логіка відкриття з передачею volatility_data
-        """
+        """Оновлена логіка відкриття з O'Hara фільтрами"""
         can_open = await self._fast_check_exchange_position_status(symbol)
         if not can_open:
             return
@@ -166,6 +168,14 @@ class TradingOrchestrator:
         
         if action == "HOLD" or strength < self.executor.tcfg.entry_signal_min_strength:
             return
+        
+        # 🆕 O'HARA FILTER: Check spread risk
+        factors = sig.get("factors", {})
+        if factors:
+            spread_factor = factors.get("spread", 0)
+            if spread_factor < -0.4:  # Дуже негативний spread factor
+                logger.warning(f"[OHARA_FILTER] {symbol}: Spread too wide, avoiding trade")
+                return
 
         is_reverse, double_size = await self._fast_determine_reverse(symbol, action)
         
@@ -190,7 +200,6 @@ class TradingOrchestrator:
 
         logger.info(f"[ORCH] 🎯 Opening {symbol}: {effective_action} with signal {signal_info}")
         
-        # 🆕 ПЕРЕДАЄМО volatility_data для адаптивних SL/TP та lifetime
         await self.executor.open_position_limit(
             symbol=symbol,
             direction=effective_action,
@@ -200,7 +209,7 @@ class TradingOrchestrator:
             is_reversed=is_reverse,
             double_size=double_size,
             signal_info=signal_info,
-            volatility_data=vol_data  # 🆕 ДОДАНО
+            volatility_data=vol_data
         )
         
         self._last_open_ts[symbol] = time.time()
@@ -208,7 +217,7 @@ class TradingOrchestrator:
             self._last_trade_time[symbol] = time.time()
 
     def _quick_open_checks(self, symbol: str, sig: Dict) -> bool:
-        """ШВИДКІ перевірки"""
+        """ШВИДКІ перевірки з O'Hara фільтрами"""
         current_time = time.time()
         
         last_trade_time = self._last_trade_time.get(symbol, 0)
@@ -217,6 +226,12 @@ class TradingOrchestrator:
 
         last_close = self._last_close_ts.get(symbol, 0)
         if current_time - last_close < self.executor.tcfg.reopen_cooldown_sec:
+            return False
+
+        # 🆕 O'HARA FILTER: Check O'Hara score
+        ohara_score = sig.get("ohara_score", 0)
+        if settings.ohara.enable_combined_ohara_score and ohara_score < settings.ohara.min_ohara_score_for_trade:
+            logger.debug(f"[OHARA_FILTER] {symbol}: O'Hara score too low ({ohara_score}/{settings.ohara.min_ohara_score_for_trade})")
             return False
 
         if self.executor.tcfg.enable_aggressive_filtering:
@@ -245,7 +260,7 @@ class TradingOrchestrator:
 
     async def _fast_create_signal_info(self, symbol: str, action: str, 
                                       strength: int, sig: Dict, is_reverse: bool) -> str:
-        """Швидке створення інформації про сигнал"""
+        """Швидке створення інформації про сигнал з O'Hara даними"""
         try:
             signal_parts = []
             if is_reverse:
@@ -257,7 +272,8 @@ class TradingOrchestrator:
             if raw_values:
                 imb_score = raw_values.get('imbalance_score', 0)
                 mom_score = raw_values.get('momentum_score', 0)
-                signal_parts.append(f"(imb:{imb_score:.0f},mom:{mom_score:.0f})")
+                ohara_score = sig.get('ohara_score', 0)
+                signal_parts.append(f"(imb:{imb_score:.0f},mom:{mom_score:.0f},oh:{ohara_score})")
 
             return " ".join(signal_parts)
 
@@ -266,9 +282,7 @@ class TradingOrchestrator:
             return f"{action.upper()}{strength}" + (" (reverse)" if is_reverse else "")
 
     async def _optimized_maybe_close(self, symbol: str, sig: Dict, ob, vol_data: Dict):
-        """
-        🆕 ОНОВЛЕНА логіка закриття з урахуванням адаптивного lifetime
-        """
+        """Оновлена логіка закриття з адаптивним lifetime"""
         can_process = await self._fast_check_exchange_position_status(symbol)
         if not can_process:
             return
@@ -282,11 +296,10 @@ class TradingOrchestrator:
 
         current_time = time.time()
         
-        # 🆕 АДАПТИВНИЙ LIFETIME з vol_data
+        # Адаптивний lifetime
         if hasattr(pos, 'max_lifetime_sec') and pos.max_lifetime_sec > 0:
             max_life = pos.max_lifetime_sec
         else:
-            # Розрахунок адаптивного lifetime якщо не збережено
             current_volatility = vol_data.get('recent_volatility', 0.1)
             max_life = self.executor.risk.get_adaptive_lifetime_seconds(symbol, current_volatility)
         

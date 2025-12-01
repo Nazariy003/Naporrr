@@ -82,13 +82,11 @@ class Position:
     realized_pnl: float = 0.0
     _external_close_processed: bool = False
     _last_monitor_check: float = field(default_factory=time.time)
-    
-    # 🆕 Адаптивний lifetime
-    max_lifetime_sec: float = 0.0  # 0 = використовувати базовий з settings
+    max_lifetime_sec: float = 0.0
 
 
 class DataStorage:
-    """🆕 ОНОВЛЕНЕ сховище з делегуванням визначення причин"""
+    """Оновлене сховище з spread tracking для O'Hara Method 7"""
 
     async def init_orderbook_rest(self, symbol: str):
         """REST ініціалізація orderbook"""
@@ -159,6 +157,9 @@ class DataStorage:
         self._last_sync_attempt = 0
         self._sync_timeout = 15
         self._last_monitor_update: Dict[str, float] = {}
+        
+        # 🆕 O'HARA METHOD 7: Spread tracking
+        self._current_spreads: Dict[str, float] = {}  # {symbol: spread_bps}
 
     def init_symbol(self, symbol: str):
         if symbol not in self._trades:
@@ -187,14 +188,10 @@ class DataStorage:
             logger.error(f"❌ [CALLBACK_TRIGGER_ERROR] {e}")
 
     async def update_position_from_exchange(self, position_data: Dict):
-        """
-        🆕 СПРОЩЕНЕ оновлення позиції (без визначення причин)
-        Причини визначаються централізовано в CloseReasonDetector
-        """
+        """Спрощене оновлення позиції"""
         symbol = position_data['symbol']
         current_time = time.time()
 
-        # Throttling для уникнення спаму
         if symbol in self._last_monitor_update:
             time_since_last = current_time - self._last_monitor_update[symbol]
             if time_since_last < 1.0:
@@ -229,7 +226,6 @@ class DataStorage:
             position = self.positions[symbol]
             old_status = position.status
 
-            # Захист від дублювання
             if new_status == "CLOSED" and position._external_close_processed:
                 return
 
@@ -253,7 +249,6 @@ class DataStorage:
                 position.closed_timestamp = current_time
                 position.exit_price = mark_price if mark_price > 0 else position.exit_price
                 
-                # 🆕 НЕ визначаємо причину тут - це робить CloseReasonDetector
                 if not position.close_reason:
                     position.close_reason = "PENDING"
                 
@@ -331,9 +326,7 @@ class DataStorage:
             return False
 
     def apply_execution_event(self, exec_data: Dict):
-        """
-        🆕 СПРОЩЕНА обробка execution - зберігаємо тільки orderIds
-        """
+        """Спрощена обробка execution"""
         try:
             symbol = exec_data.get("symbol")
             if not symbol:
@@ -345,7 +338,6 @@ class DataStorage:
 
             order_id = exec_data.get("orderId") or exec_data.get("orderID")
             
-            # Зберігаємо orderIds для майбутнього визначення
             if order_id:
                 exec_type = str(exec_data.get('execType', '')).upper()
                 if any(tp in exec_type for tp in ['TAKE_PROFIT', 'TP']):
@@ -355,7 +347,6 @@ class DataStorage:
                     pos.sl_order_id = order_id
                     logger.debug(f"[EXEC] {symbol}: SL order ID saved: {order_id}")
 
-            # Оновлюємо PnL якщо є
             closed_pnl = exec_data.get("closedPnl")
             if closed_pnl is not None:
                 try:
@@ -370,7 +361,6 @@ class DataStorage:
         except Exception as e:
             logger.error(f"❌ [EXEC_EVENT] Error: {e}")
 
-    # Решта методів без змін...
     def get_position(self, symbol: str) -> Optional[Position]:
         return self.positions.get(symbol)
 
@@ -488,6 +478,11 @@ class DataStorage:
             best_bid=best_bid,
             best_ask=best_ask,
         )
+        
+        # 🆕 O'HARA METHOD 7: Track spread
+        if best_bid > 0 and best_ask > best_bid:
+            spread_bps = (best_ask - best_bid) / best_bid * 10000
+            self._current_spreads[symbol] = spread_bps
 
         large_bid_threshold = max(self.large_order_side_percent * bid_total, self.large_order_min_abs)
         large_ask_threshold = max(self.large_order_side_percent * ask_total, self.large_order_min_abs)
@@ -546,6 +541,10 @@ class DataStorage:
 
     def get_order_book(self, symbol: str):
         return self._order_books.get(symbol)
+    
+    def get_current_spread_bps(self, symbol: str) -> Optional[float]:
+        """🆕 O'HARA METHOD 7: Get current spread in basis points"""
+        return self._current_spreads.get(symbol)
 
     def get_suspicious_orders(self, symbol: str, last_seconds: int = 60):
         now = time.time()

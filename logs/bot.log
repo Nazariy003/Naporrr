@@ -1,357 +1,553 @@
-2025-11-20 23:40:57 | DEBUG | bot | [IMBALANCE] HFTUSDT: imb=22.2, hist=18.4, weighted=14.0, effective=15.0, depth_ratio=0.55
-2025-11-20 23:40:57 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: imb=14.96, mom=-25.62004522338469, vol=1.93
-2025-11-20 23:40:57 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: tape=0, depth_ratio=0.5496618920415188, poc_dist=-0.38112761203835555
-2025-11-20 23:40:59 | INFO | bot | [VOLATILITY_REAL] AAVEUSDT: 9453 trades, range=1.638%, atr=0.002%, std=0.405%
-2025-11-20 23:40:59 | DEBUG | bot | [VWAP_CALC] 142 trades, total_quantity=71.54, vwap=165.774890
-2025-11-20 23:40:59 | INFO | bot | [IMBALANCE_CALC] AAVEUSDT: 50 bids, 50 asks, bid_volume=$390880.16, ask_volume=$244141.41
-2025-11-20 23:40:59 | INFO | bot | [ADAPTIVE_CLUSTER] AAVEUSDT: 22min - POC=166.1500 (dist=0.25%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:40:59 | DEBUG | bot | [IMBALANCE] AAVEUSDT: imb=23.6, hist=30.1, weighted=66.3, effective=23.8, depth_ratio=0.72
-2025-11-20 23:40:59 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: imb=23.75, mom=-18.83551599265457, vol=1.638
-2025-11-20 23:40:59 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: tape=0, depth_ratio=0.7249713477083187, poc_dist=0.25039973451593933
-2025-11-20 23:40:59 | INFO | bot | [VOLATILITY_REAL] STRKUSDT: 13822 trades, range=2.287%, atr=0.004%, std=0.509%
-2025-11-20 23:40:59 | DEBUG | bot | [VWAP_CALC] 863 trades, total_quantity=908590.0, vwap=0.233836
-2025-11-20 23:40:59 | INFO | bot | [IMBALANCE_CALC] STRKUSDT: 50 bids, 50 asks, bid_volume=$881382.81, ask_volume=$830694.12
-2025-11-20 23:40:59 | INFO | bot | [ADAPTIVE_CLUSTER] STRKUSDT: 22min - POC=0.2315 (dist=-0.92%), strength=1.00, supports=3, resistances=1
-2025-11-20 23:40:59 | DEBUG | bot | [IMBALANCE] STRKUSDT: imb=2.5, hist=5.1, weighted=-27.6, effective=1.2, depth_ratio=0.42
-2025-11-20 23:40:59 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: imb=1.16, mom=25.743647987925847, vol=2.287
-2025-11-20 23:40:59 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: tape=1, depth_ratio=0.4154170659898241, poc_dist=-0.9201797560453606
-2025-11-20 23:41:01 | INFO | bot | [VOLATILITY_REAL] BTCUSDT: 57897 trades, range=0.771%, atr=0.000%, std=0.193%
-2025-11-20 23:41:01 | DEBUG | bot | [VWAP_CALC] 824 trades, total_quantity=35.635, vwap=87313.532013
-2025-11-20 23:41:01 | INFO | bot | [IMBALANCE_CALC] BTCUSDT: 50 bids, 50 asks, bid_volume=$480418.48, ask_volume=$1588366.54
-2025-11-20 23:41:01 | INFO | bot | [ADAPTIVE_CLUSTER] BTCUSDT: 22min - POC=87150.0000 (dist=-0.18%), strength=1.00, supports=3, resistances=1
-2025-11-20 23:41:01 | DEBUG | bot | [IMBALANCE] BTCUSDT: imb=-7.7, hist=3.8, weighted=-65.1, effective=-7.3, depth_ratio=0.16
-2025-11-20 23:41:01 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: imb=-7.35, mom=-11.814759147432623, vol=0.771
-2025-11-20 23:41:01 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: tape=-25, depth_ratio=0.16032101726398085, poc_dist=-0.1821689733194931
-2025-11-20 23:41:02 | INFO | bot | [VOLATILITY_REAL] ETHUSDT: 78803 trades, range=1.401%, atr=0.000%, std=0.368%
-2025-11-20 23:41:02 | DEBUG | bot | [VWAP_CALC] 946 trades, total_quantity=324.96, vwap=2879.720425
-2025-11-20 23:41:02 | INFO | bot | [IMBALANCE_CALC] ETHUSDT: 50 bids, 50 asks, bid_volume=$380578.26, ask_volume=$569363.87
-2025-11-20 23:41:02 | INFO | bot | [ADAPTIVE_CLUSTER] ETHUSDT: 22min - POC=2855.0000 (dist=-0.87%), strength=1.00, supports=3, resistances=0
-2025-11-20 23:41:02 | DEBUG | bot | [IMBALANCE] ETHUSDT: imb=-6.7, hist=0.4, weighted=-7.0, effective=-3.6, depth_ratio=0.40
-2025-11-20 23:41:02 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: imb=-3.61, mom=17.71762647145762, vol=1.401
-2025-11-20 23:41:02 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: tape=-4, depth_ratio=0.40341122878454566, poc_dist=-0.8678834511865433
-2025-11-20 23:41:02 | INFO | bot | [VOLATILITY_REAL] BNBUSDT: 3422 trades, range=0.706%, atr=0.002%, std=0.177%
-2025-11-20 23:41:02 | INFO | bot | [ADAPTIVE_MOMENTUM] BNBUSDT: combined=-69.3% windows=[22, 45, 90, 180]
-2025-11-20 23:41:02 | DEBUG | bot | [VWAP_CALC] 52 trades, total_quantity=9.73, vwap=878.768654
-2025-11-20 23:41:02 | INFO | bot | [IMBALANCE_CALC] BNBUSDT: 50 bids, 50 asks, bid_volume=$2544974.70, ask_volume=$2465450.12
-2025-11-20 23:41:02 | INFO | bot | [ADAPTIVE_CLUSTER] BNBUSDT: 22min - POC=879.6000 (dist=0.12%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:02 | DEBUG | bot | [IMBALANCE] BNBUSDT: imb=2.9, hist=5.9, weighted=-16.2, effective=3.4, depth_ratio=0.51
-2025-11-20 23:41:02 | INFO | bot | 🔍 [SIGNAL_DEBUG] BNBUSDT: 
-2025-11-20 23:41:02 | INFO | bot |    - Imbalance: 3.4 -> factor: 0.034
-2025-11-20 23:41:02 | INFO | bot |    - Momentum: -69.3 -> factor: -0.693
-2025-11-20 23:41:02 | INFO | bot |    - Volatility: 0.706% -> factor: 0.000
-2025-11-20 23:41:02 | INFO | bot |    - Tape: large_net=0 -> factor: -0.219
-2025-11-20 23:41:02 | INFO | bot |    - Depth: ratio=0.51 -> factor: 0.015
-2025-11-20 23:41:02 | INFO | bot |    - Composite: -0.327, EMA: -0.243
-2025-11-20 23:41:02 | INFO | bot |    - Result: HOLD0, reason: weak_signal
-2025-11-20 23:41:02 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: imb=3.39, mom=-69.31455260702776, vol=0.706
-2025-11-20 23:41:02 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: tape=0, depth_ratio=0.5050160349320688, poc_dist=0.11951511012464495
-2025-11-20 23:41:02 | DEBUG | bot | [PRIVATE_WS] Ping sent
-2025-11-20 23:41:02 | DEBUG | bot | [PRIVATE_WS] Pong received
-2025-11-20 23:41:03 | INFO | bot | [VOLATILITY_REAL] SOLUSDT: 36835 trades, range=1.319%, atr=0.001%, std=0.348%
-2025-11-20 23:41:03 | INFO | bot | [ADAPTIVE_MOMENTUM] SOLUSDT: combined=59.1% windows=[22, 45, 90, 180]
-2025-11-20 23:41:03 | DEBUG | bot | [VWAP_CALC] 525 trades, total_quantity=3325.5, vwap=133.956388
-2025-11-20 23:41:03 | INFO | bot | [IMBALANCE_CALC] SOLUSDT: 50 bids, 50 asks, bid_volume=$12721819.34, ask_volume=$11368848.23
-2025-11-20 23:41:03 | INFO | bot | [ADAPTIVE_CLUSTER] SOLUSDT: 22min - POC=134.1500 (dist=0.15%), strength=1.00, supports=2, resistances=3
-2025-11-20 23:41:03 | DEBUG | bot | [IMBALANCE] SOLUSDT: imb=5.2, hist=5.5, weighted=-32.2, effective=4.0, depth_ratio=0.51
-2025-11-20 23:41:03 | INFO | bot | 🔍 [SIGNAL_DEBUG] SOLUSDT: 
-2025-11-20 23:41:03 | INFO | bot |    - Imbalance: 4.0 -> factor: 0.040
-2025-11-20 23:41:03 | INFO | bot |    - Momentum: 59.1 -> factor: 0.591
-2025-11-20 23:41:03 | INFO | bot |    - Volatility: 1.319% -> factor: 0.000
-2025-11-20 23:41:03 | INFO | bot |    - Tape: large_net=3 -> factor: 1.000
-2025-11-20 23:41:03 | INFO | bot |    - Depth: ratio=0.51 -> factor: 0.025
-2025-11-20 23:41:03 | INFO | bot |    - Composite: 0.657, EMA: 0.591
-2025-11-20 23:41:03 | INFO | bot |    - Result: BUY3, reason: ok
-2025-11-20 23:41:03 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: imb=3.95, mom=59.136061867380405, vol=1.319
-2025-11-20 23:41:03 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: tape=3, depth_ratio=0.5084700431018004, poc_dist=0.14557127393529293
-2025-11-20 23:41:03 | INFO | bot | [VOLATILITY_REAL] ADAUSDT: 6589 trades, range=1.299%, atr=0.003%, std=0.310%
-2025-11-20 23:41:03 | INFO | bot | [ADAPTIVE_MOMENTUM] ADAUSDT: combined=45.0% windows=[22, 45, 90, 180]
-2025-11-20 23:41:03 | DEBUG | bot | [VWAP_CALC] 103 trades, total_quantity=69728.0, vwap=0.439288
-2025-11-20 23:41:03 | INFO | bot | [IMBALANCE_CALC] ADAUSDT: 50 bids, 50 asks, bid_volume=$3324976.47, ask_volume=$2546868.75
-2025-11-20 23:41:03 | INFO | bot | [ADAPTIVE_CLUSTER] ADAUSDT: 22min - POC=0.4400 (dist=0.17%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:03 | DEBUG | bot | [IMBALANCE] ADAUSDT: imb=12.9, hist=13.9, weighted=19.9, effective=10.1, depth_ratio=0.53
-2025-11-20 23:41:03 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: imb=10.12, mom=45.0152788733209, vol=1.299
-2025-11-20 23:41:03 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: tape=0, depth_ratio=0.532448516337185, poc_dist=0.17074558907227613
-2025-11-20 23:41:03 | INFO | bot | [VOLATILITY_REAL] DOGEUSDT: 25271 trades, range=1.495%, atr=0.001%, std=0.369%
-2025-11-20 23:41:03 | INFO | bot | [ADAPTIVE_MOMENTUM] DOGEUSDT: combined=52.8% windows=[22, 45, 90, 180]
-2025-11-20 23:41:03 | DEBUG | bot | [VWAP_CALC] 302 trades, total_quantity=591494.0, vwap=0.151539
-2025-11-20 23:41:03 | INFO | bot | [IMBALANCE_CALC] DOGEUSDT: 50 bids, 50 asks, bid_volume=$3997425.12, ask_volume=$3870640.00
-2025-11-20 23:41:03 | INFO | bot | [ADAPTIVE_CLUSTER] DOGEUSDT: 22min - POC=0.1512 (dist=-0.18%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:03 | DEBUG | bot | [IMBALANCE] DOGEUSDT: imb=49.3, hist=23.4, weighted=43.1, effective=27.4, depth_ratio=0.52
-2025-11-20 23:41:03 | INFO | bot | 🔍 [SIGNAL_DEBUG] DOGEUSDT: 
-2025-11-20 23:41:03 | INFO | bot |    - Imbalance: 27.4 -> factor: 0.274
-2025-11-20 23:41:03 | INFO | bot |    - Momentum: 52.8 -> factor: 0.528
-2025-11-20 23:41:03 | INFO | bot |    - Volatility: 1.495% -> factor: 0.000
-2025-11-20 23:41:03 | INFO | bot |    - Tape: large_net=0 -> factor: -0.244
-2025-11-20 23:41:03 | INFO | bot |    - Depth: ratio=0.52 -> factor: 0.047
-2025-11-20 23:41:03 | INFO | bot |    - Composite: 0.257, EMA: 0.384
-2025-11-20 23:41:03 | INFO | bot |    - Result: HOLD0, reason: weak_signal
-2025-11-20 23:41:03 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: imb=27.36, mom=52.84659208046222, vol=1.495
-2025-11-20 23:41:03 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: tape=0, depth_ratio=0.5155536963656605, poc_dist=-0.18154811024921438
-2025-11-20 23:41:05 | INFO | bot | [VOLATILITY_REAL] AVAXUSDT: 7653 trades, range=1.363%, atr=0.002%, std=0.361%
-2025-11-20 23:41:05 | INFO | bot | [ADAPTIVE_MOMENTUM] AVAXUSDT: combined=43.0% windows=[22, 45, 90, 180]
-2025-11-20 23:41:05 | DEBUG | bot | [VWAP_CALC] 93 trades, total_quantity=894.7, vwap=13.890915
-2025-11-20 23:41:05 | INFO | bot | [IMBALANCE_CALC] AVAXUSDT: 50 bids, 50 asks, bid_volume=$1045187.75, ask_volume=$936971.69
-2025-11-20 23:41:05 | INFO | bot | [ADAPTIVE_CLUSTER] AVAXUSDT: 22min - POC=13.9000 (dist=0.09%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:05 | DEBUG | bot | [IMBALANCE] AVAXUSDT: imb=4.6, hist=6.1, weighted=-21.0, effective=3.5, depth_ratio=0.48
-2025-11-20 23:41:05 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: imb=3.47, mom=43.041455581295516, vol=1.363
-2025-11-20 23:41:05 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: tape=0, depth_ratio=0.48088008396331017, poc_dist=0.0900090009000977
-2025-11-20 23:41:05 | INFO | bot | [VOLATILITY_REAL] TRXUSDT: 2416 trades, range=0.535%, atr=0.001%, std=0.136%
-2025-11-20 23:41:05 | INFO | bot | [ADAPTIVE_MOMENTUM] TRXUSDT: combined=72.7% windows=[22, 45, 90, 180]
-2025-11-20 23:41:05 | DEBUG | bot | [VWAP_CALC] 43 trades, total_quantity=5568.0, vwap=0.278912
-2025-11-20 23:41:05 | INFO | bot | [IMBALANCE_CALC] TRXUSDT: 50 bids, 50 asks, bid_volume=$233879.72, ask_volume=$247410.42
-2025-11-20 23:41:05 | INFO | bot | [ADAPTIVE_CLUSTER] TRXUSDT: 22min - POC=0.2786 (dist=-0.12%), strength=1.00, supports=3, resistances=0
-2025-11-20 23:41:05 | DEBUG | bot | [IMBALANCE] TRXUSDT: imb=81.1, hist=20.8, weighted=-21.6, effective=37.7, depth_ratio=0.49
-2025-11-20 23:41:05 | INFO | bot | 🔍 [SIGNAL_DEBUG] TRXUSDT: 
-2025-11-20 23:41:05 | INFO | bot |    - Imbalance: 37.7 -> factor: 0.377
-2025-11-20 23:41:05 | INFO | bot |    - Momentum: 72.7 -> factor: 0.727
-2025-11-20 23:41:05 | INFO | bot |    - Volatility: 0.535% -> factor: 0.000
-2025-11-20 23:41:05 | INFO | bot |    - Tape: large_net=0 -> factor: 0.039
-2025-11-20 23:41:05 | INFO | bot |    - Depth: ratio=0.49 -> factor: -0.029
-2025-11-20 23:41:05 | INFO | bot |    - Composite: 0.447, EMA: 0.400
-2025-11-20 23:41:05 | INFO | bot |    - Result: BUY3, reason: ok
-2025-11-20 23:41:05 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: imb=37.7, mom=72.70080976251889, vol=0.535
-2025-11-20 23:41:05 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: tape=0, depth_ratio=0.4903355095697905, poc_dist=-0.12368029539872887
-2025-11-20 23:41:05 | INFO | bot | [VOLATILITY_REAL] HFTUSDT: 549 trades, range=1.929%, atr=0.021%, std=0.488%
-2025-11-20 23:41:05 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.492%, base=15s, adaptive=22s, multiplier=1.50
-2025-11-20 23:41:05 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.492%, base=60s, adaptive=90s, multiplier=1.50
-2025-11-20 23:41:05 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.492%, base=120s, adaptive=180s, multiplier=1.50
-2025-11-20 23:41:05 | DEBUG | bot | [VWAP_CALC] 10 trades, total_quantity=3888.0, vwap=0.038063
-2025-11-20 23:41:05 | INFO | bot | [IMBALANCE_CALC] HFTUSDT: 50 bids, 50 asks, bid_volume=$48280.79, ask_volume=$30119.10
-2025-11-20 23:41:05 | INFO | bot | [ADAPTIVE_CLUSTER] HFTUSDT: 22min - POC=0.0379 (dist=-0.34%), strength=1.00, supports=3, resistances=1
-2025-11-20 23:41:05 | DEBUG | bot | [IMBALANCE] HFTUSDT: imb=22.5, hist=18.9, weighted=56.2, effective=15.3, depth_ratio=0.56
-2025-11-20 23:41:05 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: imb=15.34, mom=-29.056702074554394, vol=1.929
-2025-11-20 23:41:05 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: tape=0, depth_ratio=0.5560503628001284, poc_dist=-0.34183539311067906
-2025-11-20 23:41:07 | INFO | bot | [VOLATILITY_REAL] AAVEUSDT: 9466 trades, range=1.590%, atr=0.002%, std=0.401%
-2025-11-20 23:41:07 | INFO | bot | [ADAPTIVE_MOMENTUM] AAVEUSDT: combined=-58.7% windows=[22, 45, 90, 180]
-2025-11-20 23:41:07 | DEBUG | bot | [VWAP_CALC] 145 trades, total_quantity=146.44, vwap=165.727899
-2025-11-20 23:41:07 | INFO | bot | [IMBALANCE_CALC] AAVEUSDT: 50 bids, 50 asks, bid_volume=$383877.38, ask_volume=$212334.76
-2025-11-20 23:41:07 | INFO | bot | [ADAPTIVE_CLUSTER] AAVEUSDT: 22min - POC=166.1500 (dist=0.30%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:07 | DEBUG | bot | [IMBALANCE] AAVEUSDT: imb=25.2, hist=29.6, weighted=-71.3, effective=19.1, depth_ratio=0.48
-2025-11-20 23:41:07 | INFO | bot | 🔍 [SIGNAL_DEBUG] AAVEUSDT: 
-2025-11-20 23:41:07 | INFO | bot |    - Imbalance: 19.1 -> factor: 0.191
-2025-11-20 23:41:07 | INFO | bot |    - Momentum: -58.7 -> factor: -0.587
-2025-11-20 23:41:07 | INFO | bot |    - Volatility: 1.590% -> factor: 0.000
-2025-11-20 23:41:07 | INFO | bot |    - Tape: large_net=0 -> factor: 0.402
-2025-11-20 23:41:07 | INFO | bot |    - Depth: ratio=0.48 -> factor: -0.051
-2025-11-20 23:41:07 | INFO | bot |    - Composite: 0.052, EMA: 0.036
-2025-11-20 23:41:07 | INFO | bot |    - Result: HOLD0, reason: below_threshold
-2025-11-20 23:41:07 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: imb=19.15, mom=-58.717961893839544, vol=1.59
-2025-11-20 23:41:07 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: tape=0, depth_ratio=0.482960781204591, poc_dist=0.2988137997645737
-2025-11-20 23:41:07 | INFO | bot | [VOLATILITY_REAL] STRKUSDT: 13836 trades, range=2.287%, atr=0.004%, std=0.513%
-2025-11-20 23:41:07 | DEBUG | bot | [VWAP_CALC] 490 trades, total_quantity=543686.9, vwap=0.233738
-2025-11-20 23:41:07 | INFO | bot | [IMBALANCE_CALC] STRKUSDT: 50 bids, 50 asks, bid_volume=$784149.49, ask_volume=$844554.68
-2025-11-20 23:41:07 | INFO | bot | [ADAPTIVE_CLUSTER] STRKUSDT: 22min - POC=0.2315 (dist=-0.84%), strength=1.00, supports=3, resistances=2
-2025-11-20 23:41:07 | DEBUG | bot | [IMBALANCE] STRKUSDT: imb=0.7, hist=4.7, weighted=-32.4, effective=-0.8, depth_ratio=0.35
-2025-11-20 23:41:07 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: imb=-0.85, mom=5.407029749006883, vol=2.287
-2025-11-20 23:41:07 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: tape=1, depth_ratio=0.3503560679601332, poc_dist=-0.8352966373955791
-2025-11-20 23:41:09 | INFO | bot | [VOLATILITY_REAL] BTCUSDT: 57875 trades, range=0.770%, atr=0.000%, std=0.192%
-2025-11-20 23:41:09 | INFO | bot | [ADAPTIVE_MOMENTUM] BTCUSDT: combined=-32.1% windows=[22, 45, 90, 180]
-2025-11-20 23:41:09 | DEBUG | bot | [VWAP_CALC] 815 trades, total_quantity=34.478, vwap=87311.228302
-2025-11-20 23:41:09 | INFO | bot | [IMBALANCE_CALC] BTCUSDT: 50 bids, 50 asks, bid_volume=$979748.15, ask_volume=$609786.31
-2025-11-20 23:41:09 | INFO | bot | [ADAPTIVE_CLUSTER] BTCUSDT: 22min - POC=87150.0000 (dist=-0.16%), strength=1.00, supports=3, resistances=1
-2025-11-20 23:41:09 | DEBUG | bot | [IMBALANCE] BTCUSDT: imb=1.6, hist=4.0, weighted=35.4, effective=5.2, depth_ratio=0.71
-2025-11-20 23:41:09 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: imb=5.2, mom=-32.0533790374987, vol=0.77
-2025-11-20 23:41:09 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: tape=-33, depth_ratio=0.7101658842570729, poc_dist=-0.1590695718869086
-2025-11-20 23:41:10 | INFO | bot | [VOLATILITY_REAL] ETHUSDT: 78799 trades, range=1.401%, atr=0.000%, std=0.367%
-2025-11-20 23:41:10 | DEBUG | bot | [VWAP_CALC] 823 trades, total_quantity=306.32, vwap=2879.550955
-2025-11-20 23:41:10 | INFO | bot | [IMBALANCE_CALC] ETHUSDT: 50 bids, 50 asks, bid_volume=$684473.12, ask_volume=$4588465.18
-2025-11-20 23:41:10 | INFO | bot | [ADAPTIVE_CLUSTER] ETHUSDT: 22min - POC=2855.0000 (dist=-0.85%), strength=1.00, supports=3, resistances=0
-2025-11-20 23:41:10 | DEBUG | bot | [IMBALANCE] ETHUSDT: imb=-26.9, hist=-1.2, weighted=55.7, effective=-5.3, depth_ratio=0.77
-2025-11-20 23:41:10 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: imb=-5.29, mom=16.47647992640747, vol=1.401
-2025-11-20 23:41:10 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: tape=-6, depth_ratio=0.7672571153698454, poc_dist=-0.8506699959541478
-2025-11-20 23:41:10 | INFO | bot | [VOLATILITY_REAL] BNBUSDT: 3419 trades, range=0.706%, atr=0.002%, std=0.177%
-2025-11-20 23:41:10 | INFO | bot | [ADAPTIVE_MOMENTUM] BNBUSDT: combined=-79.6% windows=[22, 45, 90, 180]
-2025-11-20 23:41:10 | DEBUG | bot | [VWAP_CALC] 43 trades, total_quantity=9.69, vwap=878.735604
-2025-11-20 23:41:10 | INFO | bot | [IMBALANCE_CALC] BNBUSDT: 50 bids, 50 asks, bid_volume=$2648871.96, ask_volume=$2450256.14
-2025-11-20 23:41:10 | INFO | bot | [ADAPTIVE_CLUSTER] BNBUSDT: 22min - POC=879.6000 (dist=0.14%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:10 | DEBUG | bot | [IMBALANCE] BNBUSDT: imb=3.2, hist=5.6, weighted=12.4, effective=4.3, depth_ratio=0.55
-2025-11-20 23:41:10 | INFO | bot | 🔍 [SIGNAL_DEBUG] BNBUSDT: 
-2025-11-20 23:41:10 | INFO | bot |    - Imbalance: 4.3 -> factor: 0.043
-2025-11-20 23:41:10 | INFO | bot |    - Momentum: -79.6 -> factor: -0.796
-2025-11-20 23:41:10 | INFO | bot |    - Volatility: 0.706% -> factor: 0.000
-2025-11-20 23:41:10 | INFO | bot |    - Tape: large_net=0 -> factor: -0.199
-2025-11-20 23:41:10 | INFO | bot |    - Depth: ratio=0.55 -> factor: 0.156
-2025-11-20 23:41:10 | INFO | bot |    - Composite: -0.330, EMA: -0.298
-2025-11-20 23:41:10 | INFO | bot |    - Result: HOLD0, reason: weak_signal
-2025-11-20 23:41:10 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: imb=4.28, mom=-79.6475517639468, vol=0.706
-2025-11-20 23:41:10 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: tape=0, depth_ratio=0.5519922162631092, poc_dist=0.1423122900893851
-2025-11-20 23:41:11 | INFO | bot | [VOLATILITY_REAL] SOLUSDT: 36821 trades, range=1.319%, atr=0.001%, std=0.347%
-2025-11-20 23:41:11 | DEBUG | bot | [VWAP_CALC] 583 trades, total_quantity=5609.2, vwap=133.913265
-2025-11-20 23:41:11 | INFO | bot | [IMBALANCE_CALC] SOLUSDT: 50 bids, 50 asks, bid_volume=$12518815.56, ask_volume=$10927962.23
-2025-11-20 23:41:11 | INFO | bot | [ADAPTIVE_CLUSTER] SOLUSDT: 22min - POC=134.1500 (dist=0.21%), strength=1.00, supports=1, resistances=3
-2025-11-20 23:41:11 | DEBUG | bot | [IMBALANCE] SOLUSDT: imb=5.7, hist=5.5, weighted=-45.5, effective=3.4, depth_ratio=0.48
-2025-11-20 23:41:11 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: imb=3.42, mom=-22.62073512375289, vol=1.319
-2025-11-20 23:41:11 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: tape=-10, depth_ratio=0.476098716180738, poc_dist=0.20541549953315086
-2025-11-20 23:41:11 | INFO | bot | [VOLATILITY_REAL] ADAUSDT: 6596 trades, range=1.299%, atr=0.003%, std=0.309%
-2025-11-20 23:41:11 | INFO | bot | [ADAPTIVE_MOMENTUM] ADAUSDT: combined=50.5% windows=[22, 45, 90, 180]
-2025-11-20 23:41:11 | DEBUG | bot | [VWAP_CALC] 90 trades, total_quantity=58881.0, vwap=0.439225
-2025-11-20 23:41:11 | INFO | bot | [IMBALANCE_CALC] ADAUSDT: 50 bids, 50 asks, bid_volume=$3279916.15, ask_volume=$2592607.15
-2025-11-20 23:41:11 | INFO | bot | [ADAPTIVE_CLUSTER] ADAUSDT: 22min - POC=0.4400 (dist=0.22%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:11 | DEBUG | bot | [IMBALANCE] ADAUSDT: imb=12.6, hist=13.7, weighted=-2.5, effective=8.8, depth_ratio=0.48
-2025-11-20 23:41:11 | INFO | bot | 🔍 [SIGNAL_DEBUG] ADAUSDT: 
-2025-11-20 23:41:11 | INFO | bot |    - Imbalance: 8.8 -> factor: 0.088
-2025-11-20 23:41:11 | INFO | bot |    - Momentum: 50.5 -> factor: 0.505
-2025-11-20 23:41:11 | INFO | bot |    - Volatility: 1.299% -> factor: 0.000
-2025-11-20 23:41:11 | INFO | bot |    - Tape: large_net=0 -> factor: 0.308
-2025-11-20 23:41:11 | INFO | bot |    - Depth: ratio=0.48 -> factor: -0.074
-2025-11-20 23:41:11 | INFO | bot |    - Composite: 0.415, EMA: 0.350
-2025-11-20 23:41:11 | INFO | bot |    - Result: HOLD0, reason: weak_signal
-2025-11-20 23:41:11 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: imb=8.79, mom=50.532998187830444, vol=1.299
-2025-11-20 23:41:11 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: tape=0, depth_ratio=0.47519537864473427, poc_dist=0.21637626693998552
-2025-11-20 23:41:11 | INFO | bot | [VOLATILITY_REAL] DOGEUSDT: 25316 trades, range=1.468%, atr=0.001%, std=0.368%
-2025-11-20 23:41:11 | DEBUG | bot | [VWAP_CALC] 271 trades, total_quantity=456420.0, vwap=0.151509
-2025-11-20 23:41:11 | INFO | bot | [IMBALANCE_CALC] DOGEUSDT: 50 bids, 50 asks, bid_volume=$4201569.30, ask_volume=$3747352.96
-2025-11-20 23:41:11 | INFO | bot | [ADAPTIVE_CLUSTER] DOGEUSDT: 22min - POC=0.1512 (dist=-0.10%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:11 | DEBUG | bot | [IMBALANCE] DOGEUSDT: imb=21.9, hist=24.4, weighted=30.5, effective=16.2, depth_ratio=0.49
-2025-11-20 23:41:11 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: imb=16.24, mom=28.883488952774684, vol=1.468
-2025-11-20 23:41:11 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: tape=0, depth_ratio=0.49261038677427604, poc_dist=-0.10240824551552061
-2025-11-20 23:41:13 | INFO | bot | [VOLATILITY_REAL] AVAXUSDT: 7632 trades, range=1.356%, atr=0.002%, std=0.355%
-2025-11-20 23:41:13 | DEBUG | bot | [VWAP_CALC] 100 trades, total_quantity=1165.6, vwap=13.888259
-2025-11-20 23:41:13 | INFO | bot | [IMBALANCE_CALC] AVAXUSDT: 50 bids, 50 asks, bid_volume=$1022659.66, ask_volume=$909378.93
-2025-11-20 23:41:13 | INFO | bot | [ADAPTIVE_CLUSTER] AVAXUSDT: 22min - POC=13.9000 (dist=0.13%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:13 | DEBUG | bot | [IMBALANCE] AVAXUSDT: imb=4.9, hist=5.9, weighted=-4.9, effective=2.9, depth_ratio=0.45
-2025-11-20 23:41:13 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: imb=2.87, mom=-22.864764666229135, vol=1.356
-2025-11-20 23:41:13 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: tape=0, depth_ratio=0.451975836692869, poc_dist=0.13327090011887255
-2025-11-20 23:41:13 | INFO | bot | [VOLATILITY_REAL] TRXUSDT: 2420 trades, range=0.535%, atr=0.001%, std=0.136%
-2025-11-20 23:41:13 | DEBUG | bot | [VWAP_CALC] 22 trades, total_quantity=6913.0, vwap=0.278929
-2025-11-20 23:41:13 | INFO | bot | [IMBALANCE_CALC] TRXUSDT: 50 bids, 50 asks, bid_volume=$242711.88, ask_volume=$214977.15
-2025-11-20 23:41:13 | INFO | bot | [ADAPTIVE_CLUSTER] TRXUSDT: 22min - POC=0.2786 (dist=-0.11%), strength=1.00, supports=3, resistances=0
-2025-11-20 23:41:13 | DEBUG | bot | [IMBALANCE] TRXUSDT: imb=86.7, hist=26.6, weighted=-64.5, effective=43.6, depth_ratio=0.56
-2025-11-20 23:41:13 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: imb=43.57, mom=-24.012024235157476, vol=0.535
-2025-11-20 23:41:13 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: tape=0, depth_ratio=0.560179432261609, poc_dist=-0.10935623240886476
-2025-11-20 23:41:13 | INFO | bot | [VOLATILITY_REAL] HFTUSDT: 547 trades, range=1.929%, atr=0.022%, std=0.484%
-2025-11-20 23:41:13 | INFO | bot | [ADAPTIVE_MOMENTUM] HFTUSDT: combined=-75.3% windows=[22, 45, 90, 180]
-2025-11-20 23:41:13 | DEBUG | bot | [VWAP_CALC] 10 trades, total_quantity=4453.0, vwap=0.038043
-2025-11-20 23:41:13 | INFO | bot | [IMBALANCE_CALC] HFTUSDT: 50 bids, 50 asks, bid_volume=$48549.99, ask_volume=$30789.15
-2025-11-20 23:41:13 | INFO | bot | [ADAPTIVE_CLUSTER] HFTUSDT: 22min - POC=0.0379 (dist=-0.30%), strength=1.00, supports=3, resistances=1
-2025-11-20 23:41:13 | DEBUG | bot | [IMBALANCE] HFTUSDT: imb=22.5, hist=19.3, weighted=43.5, effective=15.2, depth_ratio=0.54
-2025-11-20 23:41:13 | INFO | bot | 🔍 [SIGNAL_DEBUG] HFTUSDT: 
-2025-11-20 23:41:13 | INFO | bot |    - Imbalance: 15.2 -> factor: 0.152
-2025-11-20 23:41:13 | INFO | bot |    - Momentum: -75.3 -> factor: -0.753
-2025-11-20 23:41:13 | INFO | bot |    - Volatility: 1.929% -> factor: 0.000
-2025-11-20 23:41:13 | INFO | bot |    - Tape: large_net=0 -> factor: -0.071
-2025-11-20 23:41:13 | INFO | bot |    - Depth: ratio=0.54 -> factor: 0.125
-2025-11-20 23:41:13 | INFO | bot |    - Composite: -0.237, EMA: -0.119
-2025-11-20 23:41:13 | INFO | bot |    - Result: HOLD0, reason: below_threshold
-2025-11-20 23:41:13 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: imb=15.21, mom=-75.2727286029864, vol=1.929
-2025-11-20 23:41:13 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: tape=0, depth_ratio=0.5415711463303203, poc_dist=-0.30251216625015664
-2025-11-20 23:41:15 | INFO | bot | [VOLATILITY_REAL] AAVEUSDT: 9479 trades, range=1.566%, atr=0.002%, std=0.400%
-2025-11-20 23:41:15 | INFO | bot | [ADAPTIVE_MOMENTUM] AAVEUSDT: combined=-61.5% windows=[22, 45, 90, 180]
-2025-11-20 23:41:15 | DEBUG | bot | [VWAP_CALC] 126 trades, total_quantity=129.33, vwap=165.699275
-2025-11-20 23:41:15 | INFO | bot | [IMBALANCE_CALC] AAVEUSDT: 50 bids, 50 asks, bid_volume=$419793.15, ask_volume=$191460.75
-2025-11-20 23:41:15 | INFO | bot | [ADAPTIVE_CLUSTER] AAVEUSDT: 22min - POC=166.1500 (dist=0.30%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:15 | DEBUG | bot | [IMBALANCE] AAVEUSDT: imb=28.8, hist=29.3, weighted=69.6, effective=22.9, depth_ratio=0.63
-2025-11-20 23:41:15 | INFO | bot | 🔍 [SIGNAL_DEBUG] AAVEUSDT: 
-2025-11-20 23:41:15 | INFO | bot |    - Imbalance: 22.9 -> factor: 0.229
-2025-11-20 23:41:15 | INFO | bot |    - Momentum: -61.5 -> factor: -0.615
-2025-11-20 23:41:15 | INFO | bot |    - Volatility: 1.566% -> factor: 0.000
-2025-11-20 23:41:15 | INFO | bot |    - Tape: large_net=0 -> factor: 0.560
-2025-11-20 23:41:15 | INFO | bot |    - Depth: ratio=0.63 -> factor: 0.384
-2025-11-20 23:41:15 | INFO | bot |    - Composite: 0.191, EMA: 0.102
-2025-11-20 23:41:15 | INFO | bot |    - Result: HOLD0, reason: below_threshold
-2025-11-20 23:41:15 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: imb=22.93, mom=-61.477013213862726, vol=1.566
-2025-11-20 23:41:15 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: tape=0, depth_ratio=0.6280876848097259, poc_dist=0.2988137997645737
-2025-11-20 23:41:15 | INFO | bot | [VOLATILITY_REAL] STRKUSDT: 13858 trades, range=2.287%, atr=0.004%, std=0.514%
-2025-11-20 23:41:15 | DEBUG | bot | [VWAP_CALC] 390 trades, total_quantity=436710.2, vwap=0.233588
-2025-11-20 23:41:15 | INFO | bot | [IMBALANCE_CALC] STRKUSDT: 50 bids, 50 asks, bid_volume=$882044.83, ask_volume=$857441.15
-2025-11-20 23:41:15 | INFO | bot | [ADAPTIVE_CLUSTER] STRKUSDT: 22min - POC=0.2315 (dist=-0.79%), strength=1.00, supports=3, resistances=2
-2025-11-20 23:41:15 | DEBUG | bot | [IMBALANCE] STRKUSDT: imb=0.9, hist=4.4, weighted=-40.5, effective=-0.8, depth_ratio=0.36
-2025-11-20 23:41:15 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: imb=-0.79, mom=-13.251667341857232, vol=2.287
-2025-11-20 23:41:15 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: tape=1, depth_ratio=0.35649193028628035, poc_dist=-0.7928005142489782
-2025-11-20 23:41:17 | INFO | bot | [VOLATILITY_REAL] BTCUSDT: 57842 trades, range=0.770%, atr=0.000%, std=0.191%
-2025-11-20 23:41:17 | DEBUG | bot | [ADAPTIVE_WINDOW] BTCUSDT: vol=0.191%, base=30s, adaptive=45s, multiplier=1.50
-2025-11-20 23:41:17 | DEBUG | bot | [ADAPTIVE_WINDOW] BTCUSDT: vol=0.191%, base=300s, adaptive=450s, multiplier=1.50
-2025-11-20 23:41:17 | DEBUG | bot | [ADAPTIVE_WINDOW] BTCUSDT: vol=0.192%, base=15s, adaptive=22s, multiplier=1.50
-2025-11-20 23:41:17 | DEBUG | bot | [ADAPTIVE_WINDOW] BTCUSDT: vol=0.192%, base=60s, adaptive=90s, multiplier=1.50
-2025-11-20 23:41:17 | DEBUG | bot | [ADAPTIVE_WINDOW] BTCUSDT: vol=0.192%, base=120s, adaptive=180s, multiplier=1.50
-2025-11-20 23:41:17 | DEBUG | bot | [VWAP_CALC] 861 trades, total_quantity=36.276, vwap=87309.090694
-2025-11-20 23:41:17 | INFO | bot | [IMBALANCE_CALC] BTCUSDT: 50 bids, 50 asks, bid_volume=$1602367.62, ask_volume=$467696.30
-2025-11-20 23:41:17 | INFO | bot | [ADAPTIVE_CLUSTER] BTCUSDT: 22min - POC=87150.0000 (dist=-0.19%), strength=1.00, supports=3, resistances=1
-2025-11-20 23:41:17 | DEBUG | bot | [IMBALANCE] BTCUSDT: imb=17.6, hist=4.1, weighted=53.3, effective=12.0, depth_ratio=0.77
-2025-11-20 23:41:17 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: imb=12.0, mom=-23.59114953299054, vol=0.77
-2025-11-20 23:41:17 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: tape=-35, depth_ratio=0.7676134229641203, poc_dist=-0.19142860251393248
-2025-11-20 23:41:18 | INFO | bot | [VOLATILITY_REAL] ETHUSDT: 78828 trades, range=1.401%, atr=0.000%, std=0.366%
-2025-11-20 23:41:18 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.366%, base=30s, adaptive=45s, multiplier=1.50
-2025-11-20 23:41:18 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.366%, base=300s, adaptive=450s, multiplier=1.50
-2025-11-20 23:41:18 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.367%, base=15s, adaptive=22s, multiplier=1.50
-2025-11-20 23:41:18 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.367%, base=60s, adaptive=90s, multiplier=1.50
-2025-11-20 23:41:18 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.367%, base=120s, adaptive=180s, multiplier=1.50
-2025-11-20 23:41:18 | INFO | bot | [ADAPTIVE_MOMENTUM] ETHUSDT: combined=42.4% windows=[22, 45, 90, 180]
-2025-11-20 23:41:18 | DEBUG | bot | [VWAP_CALC] 852 trades, total_quantity=381.04, vwap=2879.568463
-2025-11-20 23:41:18 | INFO | bot | [IMBALANCE_CALC] ETHUSDT: 50 bids, 50 asks, bid_volume=$952877.87, ask_volume=$3258028.04
-2025-11-20 23:41:18 | INFO | bot | [ADAPTIVE_CLUSTER] ETHUSDT: 22min - POC=2855.0000 (dist=-0.87%), strength=1.00, supports=3, resistances=1
-2025-11-20 23:41:18 | DEBUG | bot | [IMBALANCE] ETHUSDT: imb=-35.2, hist=-4.0, weighted=-91.8, effective=-23.6, depth_ratio=0.05
-2025-11-20 23:41:18 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: imb=-23.57, mom=42.359846883813034, vol=1.401
-2025-11-20 23:41:18 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: tape=18, depth_ratio=0.05197891674519937, poc_dist=-0.8678834511865433
-2025-11-20 23:41:18 | INFO | bot | [VOLATILITY_REAL] BNBUSDT: 3423 trades, range=0.706%, atr=0.002%, std=0.177%
-2025-11-20 23:41:18 | INFO | bot | [ADAPTIVE_MOMENTUM] BNBUSDT: combined=-43.8% windows=[22, 45, 90, 180]
-2025-11-20 23:41:18 | DEBUG | bot | [VWAP_CALC] 33 trades, total_quantity=6.7, vwap=878.565522
-2025-11-20 23:41:18 | INFO | bot | [IMBALANCE_CALC] BNBUSDT: 50 bids, 50 asks, bid_volume=$2592398.32, ask_volume=$2441439.30
-2025-11-20 23:41:18 | INFO | bot | [ADAPTIVE_CLUSTER] BNBUSDT: 22min - POC=879.6000 (dist=0.12%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:18 | DEBUG | bot | [IMBALANCE] BNBUSDT: imb=3.1, hist=5.2, weighted=15.0, effective=4.2, depth_ratio=0.56
-2025-11-20 23:41:18 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: imb=4.19, mom=-43.800165813447116, vol=0.706
-2025-11-20 23:41:18 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: tape=0, depth_ratio=0.5553762406028343, poc_dist=0.11951511012464495
-2025-11-20 23:41:19 | INFO | bot | [VOLATILITY_REAL] SOLUSDT: 36965 trades, range=1.319%, atr=0.001%, std=0.347%
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.347%, base=30s, adaptive=45s, multiplier=1.50
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.347%, base=300s, adaptive=450s, multiplier=1.50
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.347%, base=15s, adaptive=22s, multiplier=1.50
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.347%, base=60s, adaptive=90s, multiplier=1.50
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.347%, base=120s, adaptive=180s, multiplier=1.50
-2025-11-20 23:41:19 | INFO | bot | [ADAPTIVE_MOMENTUM] SOLUSDT: combined=34.4% windows=[22, 45, 90, 180]
-2025-11-20 23:41:19 | DEBUG | bot | [VWAP_CALC] 744 trades, total_quantity=8905.4, vwap=133.917897
-2025-11-20 23:41:19 | INFO | bot | [IMBALANCE_CALC] SOLUSDT: 50 bids, 50 asks, bid_volume=$11611585.12, ask_volume=$10964872.22
-2025-11-20 23:41:19 | INFO | bot | [ADAPTIVE_CLUSTER] SOLUSDT: 22min - POC=134.1500 (dist=0.09%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:19 | DEBUG | bot | [IMBALANCE] SOLUSDT: imb=4.8, hist=5.5, weighted=4.3, effective=4.2, depth_ratio=0.53
-2025-11-20 23:41:19 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: imb=4.21, mom=34.4146807382749, vol=1.319
-2025-11-20 23:41:19 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: tape=19, depth_ratio=0.528587281261157, poc_dist=0.09326618168252192
-2025-11-20 23:41:19 | INFO | bot | [VOLATILITY_REAL] ADAUSDT: 6621 trades, range=1.299%, atr=0.003%, std=0.308%
-2025-11-20 23:41:19 | INFO | bot | [ADAPTIVE_MOMENTUM] ADAUSDT: combined=67.8% windows=[22, 45, 90, 180]
-2025-11-20 23:41:19 | DEBUG | bot | [VWAP_CALC] 89 trades, total_quantity=85254.0, vwap=0.439203
-2025-11-20 23:41:19 | INFO | bot | [IMBALANCE_CALC] ADAUSDT: 50 bids, 50 asks, bid_volume=$3361355.96, ask_volume=$2512602.26
-2025-11-20 23:41:19 | INFO | bot | [ADAPTIVE_CLUSTER] ADAUSDT: 22min - POC=0.4392 (dist=-0.01%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:19 | DEBUG | bot | [IMBALANCE] ADAUSDT: imb=13.1, hist=13.6, weighted=23.0, effective=10.1, depth_ratio=0.54
-2025-11-20 23:41:19 | INFO | bot | 🔍 [SIGNAL_DEBUG] ADAUSDT: 
-2025-11-20 23:41:19 | INFO | bot |    - Imbalance: 10.1 -> factor: 0.101
-2025-11-20 23:41:19 | INFO | bot |    - Momentum: 67.8 -> factor: 0.678
-2025-11-20 23:41:19 | INFO | bot |    - Volatility: 1.299% -> factor: 0.000
-2025-11-20 23:41:19 | INFO | bot |    - Tape: large_net=1 -> factor: 0.428
-2025-11-20 23:41:19 | INFO | bot |    - Depth: ratio=0.54 -> factor: 0.111
-2025-11-20 23:41:19 | INFO | bot |    - Composite: 0.462, EMA: 0.411
-2025-11-20 23:41:19 | INFO | bot |    - Result: BUY3, reason: ok
-2025-11-20 23:41:19 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: imb=10.12, mom=67.75490992312379, vol=1.299
-2025-11-20 23:41:19 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: tape=1, depth_ratio=0.5369192273155966, poc_dist=-0.011383039271484232
-2025-11-20 23:41:19 | INFO | bot | [VOLATILITY_REAL] DOGEUSDT: 25348 trades, range=1.468%, atr=0.001%, std=0.367%
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.367%, base=30s, adaptive=45s, multiplier=1.50
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.367%, base=300s, adaptive=450s, multiplier=1.50
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.368%, base=15s, adaptive=22s, multiplier=1.50
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.368%, base=60s, adaptive=90s, multiplier=1.50
-2025-11-20 23:41:19 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.368%, base=120s, adaptive=180s, multiplier=1.50
-2025-11-20 23:41:19 | INFO | bot | [ADAPTIVE_MOMENTUM] DOGEUSDT: combined=47.0% windows=[22, 45, 90, 180]
-2025-11-20 23:41:19 | DEBUG | bot | [VWAP_CALC] 219 trades, total_quantity=202746.0, vwap=0.151451
-2025-11-20 23:41:19 | INFO | bot | [IMBALANCE_CALC] DOGEUSDT: 50 bids, 50 asks, bid_volume=$4172280.82, ask_volume=$3622249.60
-2025-11-20 23:41:19 | INFO | bot | [ADAPTIVE_CLUSTER] DOGEUSDT: 22min - POC=0.1512 (dist=-0.17%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:19 | DEBUG | bot | [IMBALANCE] DOGEUSDT: imb=9.6, hist=24.1, weighted=52.3, effective=14.2, depth_ratio=0.57
-2025-11-20 23:41:19 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: imb=14.18, mom=47.049210204352775, vol=1.468
-2025-11-20 23:41:19 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: tape=0, depth_ratio=0.5699354925210576, poc_dist=-0.168366841636133
-2025-11-20 23:41:21 | INFO | bot | [VOLATILITY_REAL] AVAXUSDT: 7664 trades, range=1.356%, atr=0.002%, std=0.354%
-2025-11-20 23:41:21 | DEBUG | bot | [VWAP_CALC] 117 trades, total_quantity=1653.7, vwap=13.887331
-2025-11-20 23:41:21 | INFO | bot | [IMBALANCE_CALC] AVAXUSDT: 50 bids, 50 asks, bid_volume=$969616.48, ask_volume=$865872.02
-2025-11-20 23:41:21 | INFO | bot | [ADAPTIVE_CLUSTER] AVAXUSDT: 22min - POC=13.9000 (dist=0.08%), strength=1.00, supports=3, resistances=3
-2025-11-20 23:41:21 | DEBUG | bot | [IMBALANCE] AVAXUSDT: imb=5.1, hist=5.6, weighted=0.1, effective=4.3, depth_ratio=0.53
-2025-11-20 23:41:21 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: imb=4.31, mom=22.11356712173318, vol=1.356
-2025-11-20 23:41:21 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: tape=0, depth_ratio=0.5265474920958811, poc_dist=0.0828023184649159
-2025-11-20 23:41:21 | INFO | bot | [VOLATILITY_REAL] TRXUSDT: 2427 trades, range=0.535%, atr=0.001%, std=0.136%
-2025-11-20 23:41:21 | DEBUG | bot | [ADAPTIVE_WINDOW] TRXUSDT: vol=0.136%, base=15s, adaptive=22s, multiplier=1.50
-2025-11-20 23:41:21 | DEBUG | bot | [ADAPTIVE_WINDOW] TRXUSDT: vol=0.136%, base=60s, adaptive=90s, multiplier=1.50
-2025-11-20 23:41:21 | DEBUG | bot | [ADAPTIVE_WINDOW] TRXUSDT: vol=0.136%, base=120s, adaptive=180s, multiplier=1.50
-2025-11-20 23:41:21 | DEBUG | bot | [VWAP_CALC] 28 trades, total_quantity=7707.0, vwap=0.278931
-2025-11-20 23:41:21 | INFO | bot | [IMBALANCE_CALC] TRXUSDT: 50 bids, 50 asks, bid_volume=$284012.05, ask_volume=$217723.62
-2025-11-20 23:41:21 | INFO | bot | [ADAPTIVE_CLUSTER] TRXUSDT: 22min - POC=0.2786 (dist=-0.13%), strength=1.00, supports=3, resistances=0
-2025-11-20 23:41:21 | DEBUG | bot | [IMBALANCE] TRXUSDT: imb=90.7, hist=32.6, weighted=61.3, effective=53.0, depth_ratio=0.72
-2025-11-20 23:41:21 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: imb=53.05, mom=-6.358112089726543, vol=0.535
-2025-11-20 23:41:21 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: tape=0, depth_ratio=0.7158615994271714, poc_dist=-0.13442064701136616
-2025-11-20 23:41:21 | INFO | bot | [VOLATILITY_REAL] HFTUSDT: 548 trades, range=1.929%, atr=0.022%, std=0.484%
-2025-11-20 23:41:21 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.484%, base=30s, adaptive=45s, multiplier=1.50
-2025-11-20 23:41:21 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.484%, base=300s, adaptive=450s, multiplier=1.50
-2025-11-20 23:41:21 | INFO | bot | [ADAPTIVE_MOMENTUM] HFTUSDT: combined=-35.1% windows=[22, 45, 90, 180]
-2025-11-20 23:41:21 | DEBUG | bot | [VWAP_CALC] 9 trades, total_quantity=3564.0, vwap=0.038036
+2025-12-01 13:43:56 | INFO | bot | [ADAPTIVE_CLUSTER] ETHUSDT: 22min - POC=2843.100000 (dist=0.18%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:43:56 | DEBUG | bot | [IMBALANCE] ETHUSDT: imb=5.2, hist=7.3, weighted=49.0, effective=8.7, bayesian=BEARISH, trade_imb=-76.0%
+2025-12-01 13:43:56 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: imb=8.69, mom=-43.193618764915584, vol=0.499
+2025-12-01 13:43:56 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:43:56 | INFO | bot | [VOLATILITY_REAL] BNBUSDT: 1986 trades, range=0.400%, atr=0.002%, std=0.104%
+2025-12-01 13:43:56 | DEBUG | bot | [VWAP_CALC] 54 trades, total_quantity=57.3, vwap=824.181518
+2025-12-01 13:43:56 | INFO | bot | [IMBALANCE_CALC] BNBUSDT: 50 bids, 50 asks, bid_volume=$3367264.29, ask_volume=$2653539.51
+2025-12-01 13:43:56 | INFO | bot | [ADAPTIVE_CLUSTER] BNBUSDT: 22min - POC=823.600000 (dist=-0.04%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:43:56 | DEBUG | bot | [IMBALANCE] BNBUSDT: imb=12.3, hist=12.8, weighted=1.3, effective=10.0, bayesian=BEARISH, trade_imb=-20.0%
+2025-12-01 13:43:56 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: imb=9.99, mom=22.734630659627904, vol=0.4
+2025-12-01 13:43:56 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:43:58 | INFO | bot | [VOLATILITY_REAL] SOLUSDT: 7997 trades, range=0.346%, atr=0.001%, std=0.065%
+2025-12-01 13:43:58 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.065%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:43:58 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.065%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:43:58 | DEBUG | bot | [VWAP_CALC] 59 trades, total_quantity=298.1, vwap=127.121255
+2025-12-01 13:43:58 | INFO | bot | [IMBALANCE_CALC] SOLUSDT: 50 bids, 50 asks, bid_volume=$17064441.09, ask_volume=$13323899.97
+2025-12-01 13:43:58 | INFO | bot | [ADAPTIVE_CLUSTER] SOLUSDT: 22min - POC=127.140000 (dist=0.03%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:43:58 | DEBUG | bot | [IMBALANCE] SOLUSDT: imb=10.9, hist=10.3, weighted=17.7, effective=8.2, bayesian=BEARISH, trade_imb=-44.0%
+2025-12-01 13:43:58 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: imb=8.23, mom=-8.85830359454985, vol=0.346
+2025-12-01 13:43:58 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: bayesian=BEARISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:43:58 | DEBUG | bot | [OHARA_FILTER] SOLUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:43:58 | INFO | bot | [VOLATILITY_REAL] ADAUSDT: 3492 trades, range=0.469%, atr=0.003%, std=0.116%
+2025-12-01 13:43:58 | DEBUG | bot | [ADAPTIVE_WINDOW] ADAUSDT: vol=0.116%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:43:58 | DEBUG | bot | [ADAPTIVE_WINDOW] ADAUSDT: vol=0.116%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:43:58 | INFO | bot | [ADAPTIVE_MOMENTUM] ADAUSDT: combined=-75.4% windows=[22, 45, 90, 180]
+2025-12-01 13:43:58 | DEBUG | bot | [VWAP_CALC] 99 trades, total_quantity=203284.0, vwap=0.383416
+2025-12-01 13:43:58 | INFO | bot | [IMBALANCE_CALC] ADAUSDT: 50 bids, 50 asks, bid_volume=$3561882.17, ask_volume=$2821190.10
+2025-12-01 13:43:58 | INFO | bot | [ADAPTIVE_CLUSTER] ADAUSDT: 22min - POC=0.383500 (dist=0.09%), strength=1.00, supports=1, resistances=3
+2025-12-01 13:43:58 | DEBUG | bot | [IMBALANCE] ADAUSDT: imb=10.8, hist=11.2, weighted=12.2, effective=8.3, bayesian=BEARISH, trade_imb=-96.0%
+2025-12-01 13:43:58 | INFO | bot | 🔍 [SIGNAL_DEBUG] ADAUSDT: 
+2025-12-01 13:43:58 | INFO | bot |    - Imbalance: 8.3 -> factor: 0.083
+2025-12-01 13:43:58 | INFO | bot |    - Momentum: -75.4 -> factor: -0.754
+2025-12-01 13:43:58 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:43:58 | INFO | bot |    - Large Orders: STRONG_BUY -> factor: 0.800
+2025-12-01 13:43:58 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:43:58 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:43:58 | INFO | bot |    - Composite: -0.183, EMA: -0.139
+2025-12-01 13:43:58 | INFO | bot |    - Result: HOLD0, reason: weak_signal
+2025-12-01 13:43:58 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: imb=8.3, mom=-75.3761561296765, vol=0.469
+2025-12-01 13:43:58 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:43:58 | INFO | bot | [VOLATILITY_REAL] DOGEUSDT: 7731 trades, range=0.395%, atr=0.001%, std=0.086%
+2025-12-01 13:43:58 | DEBUG | bot | [VWAP_CALC] 465 trades, total_quantity=5423093.0, vwap=0.136880
+2025-12-01 13:43:58 | INFO | bot | [IMBALANCE_CALC] DOGEUSDT: 50 bids, 50 asks, bid_volume=$5221296.86, ask_volume=$4570758.67
+2025-12-01 13:43:58 | INFO | bot | [ADAPTIVE_CLUSTER] DOGEUSDT: 22min - POC=0.136800 (dist=0.03%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:43:58 | DEBUG | bot | [IMBALANCE] DOGEUSDT: imb=4.3, hist=3.2, weighted=70.9, effective=4.9, bayesian=BEARISH, trade_imb=-72.0%
+2025-12-01 13:43:58 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: imb=4.91, mom=15.602655969631599, vol=0.395
+2025-12-01 13:43:58 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:00 | INFO | bot | [VOLATILITY_REAL] AVAXUSDT: 2794 trades, range=0.493%, atr=0.001%, std=0.118%
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] AVAXUSDT: vol=0.118%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] AVAXUSDT: vol=0.118%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:44:00 | INFO | bot | [ADAPTIVE_MOMENTUM] AVAXUSDT: combined=-72.1% windows=[22, 45, 90, 180]
+2025-12-01 13:44:00 | DEBUG | bot | [VWAP_CALC] 34 trades, total_quantity=208.6, vwap=12.950858
+2025-12-01 13:44:00 | INFO | bot | [IMBALANCE_CALC] AVAXUSDT: 50 bids, 50 asks, bid_volume=$706162.01, ask_volume=$609994.47
+2025-12-01 13:44:00 | INFO | bot | [ADAPTIVE_CLUSTER] AVAXUSDT: 22min - POC=12.975000 (dist=0.19%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:00 | DEBUG | bot | [IMBALANCE] AVAXUSDT: imb=7.7, hist=7.6, weighted=-12.0, effective=5.8, bayesian=BEARISH, trade_imb=-72.0%
+2025-12-01 13:44:00 | INFO | bot | 🔍 [SIGNAL_DEBUG] AVAXUSDT: 
+2025-12-01 13:44:00 | INFO | bot |    - Imbalance: 5.8 -> factor: 0.058
+2025-12-01 13:44:00 | INFO | bot |    - Momentum: -72.1 -> factor: -0.721
+2025-12-01 13:44:00 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:00 | INFO | bot |    - Large Orders: MEDIUM_BUY -> factor: 0.400
+2025-12-01 13:44:00 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:44:00 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:00 | INFO | bot |    - Composite: -0.199, EMA: -0.065
+2025-12-01 13:44:00 | INFO | bot |    - Result: HOLD0, reason: below_threshold
+2025-12-01 13:44:00 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: imb=5.75, mom=-72.11007573108839, vol=0.493
+2025-12-01 13:44:00 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:00 | INFO | bot | [VOLATILITY_REAL] TRXUSDT: 795 trades, range=0.177%, atr=0.001%, std=0.036%
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] TRXUSDT: vol=0.036%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] TRXUSDT: vol=0.036%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:44:00 | DEBUG | bot | [VWAP_CALC] 17 trades, total_quantity=10456.0, vwap=0.277372
+2025-12-01 13:44:00 | INFO | bot | [IMBALANCE_CALC] TRXUSDT: 50 bids, 50 asks, bid_volume=$302254.55, ask_volume=$348609.18
+2025-12-01 13:44:00 | INFO | bot | [ADAPTIVE_CLUSTER] TRXUSDT: 22min - POC=0.277100 (dist=-0.08%), strength=1.00, supports=3, resistances=1
+2025-12-01 13:44:00 | DEBUG | bot | [IMBALANCE] TRXUSDT: imb=2.8, hist=17.2, weighted=-55.5, effective=1.2, bayesian=BEARISH, trade_imb=24.0%
+2025-12-01 13:44:00 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: imb=1.17, mom=-1.2922568290799248, vol=0.177
+2025-12-01 13:44:00 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:00 | DEBUG | bot | [VOL_FILTER] TRXUSDT filtered: 0.177% < 0.25%
+2025-12-01 13:44:00 | INFO | bot | [VOLATILITY_REAL] HFTUSDT: 220 trades, range=0.905%, atr=0.019%, std=0.275%
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.275%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.275%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.272%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.272%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:00 | DEBUG | bot | [ADAPTIVE_WINDOW] HFTUSDT: vol=0.272%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:00 | INFO | bot | [ADAPTIVE_MOMENTUM] HFTUSDT: combined=-57.6% windows=[22, 45, 90, 180]
+2025-12-01 13:44:00 | INFO | bot | [IMBALANCE_CALC] HFTUSDT: 50 bids, 50 asks, bid_volume=$27455.95, ask_volume=$19843.08
+2025-12-01 13:44:00 | INFO | bot | [ADAPTIVE_CLUSTER] HFTUSDT: 22min - POC=0.032000 (dist=0.34%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:00 | DEBUG | bot | [IMBALANCE] HFTUSDT: imb=16.6, hist=17.4, weighted=57.7, effective=12.6, bayesian=BEARISH, trade_imb=-28.0%
+2025-12-01 13:44:00 | INFO | bot | 🔍 [SIGNAL_DEBUG] HFTUSDT: 
+2025-12-01 13:44:00 | INFO | bot |    - Imbalance: 12.6 -> factor: 0.126
+2025-12-01 13:44:00 | INFO | bot |    - Momentum: -57.6 -> factor: -0.576
+2025-12-01 13:44:00 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:00 | INFO | bot |    - Large Orders: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:00 | INFO | bot |    - Frequency: HIGH -> factor: -0.200
+2025-12-01 13:44:00 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:00 | INFO | bot |    - Composite: 0.065, EMA: 0.027
+2025-12-01 13:44:00 | INFO | bot |    - Result: HOLD0, reason: low_volume
+2025-12-01 13:44:00 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: imb=12.58, mom=-57.64339624752269, vol=0.905
+2025-12-01 13:44:00 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: bayesian=BEARISH, freq=HIGH, vol_confirm=NEUTRAL
+2025-12-01 13:44:00 | DEBUG | bot | [OHARA_FILTER] HFTUSDT: O'Hara score too low (3/5)
+2025-12-01 13:44:02 | INFO | bot | [VOLATILITY_REAL] AAVEUSDT: 4758 trades, range=0.559%, atr=0.002%, std=0.111%
+2025-12-01 13:44:02 | DEBUG | bot | [ADAPTIVE_WINDOW] AAVEUSDT: vol=0.111%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:44:02 | DEBUG | bot | [ADAPTIVE_WINDOW] AAVEUSDT: vol=0.111%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:44:02 | INFO | bot | [ADAPTIVE_MOMENTUM] AAVEUSDT: combined=-76.6% windows=[22, 45, 90, 180]
+2025-12-01 13:44:02 | DEBUG | bot | [VWAP_CALC] 31 trades, total_quantity=18.97, vwap=168.162641
+2025-12-01 13:44:02 | INFO | bot | [IMBALANCE_CALC] AAVEUSDT: 50 bids, 50 asks, bid_volume=$450135.96, ask_volume=$340888.55
+2025-12-01 13:44:02 | INFO | bot | [ADAPTIVE_CLUSTER] AAVEUSDT: 22min - POC=168.200000 (dist=0.05%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:02 | DEBUG | bot | [IMBALANCE] AAVEUSDT: imb=15.3, hist=15.6, weighted=-40.6, effective=8.9, bayesian=BEARISH, trade_imb=-56.0%
+2025-12-01 13:44:02 | INFO | bot | 🔍 [SIGNAL_DEBUG] AAVEUSDT: 
+2025-12-01 13:44:02 | INFO | bot |    - Imbalance: 8.9 -> factor: 0.089
+2025-12-01 13:44:02 | INFO | bot |    - Momentum: -76.6 -> factor: -0.766
+2025-12-01 13:44:02 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:02 | INFO | bot |    - Large Orders: STRONG_SELL -> factor: -0.800
+2025-12-01 13:44:02 | INFO | bot |    - Frequency: VERY_LOW -> factor: -0.300
+2025-12-01 13:44:02 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:02 | INFO | bot |    - Composite: -0.450, EMA: -0.326
+2025-12-01 13:44:02 | DEBUG | bot | [OHARA_FILTER] AAVEUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:02 | INFO | bot |    - Result: HOLD0, reason: very_low_activity
+2025-12-01 13:44:02 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: imb=8.88, mom=-76.58072033359434, vol=0.559
+2025-12-01 13:44:02 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: bayesian=BEARISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:02 | DEBUG | bot | [OHARA_FILTER] AAVEUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:02 | INFO | bot | [VOLATILITY_REAL] STRKUSDT: 2353 trades, range=0.848%, atr=0.005%, std=0.211%
+2025-12-01 13:44:02 | INFO | bot | [ADAPTIVE_MOMENTUM] STRKUSDT: combined=50.2% windows=[22, 45, 90, 180]
+2025-12-01 13:44:02 | DEBUG | bot | [VWAP_CALC] 52 trades, total_quantity=138527.2, vwap=0.117814
+2025-12-01 13:44:02 | INFO | bot | [IMBALANCE_CALC] STRKUSDT: 50 bids, 50 asks, bid_volume=$1027238.74, ask_volume=$869678.26
+2025-12-01 13:44:02 | INFO | bot | [ADAPTIVE_CLUSTER] STRKUSDT: 22min - POC=0.118200 (dist=0.30%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:02 | DEBUG | bot | [IMBALANCE] STRKUSDT: imb=8.4, hist=8.7, weighted=-11.4, effective=4.8, bayesian=BULLISH, trade_imb=96.0%
+2025-12-01 13:44:02 | INFO | bot | 🔍 [SIGNAL_DEBUG] STRKUSDT: 
+2025-12-01 13:44:02 | INFO | bot |    - Imbalance: 4.8 -> factor: 0.048
+2025-12-01 13:44:02 | INFO | bot |    - Momentum: 50.2 -> factor: 0.502
+2025-12-01 13:44:02 | INFO | bot |    - Bayesian: BULLISH -> factor: 0.490
+2025-12-01 13:44:02 | INFO | bot |    - Large Orders: STRONG_SELL -> factor: -0.800
+2025-12-01 13:44:02 | INFO | bot |    - Frequency: VERY_LOW -> factor: -0.300
+2025-12-01 13:44:02 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:02 | INFO | bot |    - Composite: 0.028, EMA: 0.165
+2025-12-01 13:44:02 | DEBUG | bot | [OHARA_FILTER] STRKUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:02 | INFO | bot |    - Result: HOLD0, reason: very_low_activity
+2025-12-01 13:44:02 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: imb=4.85, mom=50.236770568645305, vol=0.848
+2025-12-01 13:44:02 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: bayesian=BULLISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:02 | DEBUG | bot | [OHARA_FILTER] STRKUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:04 | INFO | bot | [VOLATILITY_REAL] BTCUSDT: 32937 trades, range=0.273%, atr=0.000%, std=0.061%
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] BTCUSDT: vol=0.060%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] BTCUSDT: vol=0.060%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] BTCUSDT: vol=0.060%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:04 | INFO | bot | [ADAPTIVE_MOMENTUM] BTCUSDT: combined=55.5% windows=[22, 45, 90, 180]
+2025-12-01 13:44:04 | DEBUG | bot | [VWAP_CALC] 578 trades, total_quantity=33.535, vwap=86293.843739
+2025-12-01 13:44:04 | INFO | bot | [IMBALANCE_CALC] BTCUSDT: 50 bids, 50 asks, bid_volume=$585050.57, ask_volume=$2157420.38
+2025-12-01 13:44:04 | INFO | bot | [ADAPTIVE_CLUSTER] BTCUSDT: 22min - POC=86290.000000 (dist=-0.01%), strength=1.00, supports=1, resistances=3
+2025-12-01 13:44:04 | DEBUG | bot | [IMBALANCE] BTCUSDT: imb=-22.1, hist=-21.5, weighted=-50.2, effective=-20.5, bayesian=BULLISH, trade_imb=48.0%
+2025-12-01 13:44:04 | INFO | bot | 🔍 [SIGNAL_DEBUG] BTCUSDT: 
+2025-12-01 13:44:04 | INFO | bot |    - Imbalance: -20.5 -> factor: -0.205
+2025-12-01 13:44:04 | INFO | bot |    - Momentum: 55.5 -> factor: 0.555
+2025-12-01 13:44:04 | INFO | bot |    - Bayesian: BULLISH -> factor: 0.416
+2025-12-01 13:44:04 | INFO | bot |    - Large Orders: MEDIUM_BUY -> factor: 0.400
+2025-12-01 13:44:04 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:44:04 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:04 | INFO | bot |    - Composite: 0.371, EMA: 0.185
+2025-12-01 13:44:04 | INFO | bot |    - Result: HOLD0, reason: weak_signal
+2025-12-01 13:44:04 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: imb=-20.5, mom=55.53427114095678, vol=0.273
+2025-12-01 13:44:04 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: bayesian=BULLISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:04 | INFO | bot | [VOLATILITY_REAL] ETHUSDT: 28535 trades, range=0.490%, atr=0.000%, std=0.078%
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.078%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.078%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.079%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.079%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] ETHUSDT: vol=0.079%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:04 | INFO | bot | [ADAPTIVE_MOMENTUM] ETHUSDT: combined=-42.4% windows=[22, 45, 90, 180]
+2025-12-01 13:44:04 | DEBUG | bot | [VWAP_CALC] 421 trades, total_quantity=149.46, vwap=2838.076208
+2025-12-01 13:44:04 | INFO | bot | [IMBALANCE_CALC] ETHUSDT: 50 bids, 50 asks, bid_volume=$948665.41, ask_volume=$570915.83
+2025-12-01 13:44:04 | INFO | bot | [ADAPTIVE_CLUSTER] ETHUSDT: 22min - POC=2843.100000 (dist=0.19%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:04 | DEBUG | bot | [IMBALANCE] ETHUSDT: imb=11.1, hist=7.5, weighted=51.7, effective=12.7, bayesian=BEARISH, trade_imb=-68.0%
+2025-12-01 13:44:04 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: imb=12.72, mom=-42.35244055283863, vol=0.49
+2025-12-01 13:44:04 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:04 | INFO | bot | [VOLATILITY_REAL] BNBUSDT: 1980 trades, range=0.400%, atr=0.002%, std=0.105%
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] BNBUSDT: vol=0.105%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:44:04 | DEBUG | bot | [ADAPTIVE_WINDOW] BNBUSDT: vol=0.105%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:44:04 | DEBUG | bot | [VWAP_CALC] 49 trades, total_quantity=50.62, vwap=824.148538
+2025-12-01 13:44:04 | INFO | bot | [IMBALANCE_CALC] BNBUSDT: 50 bids, 50 asks, bid_volume=$3312324.78, ask_volume=$2655678.64
+2025-12-01 13:44:04 | INFO | bot | [ADAPTIVE_CLUSTER] BNBUSDT: 22min - POC=823.600000 (dist=-0.03%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:04 | DEBUG | bot | [IMBALANCE] BNBUSDT: imb=11.9, hist=12.8, weighted=5.2, effective=9.8, bayesian=BEARISH, trade_imb=-16.0%
+2025-12-01 13:44:04 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: imb=9.84, mom=7.697301966795404, vol=0.4
+2025-12-01 13:44:04 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:06 | INFO | bot | [VOLATILITY_REAL] SOLUSDT: 7925 trades, range=0.338%, atr=0.001%, std=0.064%
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.065%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.065%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] SOLUSDT: vol=0.065%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:06 | INFO | bot | [ADAPTIVE_MOMENTUM] SOLUSDT: combined=38.8% windows=[22, 45, 90, 180]
+2025-12-01 13:44:06 | DEBUG | bot | [VWAP_CALC] 40 trades, total_quantity=282.2, vwap=127.112229
+2025-12-01 13:44:06 | INFO | bot | [IMBALANCE_CALC] SOLUSDT: 50 bids, 50 asks, bid_volume=$17003137.32, ask_volume=$13142200.63
+2025-12-01 13:44:06 | INFO | bot | [ADAPTIVE_CLUSTER] SOLUSDT: 22min - POC=127.140000 (dist=0.03%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:06 | DEBUG | bot | [IMBALANCE] SOLUSDT: imb=11.4, hist=10.4, weighted=56.2, effective=9.3, bayesian=BULLISH, trade_imb=-4.0%
+2025-12-01 13:44:06 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: imb=9.29, mom=38.790811177415314, vol=0.338
+2025-12-01 13:44:06 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: bayesian=BULLISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:06 | INFO | bot | [VOLATILITY_REAL] ADAUSDT: 3459 trades, range=0.469%, atr=0.003%, std=0.117%
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] ADAUSDT: vol=0.116%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] ADAUSDT: vol=0.116%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] ADAUSDT: vol=0.116%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:06 | INFO | bot | [ADAPTIVE_MOMENTUM] ADAUSDT: combined=-83.1% windows=[22, 45, 90, 180]
+2025-12-01 13:44:06 | DEBUG | bot | [VWAP_CALC] 54 trades, total_quantity=58972.0, vwap=0.383208
+2025-12-01 13:44:06 | INFO | bot | [IMBALANCE_CALC] ADAUSDT: 50 bids, 50 asks, bid_volume=$3542245.90, ask_volume=$2877580.86
+2025-12-01 13:44:06 | INFO | bot | [ADAPTIVE_CLUSTER] ADAUSDT: 22min - POC=0.383500 (dist=0.09%), strength=1.00, supports=1, resistances=3
+2025-12-01 13:44:06 | DEBUG | bot | [IMBALANCE] ADAUSDT: imb=10.6, hist=11.2, weighted=-4.1, effective=7.9, bayesian=BEARISH, trade_imb=-96.0%
+2025-12-01 13:44:06 | INFO | bot | 🔍 [SIGNAL_DEBUG] ADAUSDT: 
+2025-12-01 13:44:06 | INFO | bot |    - Imbalance: 7.9 -> factor: 0.079
+2025-12-01 13:44:06 | INFO | bot |    - Momentum: -83.1 -> factor: -0.831
+2025-12-01 13:44:06 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:06 | INFO | bot |    - Large Orders: STRONG_BUY -> factor: 0.800
+2025-12-01 13:44:06 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:44:06 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:06 | INFO | bot |    - Composite: 0.117, EMA: -0.047
+2025-12-01 13:44:06 | INFO | bot |    - Result: HOLD0, reason: below_threshold
+2025-12-01 13:44:06 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: imb=7.94, mom=-83.07134929465593, vol=0.469
+2025-12-01 13:44:06 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:06 | INFO | bot | [VOLATILITY_REAL] DOGEUSDT: 7702 trades, range=0.395%, atr=0.001%, std=0.086%
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.086%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.086%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.086%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.086%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:06 | DEBUG | bot | [ADAPTIVE_WINDOW] DOGEUSDT: vol=0.086%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:06 | INFO | bot | [ADAPTIVE_MOMENTUM] DOGEUSDT: combined=-41.8% windows=[22, 45, 90, 180]
+2025-12-01 13:44:06 | DEBUG | bot | [VWAP_CALC] 127 trades, total_quantity=628692.0, vwap=0.136819
+2025-12-01 13:44:06 | INFO | bot | [IMBALANCE_CALC] DOGEUSDT: 50 bids, 50 asks, bid_volume=$5180305.74, ask_volume=$4514284.85
+2025-12-01 13:44:06 | INFO | bot | [ADAPTIVE_CLUSTER] DOGEUSDT: 22min - POC=0.136800 (dist=0.03%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:06 | DEBUG | bot | [IMBALANCE] DOGEUSDT: imb=5.1, hist=3.4, weighted=65.4, effective=4.8, bayesian=BEARISH, trade_imb=-64.0%
+2025-12-01 13:44:06 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: imb=4.83, mom=-41.822606302122786, vol=0.395
+2025-12-01 13:44:06 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:08 | INFO | bot | [VOLATILITY_REAL] AVAXUSDT: 2784 trades, range=0.493%, atr=0.001%, std=0.118%
+2025-12-01 13:44:08 | DEBUG | bot | [ADAPTIVE_WINDOW] AVAXUSDT: vol=0.118%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:08 | DEBUG | bot | [ADAPTIVE_WINDOW] AVAXUSDT: vol=0.118%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:08 | DEBUG | bot | [ADAPTIVE_WINDOW] AVAXUSDT: vol=0.118%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:08 | INFO | bot | [ADAPTIVE_MOMENTUM] AVAXUSDT: combined=-36.9% windows=[22, 45, 90, 180]
+2025-12-01 13:44:08 | DEBUG | bot | [VWAP_CALC] 19 trades, total_quantity=167.1, vwap=12.950671
+2025-12-01 13:44:08 | INFO | bot | [IMBALANCE_CALC] AVAXUSDT: 50 bids, 50 asks, bid_volume=$710194.32, ask_volume=$604701.79
+2025-12-01 13:44:08 | INFO | bot | [ADAPTIVE_CLUSTER] AVAXUSDT: 22min - POC=12.975000 (dist=0.19%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:08 | DEBUG | bot | [IMBALANCE] AVAXUSDT: imb=7.8, hist=7.6, weighted=-1.8, effective=5.7, bayesian=BEARISH, trade_imb=-72.0%
+2025-12-01 13:44:08 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: imb=5.74, mom=-36.88918375527615, vol=0.493
+2025-12-01 13:44:08 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: bayesian=BEARISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:08 | DEBUG | bot | [OHARA_FILTER] AVAXUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:08 | INFO | bot | [VOLATILITY_REAL] TRXUSDT: 794 trades, range=0.177%, atr=0.001%, std=0.036%
+2025-12-01 13:44:08 | DEBUG | bot | [VWAP_CALC] 7 trades, total_quantity=499.0, vwap=0.277329
+2025-12-01 13:44:08 | INFO | bot | [IMBALANCE_CALC] TRXUSDT: 50 bids, 50 asks, bid_volume=$302299.13, ask_volume=$346700.76
+2025-12-01 13:44:08 | INFO | bot | [ADAPTIVE_CLUSTER] TRXUSDT: 22min - POC=0.277100 (dist=-0.08%), strength=1.00, supports=3, resistances=1
+2025-12-01 13:44:08 | DEBUG | bot | [IMBALANCE] TRXUSDT: imb=1.4, hist=16.3, weighted=-50.0, effective=-0.2, bayesian=BEARISH, trade_imb=24.0%
+2025-12-01 13:44:08 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: imb=-0.24, mom=17.44695373463273, vol=0.177
+2025-12-01 13:44:08 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:08 | DEBUG | bot | [VOL_FILTER] TRXUSDT filtered: 0.177% < 0.25%
+2025-12-01 13:44:08 | INFO | bot | [VOLATILITY_REAL] HFTUSDT: 220 trades, range=0.905%, atr=0.019%, std=0.275%
+2025-12-01 13:44:08 | INFO | bot | [ADAPTIVE_MOMENTUM] HFTUSDT: combined=-57.6% windows=[22, 45, 90, 180]
+2025-12-01 13:44:08 | INFO | bot | [IMBALANCE_CALC] HFTUSDT: 50 bids, 50 asks, bid_volume=$27231.00, ask_volume=$19675.59
+2025-12-01 13:44:08 | INFO | bot | [ADAPTIVE_CLUSTER] HFTUSDT: 22min - POC=0.032000 (dist=0.33%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:08 | DEBUG | bot | [IMBALANCE] HFTUSDT: imb=16.5, hist=17.1, weighted=34.4, effective=11.7, bayesian=BEARISH, trade_imb=-28.0%
+2025-12-01 13:44:08 | INFO | bot | 🔍 [SIGNAL_DEBUG] HFTUSDT: 
+2025-12-01 13:44:08 | INFO | bot |    - Imbalance: 11.7 -> factor: 0.117
+2025-12-01 13:44:08 | INFO | bot |    - Momentum: -57.6 -> factor: -0.576
+2025-12-01 13:44:08 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:08 | INFO | bot |    - Large Orders: MEDIUM_SELL -> factor: -0.400
+2025-12-01 13:44:08 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:44:08 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:08 | INFO | bot |    - Composite: 0.006, EMA: 0.028
+2025-12-01 13:44:08 | INFO | bot |    - Result: HOLD0, reason: low_volume
+2025-12-01 13:44:08 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: imb=11.72, mom=-57.64339624752269, vol=0.905
+2025-12-01 13:44:08 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:08 | DEBUG | bot | [OHARA_FILTER] AVAXUSDT: O'Hara score too low (4/5)
+2025-12-01 13:44:10 | INFO | bot | [VOLATILITY_REAL] AAVEUSDT: 4744 trades, range=0.559%, atr=0.002%, std=0.110%
+2025-12-01 13:44:10 | DEBUG | bot | [ADAPTIVE_WINDOW] AAVEUSDT: vol=0.111%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:10 | DEBUG | bot | [ADAPTIVE_WINDOW] AAVEUSDT: vol=0.111%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:10 | DEBUG | bot | [ADAPTIVE_WINDOW] AAVEUSDT: vol=0.111%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:10 | INFO | bot | [ADAPTIVE_MOMENTUM] AAVEUSDT: combined=-77.3% windows=[22, 45, 90, 180]
+2025-12-01 13:44:10 | DEBUG | bot | [VWAP_CALC] 14 trades, total_quantity=2.79, vwap=168.141971
+2025-12-01 13:44:10 | INFO | bot | [IMBALANCE_CALC] AAVEUSDT: 50 bids, 50 asks, bid_volume=$452296.48, ask_volume=$352622.78
+2025-12-01 13:44:10 | INFO | bot | [ADAPTIVE_CLUSTER] AAVEUSDT: 22min - POC=168.200000 (dist=0.05%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:10 | DEBUG | bot | [IMBALANCE] AAVEUSDT: imb=14.4, hist=15.4, weighted=-38.3, effective=8.4, bayesian=BEARISH, trade_imb=-56.0%
+2025-12-01 13:44:10 | INFO | bot | 🔍 [SIGNAL_DEBUG] AAVEUSDT: 
+2025-12-01 13:44:10 | INFO | bot |    - Imbalance: 8.4 -> factor: 0.084
+2025-12-01 13:44:10 | INFO | bot |    - Momentum: -77.3 -> factor: -0.773
+2025-12-01 13:44:10 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:10 | INFO | bot |    - Large Orders: STRONG_SELL -> factor: -0.800
+2025-12-01 13:44:10 | INFO | bot |    - Frequency: VERY_LOW -> factor: -0.300
+2025-12-01 13:44:10 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:10 | INFO | bot |    - Composite: -0.227, EMA: -0.316
+2025-12-01 13:44:10 | DEBUG | bot | [OHARA_FILTER] AAVEUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:10 | INFO | bot |    - Result: HOLD0, reason: very_low_activity
+2025-12-01 13:44:10 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: imb=8.38, mom=-77.3362050052082, vol=0.559
+2025-12-01 13:44:10 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: bayesian=BEARISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:10 | DEBUG | bot | [OHARA_FILTER] AAVEUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:10 | INFO | bot | [VOLATILITY_REAL] STRKUSDT: 2353 trades, range=0.848%, atr=0.005%, std=0.211%
+2025-12-01 13:44:10 | DEBUG | bot | [ADAPTIVE_WINDOW] STRKUSDT: vol=0.211%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:10 | DEBUG | bot | [ADAPTIVE_WINDOW] STRKUSDT: vol=0.211%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:10 | DEBUG | bot | [ADAPTIVE_WINDOW] STRKUSDT: vol=0.211%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:10 | INFO | bot | [ADAPTIVE_MOMENTUM] STRKUSDT: combined=51.5% windows=[22, 45, 90, 180]
+2025-12-01 13:44:10 | DEBUG | bot | [VWAP_CALC] 52 trades, total_quantity=138527.2, vwap=0.117814
+2025-12-01 13:44:10 | INFO | bot | [IMBALANCE_CALC] STRKUSDT: 50 bids, 50 asks, bid_volume=$1029756.78, ask_volume=$872553.66
+2025-12-01 13:44:10 | INFO | bot | [ADAPTIVE_CLUSTER] STRKUSDT: 22min - POC=0.118200 (dist=0.30%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:10 | DEBUG | bot | [IMBALANCE] STRKUSDT: imb=8.4, hist=8.8, weighted=-13.7, effective=4.9, bayesian=BULLISH, trade_imb=96.0%
+2025-12-01 13:44:10 | INFO | bot | 🔍 [SIGNAL_DEBUG] STRKUSDT: 
+2025-12-01 13:44:10 | INFO | bot |    - Imbalance: 4.9 -> factor: 0.049
+2025-12-01 13:44:10 | INFO | bot |    - Momentum: 51.5 -> factor: 0.515
+2025-12-01 13:44:10 | INFO | bot |    - Bayesian: BULLISH -> factor: 0.490
+2025-12-01 13:44:10 | INFO | bot |    - Large Orders: STRONG_SELL -> factor: -0.800
+2025-12-01 13:44:10 | INFO | bot |    - Frequency: VERY_LOW -> factor: -0.300
+2025-12-01 13:44:10 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:10 | INFO | bot |    - Composite: 0.032, EMA: 0.079
+2025-12-01 13:44:10 | DEBUG | bot | [OHARA_FILTER] STRKUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:10 | INFO | bot |    - Result: HOLD0, reason: very_low_activity
+2025-12-01 13:44:10 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: imb=4.9, mom=51.479875739752345, vol=0.848
+2025-12-01 13:44:10 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: bayesian=BULLISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:10 | DEBUG | bot | [OHARA_FILTER] STRKUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:12 | INFO | bot | [VOLATILITY_REAL] BTCUSDT: 33175 trades, range=0.273%, atr=0.000%, std=0.062%
+2025-12-01 13:44:12 | DEBUG | bot | [VWAP_CALC] 828 trades, total_quantity=53.403, vwap=86286.730865
+2025-12-01 13:44:12 | INFO | bot | [IMBALANCE_CALC] BTCUSDT: 50 bids, 50 asks, bid_volume=$934629.45, ask_volume=$1970625.45
+2025-12-01 13:44:12 | INFO | bot | [ADAPTIVE_CLUSTER] BTCUSDT: 22min - POC=86290.000000 (dist=0.02%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:12 | DEBUG | bot | [IMBALANCE] BTCUSDT: imb=-26.1, hist=-21.3, weighted=-22.2, effective=-18.3, bayesian=NEUTRAL, trade_imb=0.0%
+2025-12-01 13:44:12 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: imb=-18.27, mom=4.735580898345761, vol=0.273
+2025-12-01 13:44:12 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: bayesian=NEUTRAL, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:12 | INFO | bot | [VOLATILITY_REAL] ETHUSDT: 28597 trades, range=0.490%, atr=0.000%, std=0.079%
+2025-12-01 13:44:12 | DEBUG | bot | [VWAP_CALC] 419 trades, total_quantity=195.53, vwap=2837.919224
+2025-12-01 13:44:12 | INFO | bot | [IMBALANCE_CALC] ETHUSDT: 50 bids, 50 asks, bid_volume=$561698.31, ask_volume=$492060.72
+2025-12-01 13:44:12 | INFO | bot | [ADAPTIVE_CLUSTER] ETHUSDT: 22min - POC=2843.100000 (dist=0.18%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:12 | DEBUG | bot | [IMBALANCE] ETHUSDT: imb=9.8, hist=7.0, weighted=-45.1, effective=7.9, bayesian=NEUTRAL, trade_imb=100.0%
+2025-12-01 13:44:12 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: imb=7.87, mom=1.3380799519423792, vol=0.49
+2025-12-01 13:44:12 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: bayesian=NEUTRAL, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:12 | INFO | bot | [VOLATILITY_REAL] BNBUSDT: 1989 trades, range=0.400%, atr=0.002%, std=0.105%
+2025-12-01 13:44:12 | DEBUG | bot | [ADAPTIVE_WINDOW] BNBUSDT: vol=0.105%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:12 | DEBUG | bot | [ADAPTIVE_WINDOW] BNBUSDT: vol=0.105%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:12 | DEBUG | bot | [ADAPTIVE_WINDOW] BNBUSDT: vol=0.105%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:12 | DEBUG | bot | [VWAP_CALC] 56 trades, total_quantity=52.160000000000004, vwap=824.126361
+2025-12-01 13:44:12 | INFO | bot | [IMBALANCE_CALC] BNBUSDT: 50 bids, 50 asks, bid_volume=$3379781.06, ask_volume=$2620046.16
+2025-12-01 13:44:12 | INFO | bot | [ADAPTIVE_CLUSTER] BNBUSDT: 22min - POC=823.600000 (dist=-0.01%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:12 | DEBUG | bot | [IMBALANCE] BNBUSDT: imb=12.2, hist=12.8, weighted=23.6, effective=9.8, bayesian=BEARISH, trade_imb=-20.0%
+2025-12-01 13:44:12 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: imb=9.76, mom=11.000955613803518, vol=0.4
+2025-12-01 13:44:12 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:12 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-01 13:44:13 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-01 13:44:14 | INFO | bot | [VOLATILITY_REAL] SOLUSDT: 7747 trades, range=0.338%, atr=0.001%, std=0.062%
+2025-12-01 13:44:14 | INFO | bot | [ADAPTIVE_MOMENTUM] SOLUSDT: combined=59.0% windows=[22, 45, 90, 180]
+2025-12-01 13:44:14 | DEBUG | bot | [VWAP_CALC] 47 trades, total_quantity=293.4, vwap=127.111779
+2025-12-01 13:44:14 | INFO | bot | [IMBALANCE_CALC] SOLUSDT: 50 bids, 50 asks, bid_volume=$16819537.56, ask_volume=$13534068.54
+2025-12-01 13:44:14 | INFO | bot | [ADAPTIVE_CLUSTER] SOLUSDT: 22min - POC=127.140000 (dist=0.02%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:14 | DEBUG | bot | [IMBALANCE] SOLUSDT: imb=11.3, hist=10.5, weighted=-9.6, effective=6.9, bayesian=BULLISH, trade_imb=20.0%
+2025-12-01 13:44:14 | INFO | bot | 🔍 [SIGNAL_DEBUG] SOLUSDT: 
+2025-12-01 13:44:14 | INFO | bot |    - Imbalance: 6.9 -> factor: 0.069
+2025-12-01 13:44:14 | INFO | bot |    - Momentum: 59.0 -> factor: 0.590
+2025-12-01 13:44:14 | INFO | bot |    - Bayesian: BULLISH -> factor: 0.460
+2025-12-01 13:44:14 | INFO | bot |    - Large Orders: STRONG_BUY -> factor: 0.800
+2025-12-01 13:44:14 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:44:14 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:14 | INFO | bot |    - Composite: 0.369, EMA: 0.305
+2025-12-01 13:44:14 | INFO | bot |    - Result: HOLD0, reason: weak_signal
+2025-12-01 13:44:14 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: imb=6.89, mom=58.99917104885984, vol=0.338
+2025-12-01 13:44:14 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: bayesian=BULLISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:14 | INFO | bot | [VOLATILITY_REAL] ADAUSDT: 3432 trades, range=0.469%, atr=0.002%, std=0.117%
+2025-12-01 13:44:14 | INFO | bot | [ADAPTIVE_MOMENTUM] ADAUSDT: combined=-82.6% windows=[22, 45, 90, 180]
+2025-12-01 13:44:14 | DEBUG | bot | [VWAP_CALC] 54 trades, total_quantity=58972.0, vwap=0.383208
+2025-12-01 13:44:14 | INFO | bot | [IMBALANCE_CALC] ADAUSDT: 50 bids, 50 asks, bid_volume=$3526997.44, ask_volume=$2866341.56
+2025-12-01 13:44:14 | INFO | bot | [ADAPTIVE_CLUSTER] ADAUSDT: 22min - POC=0.383500 (dist=0.09%), strength=1.00, supports=1, resistances=3
+2025-12-01 13:44:14 | DEBUG | bot | [IMBALANCE] ADAUSDT: imb=10.6, hist=11.1, weighted=-2.5, effective=7.8, bayesian=BEARISH, trade_imb=-96.0%
+2025-12-01 13:44:14 | INFO | bot | 🔍 [SIGNAL_DEBUG] ADAUSDT: 
+2025-12-01 13:44:14 | INFO | bot |    - Imbalance: 7.8 -> factor: 0.078
+2025-12-01 13:44:14 | INFO | bot |    - Momentum: -82.6 -> factor: -0.826
+2025-12-01 13:44:14 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:14 | INFO | bot |    - Large Orders: STRONG_BUY -> factor: 0.800
+2025-12-01 13:44:14 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:44:14 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:14 | INFO | bot |    - Composite: -0.018, EMA: 0.004
+2025-12-01 13:44:14 | INFO | bot |    - Result: HOLD0, reason: below_threshold
+2025-12-01 13:44:14 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: imb=7.83, mom=-82.6126879392056, vol=0.469
+2025-12-01 13:44:14 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:14 | INFO | bot | [VOLATILITY_REAL] DOGEUSDT: 7691 trades, range=0.395%, atr=0.001%, std=0.086%
+2025-12-01 13:44:14 | DEBUG | bot | [VWAP_CALC] 96 trades, total_quantity=343279.0, vwap=0.136797
+2025-12-01 13:44:14 | INFO | bot | [IMBALANCE_CALC] DOGEUSDT: 50 bids, 50 asks, bid_volume=$5214866.02, ask_volume=$4537727.72
+2025-12-01 13:44:14 | INFO | bot | [ADAPTIVE_CLUSTER] DOGEUSDT: 22min - POC=0.136800 (dist=0.03%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:14 | DEBUG | bot | [IMBALANCE] DOGEUSDT: imb=5.6, hist=3.5, weighted=68.0, effective=5.2, bayesian=NEUTRAL, trade_imb=-44.0%
+2025-12-01 13:44:14 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: imb=5.23, mom=-25.9956592762006, vol=0.395
+2025-12-01 13:44:14 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: bayesian=NEUTRAL, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:16 | INFO | bot | [VOLATILITY_REAL] AVAXUSDT: 2787 trades, range=0.493%, atr=0.001%, std=0.118%
+2025-12-01 13:44:16 | DEBUG | bot | [VWAP_CALC] 27 trades, total_quantity=195.5, vwap=12.950729
+2025-12-01 13:44:16 | INFO | bot | [IMBALANCE_CALC] AVAXUSDT: 50 bids, 50 asks, bid_volume=$694270.90, ask_volume=$617009.18
+2025-12-01 13:44:16 | INFO | bot | [ADAPTIVE_CLUSTER] AVAXUSDT: 22min - POC=12.975000 (dist=0.18%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:16 | DEBUG | bot | [IMBALANCE] AVAXUSDT: imb=7.2, hist=7.5, weighted=-24.1, effective=3.3, bayesian=NEUTRAL, trade_imb=-52.0%
+2025-12-01 13:44:16 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: imb=3.26, mom=14.033120922648797, vol=0.493
+2025-12-01 13:44:16 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: bayesian=NEUTRAL, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:16 | DEBUG | bot | [OHARA_FILTER] AVAXUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:16 | INFO | bot | [VOLATILITY_REAL] TRXUSDT: 794 trades, range=0.177%, atr=0.001%, std=0.036%
+2025-12-01 13:44:16 | DEBUG | bot | [VWAP_CALC] 7 trades, total_quantity=500.0, vwap=0.277329
+2025-12-01 13:44:16 | INFO | bot | [IMBALANCE_CALC] TRXUSDT: 50 bids, 50 asks, bid_volume=$323391.85, ask_volume=$323123.32
+2025-12-01 13:44:16 | INFO | bot | [ADAPTIVE_CLUSTER] TRXUSDT: 22min - POC=0.277100 (dist=-0.08%), strength=1.00, supports=3, resistances=1
+2025-12-01 13:44:16 | DEBUG | bot | [IMBALANCE] TRXUSDT: imb=2.8, hist=15.1, weighted=52.7, effective=4.2, bayesian=BEARISH, trade_imb=24.0%
+2025-12-01 13:44:16 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: imb=4.18, mom=14.112270593247928, vol=0.177
+2025-12-01 13:44:16 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: bayesian=BEARISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:16 | DEBUG | bot | [OHARA_FILTER] TRXUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:16 | INFO | bot | [VOLATILITY_REAL] HFTUSDT: 211 trades, range=0.905%, atr=0.019%, std=0.280%
+2025-12-01 13:44:16 | INFO | bot | [ADAPTIVE_MOMENTUM] HFTUSDT: combined=-57.2% windows=[22, 45, 90, 180]
+2025-12-01 13:44:16 | INFO | bot | [IMBALANCE_CALC] HFTUSDT: 50 bids, 50 asks, bid_volume=$26858.43, ask_volume=$19865.71
+2025-12-01 13:44:16 | INFO | bot | [ADAPTIVE_CLUSTER] HFTUSDT: 22min - POC=0.032000 (dist=0.33%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:16 | DEBUG | bot | [IMBALANCE] HFTUSDT: imb=16.0, hist=17.0, weighted=13.1, effective=10.8, bayesian=BEARISH, trade_imb=-28.0%
+2025-12-01 13:44:16 | INFO | bot | 🔍 [SIGNAL_DEBUG] HFTUSDT: 
+2025-12-01 13:44:16 | INFO | bot |    - Imbalance: 10.8 -> factor: 0.108
+2025-12-01 13:44:16 | INFO | bot |    - Momentum: -57.2 -> factor: -0.572
+2025-12-01 13:44:16 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:16 | INFO | bot |    - Large Orders: MEDIUM_SELL -> factor: -0.400
+2025-12-01 13:44:16 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:44:16 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:16 | INFO | bot |    - Composite: -0.006, EMA: 0.009
+2025-12-01 13:44:16 | INFO | bot |    - Result: HOLD0, reason: low_volume
+2025-12-01 13:44:16 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: imb=10.83, mom=-57.20622447325756, vol=0.905
+2025-12-01 13:44:16 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:16 | DEBUG | bot | [OHARA_FILTER] AVAXUSDT: O'Hara score too low (2/5)
+2025-12-01 13:44:18 | INFO | bot | [VOLATILITY_REAL] AAVEUSDT: 4702 trades, range=0.553%, atr=0.002%, std=0.105%
+2025-12-01 13:44:18 | INFO | bot | [ADAPTIVE_MOMENTUM] AAVEUSDT: combined=-73.3% windows=[22, 45, 90, 180]
+2025-12-01 13:44:18 | DEBUG | bot | [VWAP_CALC] 14 trades, total_quantity=2.79, vwap=168.141971
+2025-12-01 13:44:18 | INFO | bot | [IMBALANCE_CALC] AAVEUSDT: 50 bids, 50 asks, bid_volume=$454318.25, ask_volume=$334747.64
+2025-12-01 13:44:18 | INFO | bot | [ADAPTIVE_CLUSTER] AAVEUSDT: 22min - POC=168.200000 (dist=0.05%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:18 | DEBUG | bot | [IMBALANCE] AAVEUSDT: imb=14.6, hist=15.2, weighted=-10.9, effective=9.9, bayesian=BEARISH, trade_imb=-56.0%
+2025-12-01 13:44:18 | INFO | bot | 🔍 [SIGNAL_DEBUG] AAVEUSDT: 
+2025-12-01 13:44:18 | INFO | bot |    - Imbalance: 9.9 -> factor: 0.099
+2025-12-01 13:44:18 | INFO | bot |    - Momentum: -73.3 -> factor: -0.733
+2025-12-01 13:44:18 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.490
+2025-12-01 13:44:18 | INFO | bot |    - Large Orders: STRONG_SELL -> factor: -0.800
+2025-12-01 13:44:18 | INFO | bot |    - Frequency: VERY_LOW -> factor: -0.300
+2025-12-01 13:44:18 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:18 | INFO | bot |    - Composite: -0.189, EMA: -0.244
+2025-12-01 13:44:18 | DEBUG | bot | [OHARA_FILTER] AAVEUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:18 | INFO | bot |    - Result: HOLD0, reason: very_low_activity
+2025-12-01 13:44:18 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: imb=9.87, mom=-73.2719735272197, vol=0.553
+2025-12-01 13:44:18 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: bayesian=BEARISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:18 | DEBUG | bot | [OHARA_FILTER] AAVEUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:18 | INFO | bot | [VOLATILITY_REAL] STRKUSDT: 2353 trades, range=0.848%, atr=0.005%, std=0.211%
+2025-12-01 13:44:18 | DEBUG | bot | [ADAPTIVE_WINDOW] STRKUSDT: vol=0.211%, base=30s, adaptive=45s, multiplier=1.50
+2025-12-01 13:44:18 | DEBUG | bot | [ADAPTIVE_WINDOW] STRKUSDT: vol=0.211%, base=300s, adaptive=450s, multiplier=1.50
+2025-12-01 13:44:18 | INFO | bot | [IMBALANCE_CALC] STRKUSDT: 50 bids, 50 asks, bid_volume=$1041463.44, ask_volume=$885238.42
+2025-12-01 13:44:18 | INFO | bot | [ADAPTIVE_CLUSTER] STRKUSDT: 22min - POC=0.118200 (dist=0.30%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:18 | DEBUG | bot | [IMBALANCE] STRKUSDT: imb=8.3, hist=8.7, weighted=-14.0, effective=4.8, bayesian=BULLISH, trade_imb=96.0%
+2025-12-01 13:44:18 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: imb=4.85, mom=0.0, vol=0.848
+2025-12-01 13:44:18 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: bayesian=BULLISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:18 | DEBUG | bot | [OHARA_FILTER] STRKUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:20 | INFO | bot | [VOLATILITY_REAL] BTCUSDT: 33235 trades, range=0.273%, atr=0.000%, std=0.062%
+2025-12-01 13:44:20 | DEBUG | bot | [VWAP_CALC] 920 trades, total_quantity=61.478, vwap=86284.236563
+2025-12-01 13:44:20 | INFO | bot | [IMBALANCE_CALC] BTCUSDT: 50 bids, 50 asks, bid_volume=$1599436.86, ask_volume=$593529.73
+2025-12-01 13:44:20 | INFO | bot | [ADAPTIVE_CLUSTER] BTCUSDT: 22min - POC=86290.000000 (dist=0.03%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:20 | DEBUG | bot | [IMBALANCE] BTCUSDT: imb=-4.5, hist=-19.5, weighted=77.9, effective=-2.0, bayesian=BULLISH, trade_imb=-16.0%
+2025-12-01 13:44:20 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: imb=-2.05, mom=-12.423755301855202, vol=0.273
+2025-12-01 13:44:20 | DEBUG | bot | [SIGNAL_DEBUG] BTCUSDT: bayesian=BULLISH, freq=HIGH, vol_confirm=NEUTRAL
+2025-12-01 13:44:20 | INFO | bot | [VOLATILITY_REAL] ETHUSDT: 28585 trades, range=0.490%, atr=0.000%, std=0.078%
+2025-12-01 13:44:20 | DEBUG | bot | [VWAP_CALC] 327 trades, total_quantity=129.98, vwap=2837.899818
+2025-12-01 13:44:20 | INFO | bot | [IMBALANCE_CALC] ETHUSDT: 50 bids, 50 asks, bid_volume=$755219.83, ask_volume=$546259.99
+2025-12-01 13:44:20 | INFO | bot | [ADAPTIVE_CLUSTER] ETHUSDT: 22min - POC=2843.100000 (dist=0.18%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:20 | DEBUG | bot | [IMBALANCE] ETHUSDT: imb=11.7, hist=7.0, weighted=24.4, effective=10.6, bayesian=BEARISH, trade_imb=-8.0%
+2025-12-01 13:44:20 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: imb=10.64, mom=14.321733570263845, vol=0.49
+2025-12-01 13:44:20 | DEBUG | bot | [SIGNAL_DEBUG] ETHUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:20 | INFO | bot | [VOLATILITY_REAL] BNBUSDT: 1981 trades, range=0.400%, atr=0.002%, std=0.105%
+2025-12-01 13:44:20 | DEBUG | bot | [VWAP_CALC] 27 trades, total_quantity=4.73, vwap=823.832135
+2025-12-01 13:44:20 | INFO | bot | [IMBALANCE_CALC] BNBUSDT: 50 bids, 50 asks, bid_volume=$3388601.01, ask_volume=$2594994.77
+2025-12-01 13:44:20 | INFO | bot | [ADAPTIVE_CLUSTER] BNBUSDT: 22min - POC=823.600000 (dist=-0.01%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:20 | DEBUG | bot | [IMBALANCE] BNBUSDT: imb=12.5, hist=12.8, weighted=32.5, effective=10.2, bayesian=BEARISH, trade_imb=-20.0%
+2025-12-01 13:44:20 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: imb=10.25, mom=4.962291643800829, vol=0.4
+2025-12-01 13:44:20 | DEBUG | bot | [SIGNAL_DEBUG] BNBUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:22 | INFO | bot | [VOLATILITY_REAL] SOLUSDT: 7749 trades, range=0.338%, atr=0.001%, std=0.062%
+2025-12-01 13:44:22 | INFO | bot | [ADAPTIVE_MOMENTUM] SOLUSDT: combined=57.3% windows=[22, 45, 90, 180]
+2025-12-01 13:44:22 | DEBUG | bot | [VWAP_CALC] 55 trades, total_quantity=312.3, vwap=127.111556
+2025-12-01 13:44:22 | INFO | bot | [IMBALANCE_CALC] SOLUSDT: 50 bids, 50 asks, bid_volume=$16636518.37, ask_volume=$13492537.69
+2025-12-01 13:44:22 | INFO | bot | [ADAPTIVE_CLUSTER] SOLUSDT: 22min - POC=127.140000 (dist=0.03%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:22 | DEBUG | bot | [IMBALANCE] SOLUSDT: imb=11.0, hist=10.6, weighted=-10.5, effective=7.5, bayesian=BULLISH, trade_imb=16.0%
+2025-12-01 13:44:22 | INFO | bot | 🔍 [SIGNAL_DEBUG] SOLUSDT: 
+2025-12-01 13:44:22 | INFO | bot |    - Imbalance: 7.5 -> factor: 0.075
+2025-12-01 13:44:22 | INFO | bot |    - Momentum: 57.3 -> factor: 0.573
+2025-12-01 13:44:22 | INFO | bot |    - Bayesian: BULLISH -> factor: 0.490
+2025-12-01 13:44:22 | INFO | bot |    - Large Orders: STRONG_BUY -> factor: 0.800
+2025-12-01 13:44:22 | INFO | bot |    - Frequency: NORMAL -> factor: 0.000
+2025-12-01 13:44:22 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:22 | INFO | bot |    - Composite: 0.359, EMA: 0.342
+2025-12-01 13:44:22 | INFO | bot |    - Result: HOLD0, reason: weak_signal
+2025-12-01 13:44:22 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: imb=7.49, mom=57.334039087541655, vol=0.338
+2025-12-01 13:44:22 | DEBUG | bot | [SIGNAL_DEBUG] SOLUSDT: bayesian=BULLISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:22 | INFO | bot | [VOLATILITY_REAL] ADAUSDT: 3420 trades, range=0.469%, atr=0.002%, std=0.117%
+2025-12-01 13:44:22 | INFO | bot | [ADAPTIVE_MOMENTUM] ADAUSDT: combined=-45.3% windows=[22, 45, 90, 180]
+2025-12-01 13:44:22 | DEBUG | bot | [VWAP_CALC] 54 trades, total_quantity=58972.0, vwap=0.383208
+2025-12-01 13:44:22 | INFO | bot | [IMBALANCE_CALC] ADAUSDT: 50 bids, 50 asks, bid_volume=$3528845.78, ask_volume=$2864578.75
+2025-12-01 13:44:22 | INFO | bot | [ADAPTIVE_CLUSTER] ADAUSDT: 22min - POC=0.383500 (dist=0.09%), strength=1.00, supports=1, resistances=3
+2025-12-01 13:44:22 | DEBUG | bot | [IMBALANCE] ADAUSDT: imb=10.5, hist=11.0, weighted=-2.1, effective=7.8, bayesian=BEARISH, trade_imb=-96.0%
+2025-12-01 13:44:22 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: imb=7.79, mom=-45.259653396812546, vol=0.469
+2025-12-01 13:44:22 | DEBUG | bot | [SIGNAL_DEBUG] ADAUSDT: bayesian=BEARISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:22 | DEBUG | bot | [OHARA_FILTER] ADAUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:22 | INFO | bot | [VOLATILITY_REAL] DOGEUSDT: 7688 trades, range=0.395%, atr=0.001%, std=0.086%
+2025-12-01 13:44:22 | DEBUG | bot | [VWAP_CALC] 87 trades, total_quantity=143438.0, vwap=0.136775
+2025-12-01 13:44:22 | INFO | bot | [IMBALANCE_CALC] DOGEUSDT: 50 bids, 50 asks, bid_volume=$5132448.56, ask_volume=$4621521.79
+2025-12-01 13:44:22 | INFO | bot | [ADAPTIVE_CLUSTER] DOGEUSDT: 22min - POC=0.136800 (dist=0.01%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:22 | DEBUG | bot | [IMBALANCE] DOGEUSDT: imb=5.5, hist=3.7, weighted=40.0, effective=5.0, bayesian=BULLISH, trade_imb=24.0%
+2025-12-01 13:44:22 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: imb=4.95, mom=24.416076593312532, vol=0.395
+2025-12-01 13:44:22 | DEBUG | bot | [SIGNAL_DEBUG] DOGEUSDT: bayesian=BULLISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:24 | INFO | bot | [VOLATILITY_REAL] AVAXUSDT: 2784 trades, range=0.493%, atr=0.001%, std=0.118%
+2025-12-01 13:44:24 | INFO | bot | [ADAPTIVE_MOMENTUM] AVAXUSDT: combined=35.6% windows=[22, 45, 90, 180]
+2025-12-01 13:44:24 | DEBUG | bot | [VWAP_CALC] 15 trades, total_quantity=96.4, vwap=12.950555
+2025-12-01 13:44:24 | INFO | bot | [IMBALANCE_CALC] AVAXUSDT: 50 bids, 50 asks, bid_volume=$698970.15, ask_volume=$609599.03
+2025-12-01 13:44:24 | INFO | bot | [ADAPTIVE_CLUSTER] AVAXUSDT: 22min - POC=12.975000 (dist=0.18%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:24 | DEBUG | bot | [IMBALANCE] AVAXUSDT: imb=7.1, hist=7.4, weighted=-21.9, effective=3.1, bayesian=BULLISH, trade_imb=-52.0%
+2025-12-01 13:44:24 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: imb=3.15, mom=35.64386561436858, vol=0.493
+2025-12-01 13:44:24 | DEBUG | bot | [SIGNAL_DEBUG] AVAXUSDT: bayesian=BULLISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:24 | DEBUG | bot | [OHARA_FILTER] AVAXUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:24 | INFO | bot | [VOLATILITY_REAL] TRXUSDT: 789 trades, range=0.177%, atr=0.001%, std=0.036%
+2025-12-01 13:44:24 | DEBUG | bot | [ADAPTIVE_WINDOW] TRXUSDT: vol=0.036%, base=15s, adaptive=22s, multiplier=1.50
+2025-12-01 13:44:24 | DEBUG | bot | [ADAPTIVE_WINDOW] TRXUSDT: vol=0.036%, base=60s, adaptive=90s, multiplier=1.50
+2025-12-01 13:44:24 | DEBUG | bot | [ADAPTIVE_WINDOW] TRXUSDT: vol=0.036%, base=120s, adaptive=180s, multiplier=1.50
+2025-12-01 13:44:24 | DEBUG | bot | [VWAP_CALC] 9 trades, total_quantity=680.0, vwap=0.277329
+2025-12-01 13:44:24 | INFO | bot | [IMBALANCE_CALC] TRXUSDT: 50 bids, 50 asks, bid_volume=$318020.80, ask_volume=$319083.31
+2025-12-01 13:44:24 | INFO | bot | [ADAPTIVE_CLUSTER] TRXUSDT: 22min - POC=0.277100 (dist=-0.08%), strength=1.00, supports=3, resistances=1
+2025-12-01 13:44:24 | DEBUG | bot | [IMBALANCE] TRXUSDT: imb=3.7, hist=13.7, weighted=30.3, effective=2.3, bayesian=NEUTRAL, trade_imb=24.0%
+2025-12-01 13:44:24 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: imb=2.29, mom=12.831096825189233, vol=0.177
+2025-12-01 13:44:24 | DEBUG | bot | [SIGNAL_DEBUG] TRXUSDT: bayesian=NEUTRAL, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:24 | DEBUG | bot | [VOL_FILTER] TRXUSDT filtered: 0.177% < 0.25%
+2025-12-01 13:44:24 | INFO | bot | [VOLATILITY_REAL] HFTUSDT: 236 trades, range=1.062%, atr=0.018%, std=0.315%
+2025-12-01 13:44:24 | INFO | bot | [ADAPTIVE_MOMENTUM] HFTUSDT: combined=-86.9% windows=[22, 45, 90, 180]
+2025-12-01 13:44:24 | DEBUG | bot | [VWAP_CALC] 28 trades, total_quantity=56187.0, vwap=0.031861
+2025-12-01 13:44:24 | INFO | bot | [IMBALANCE_CALC] HFTUSDT: 50 bids, 50 asks, bid_volume=$25454.37, ask_volume=$20628.95
+2025-12-01 13:44:24 | INFO | bot | [ADAPTIVE_CLUSTER] HFTUSDT: 22min - POC=0.031900 (dist=-0.05%), strength=1.00, supports=2, resistances=3
+2025-12-01 13:44:24 | DEBUG | bot | [IMBALANCE] HFTUSDT: imb=41.2, hist=18.5, weighted=17.4, effective=21.2, bayesian=BEARISH, trade_imb=-24.0%
+2025-12-01 13:44:24 | INFO | bot | 🔍 [SIGNAL_DEBUG] HFTUSDT: 
+2025-12-01 13:44:24 | INFO | bot |    - Imbalance: 21.2 -> factor: 0.212
+2025-12-01 13:44:24 | INFO | bot |    - Momentum: -86.9 -> factor: -0.869
+2025-12-01 13:44:24 | INFO | bot |    - Bayesian: BEARISH -> factor: -0.480
+2025-12-01 13:44:24 | INFO | bot |    - Large Orders: STRONG_SELL -> factor: -0.800
+2025-12-01 13:44:24 | INFO | bot |    - Frequency: VERY_HIGH -> factor: -0.500
+2025-12-01 13:44:24 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:24 | INFO | bot |    - Composite: -0.133, EMA: -0.051
+2025-12-01 13:44:24 | DEBUG | bot | [OHARA_FILTER] HFTUSDT: VERY_HIGH activity - avoiding trade
+2025-12-01 13:44:24 | INFO | bot |    - Result: HOLD0, reason: very_high_activity
+2025-12-01 13:44:24 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: imb=21.24, mom=-86.92305411268745, vol=1.062
+2025-12-01 13:44:24 | DEBUG | bot | [SIGNAL_DEBUG] HFTUSDT: bayesian=BEARISH, freq=VERY_HIGH, vol_confirm=NEUTRAL
+2025-12-01 13:44:24 | DEBUG | bot | [OHARA_FILTER] HFTUSDT: VERY_HIGH activity - avoiding trade
+2025-12-01 13:44:24 | DEBUG | bot | [OHARA_FILTER] AVAXUSDT: O'Hara score too low (4/5)
+2025-12-01 13:44:26 | INFO | bot | [VOLATILITY_REAL] AAVEUSDT: 4724 trades, range=0.553%, atr=0.002%, std=0.104%
+2025-12-01 13:44:26 | DEBUG | bot | [VWAP_CALC] 39 trades, total_quantity=14.27, vwap=168.079229
+2025-12-01 13:44:26 | INFO | bot | [IMBALANCE_CALC] AAVEUSDT: 50 bids, 50 asks, bid_volume=$492889.38, ask_volume=$331316.48
+2025-12-01 13:44:26 | INFO | bot | [ADAPTIVE_CLUSTER] AAVEUSDT: 22min - POC=168.200000 (dist=0.07%), strength=1.00, supports=0, resistances=3
+2025-12-01 13:44:26 | DEBUG | bot | [IMBALANCE] AAVEUSDT: imb=16.1, hist=15.2, weighted=-25.7, effective=11.0, bayesian=BEARISH, trade_imb=-76.0%
+2025-12-01 13:44:26 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: imb=10.97, mom=-24.926254269481582, vol=0.553
+2025-12-01 13:44:26 | DEBUG | bot | [SIGNAL_DEBUG] AAVEUSDT: bayesian=BEARISH, freq=NORMAL, vol_confirm=NEUTRAL
+2025-12-01 13:44:26 | INFO | bot | [VOLATILITY_REAL] STRKUSDT: 2345 trades, range=0.848%, atr=0.005%, std=0.211%
+2025-12-01 13:44:26 | INFO | bot | [ADAPTIVE_MOMENTUM] STRKUSDT: combined=53.5% windows=[22, 45, 90, 180]
+2025-12-01 13:44:26 | DEBUG | bot | [VWAP_CALC] 6 trades, total_quantity=19459.0, vwap=0.117899
+2025-12-01 13:44:26 | INFO | bot | [IMBALANCE_CALC] STRKUSDT: 50 bids, 50 asks, bid_volume=$1047553.25, ask_volume=$889564.72
+2025-12-01 13:44:26 | INFO | bot | [ADAPTIVE_CLUSTER] STRKUSDT: 22min - POC=0.118200 (dist=0.30%), strength=1.00, supports=3, resistances=3
+2025-12-01 13:44:26 | DEBUG | bot | [IMBALANCE] STRKUSDT: imb=8.2, hist=8.7, weighted=-17.0, effective=4.7, bayesian=BULLISH, trade_imb=88.0%
+2025-12-01 13:44:26 | INFO | bot | 🔍 [SIGNAL_DEBUG] STRKUSDT: 
+2025-12-01 13:44:26 | INFO | bot |    - Imbalance: 4.7 -> factor: 0.047
+2025-12-01 13:44:26 | INFO | bot |    - Momentum: 53.5 -> factor: 0.535
+2025-12-01 13:44:26 | INFO | bot |    - Bayesian: BULLISH -> factor: 0.490
+2025-12-01 13:44:26 | INFO | bot |    - Large Orders: STRONG_SELL -> factor: -0.800
+2025-12-01 13:44:26 | INFO | bot |    - Frequency: VERY_LOW -> factor: -0.300
+2025-12-01 13:44:26 | INFO | bot |    - Vol Confirm: NEUTRAL -> factor: 0.000
+2025-12-01 13:44:26 | INFO | bot |    - Composite: 0.016, EMA: 0.011
+2025-12-01 13:44:26 | DEBUG | bot | [OHARA_FILTER] STRKUSDT: VERY_LOW activity - low liquidity
+2025-12-01 13:44:26 | INFO | bot |    - Result: HOLD0, reason: very_low_activity
+2025-12-01 13:44:26 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: imb=4.73, mom=53.52212446581704, vol=0.848
+2025-12-01 13:44:26 | DEBUG | bot | [SIGNAL_DEBUG] STRKUSDT: bayesian=BULLISH, freq=VERY_LOW, vol_confirm=NEUTRAL
+2025-12-01 13:44:26 | DEBUG | bot | [OHARA_FILTER] STRKUSDT: VERY_LOW activity - low liquidity

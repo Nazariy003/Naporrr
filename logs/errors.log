@@ -1,2 +1,1 @@
-2025-11-20 19:21:43 | ERROR | bot | [API] Error: order not exists or too late to replace (code: 110001)
-2025-11-20 21:39:42 | ERROR | bot | [API] Error: order not exists or too late to replace (code: 110001)
+2025-12-01 13:06:29 | ERROR | bot | [PUBLIC_WS] Error (attempt 1): sent 1011 (internal error) keepalive ping timeout; no close frame received
