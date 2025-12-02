@@ -556,11 +556,35 @@ class SignalGenerator:
         
         # 🆕 ВИПРАВЛЕННЯ 1: Фільтр пізнього входу (Late Entry Filter)
         if self.cfg.enable_exhaustion_filter:
-            # Якщо моментум екстремальний але імбаланс слабкий = пропустили рух
+            # Перевірка 1: Екстремальний моментум + слабкий імбаланс
             if abs(momentum_score) > self.cfg.max_momentum_for_entry:
                 if abs(imbalance_score) < self.cfg.min_imbalance_for_high_momentum:
                     logger.debug(f"[LATE_ENTRY] {action}: mom={momentum_score:.0f}, imb={imbalance_score:.0f}")
                     return "late_entry"
+            
+            # 🆕 ДОДАТИ: Дозволити реверсні сигнали
+            if abs(momentum_score) > 60:
+                # Якщо моментум і імбаланс мають ПРОТИЛЕЖНІ знаки
+                momentum_direction = 1 if momentum_score > 0 else -1
+                imbalance_direction = 1 if imbalance_score > 0 else -1
+                
+                if momentum_direction != imbalance_direction:
+                    # Це МОЖЛИВИЙ розворот
+                    # Перевіряємо чи є підтвердження від Large Orders
+                    informed_direction = raw_values.get("informed_direction", "NEUTRAL")
+                    
+                    # Якщо Large Orders підтверджують імбаланс (не моментум) = дозволяємо
+                    if action == "BUY" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
+                        logger.info(f"[REVERSAL_ALLOWED] BUY: mom={momentum_score:.0f}, imb={imbalance_score:.0f}, large_orders={informed_direction}")
+                        return "ok"  # Дозволяємо вхід на розворот
+                    elif action == "SELL" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
+                        logger.info(f"[REVERSAL_ALLOWED] SELL: mom={momentum_score:.0f}, imb={imbalance_score:.0f}, large_orders={informed_direction}")
+                        return "ok"
+
+            # 🆕 ДОДАТИ: Перевірка 2: Екстремальний моментум навіть з сильним імбалансом
+            if abs(momentum_score) > 85:  # Якщо mom > 85%, це занадто пізно незалежно від імбалансу
+                logger.debug(f"[EXTREME_LATE_ENTRY] {action}: mom={momentum_score:.0f} too extreme")
+                return "extreme_momentum"
             
             # 🆕 ВИПРАВЛЕННЯ 2: Суперечність між моментумом і імбалансом
             if action == "BUY":
