@@ -88,7 +88,7 @@ class TradingSettings(BaseSettings):
     enable_parallel_monitoring: bool = True
     monitoring_batch_size: int = 5
     
-    reverse_signals: bool = True
+    reverse_signals: bool = False  # ✅ ВИПРАВЛЕНО: використовуємо правильну логіку імбалансу
     reverse_double_size: bool = False
     
     enable_aggressive_filtering: bool = True
@@ -250,23 +250,25 @@ class AdaptiveSettings(BaseSettings):
 
 class SignalSettings(BaseSettings):
     """Налаштування генерації сигналів"""
-    weight_imbalance: float = 0.3  # Зменшено з 0.4
-    weight_momentum: float = 0.25  # Зменшено з 0.4
-    weight_ohara_bayesian: float = 0.15  # 🆕 O'Hara Bayesian
-    weight_ohara_large_orders: float = 0.15  # 🆕 O'Hara Large Orders
-    weight_ohara_frequency: float = 0.075  # 🆕 O'Hara Frequency
-    weight_ohara_volume_confirm: float = 0.075  # 🆕 O'Hara Volume Confirm
+    # ✅ ВИПРАВЛЕНО: Більша вага на імбаланс (leading indicator)
+    weight_imbalance: float = 0.40           # Було 0.30
+    weight_momentum: float = 0.20            # Було 0.25
+    weight_ohara_bayesian: float = 0.12      # Було 0.15
+    weight_ohara_large_orders: float = 0.15
+    weight_ohara_frequency: float = 0.065    # Було 0.075
+    weight_ohara_volume_confirm: float = 0.065  # Було 0.075
     spike_bonus: float = 0.1
     
     smoothing_alpha: float = 0.4
     hold_threshold: float = 0.12
     
+    # ✅ ВИПРАВЛЕНО: Вищі пороги для раніших входів
     composite_thresholds: dict = {
         "strength_1": 0.15,
-        "strength_2": 0.25,
-        "strength_3": 0.40,
-        "strength_4": 0.60,
-        "strength_5": 0.75
+        "strength_2": 0.30,  # Було 0.25
+        "strength_3": 0.45,  # Було 0.40
+        "strength_4": 0.65,  # Було 0.60 ← Важливо! 
+        "strength_5": 0.80   # Було 0.75
     }
     
     min_strength_for_action: int = 3
@@ -275,13 +277,18 @@ class SignalSettings(BaseSettings):
     
     allow_reversal_during_cooldown: bool = True
     require_signal_consistency: bool = True
-    max_imbalance_contradiction: float = 30.0
+    max_imbalance_contradiction: float = 20.0  # ✅ ВИПРАВЛЕНО: Було 30.0
     
     enable_volume_validation: bool = True
     min_short_volume_for_signal: float = 1000.0
     min_trades_for_signal: int = 10
     
     volatility_filter_threshold: float = 0.25
+    
+    # 🆕 ДОДАНО: Фільтри для запобігання пізньому входу
+    enable_exhaustion_filter: bool = True
+    max_momentum_for_entry: float = 70.0  # Не входимо якщо momentum > 70%
+    min_imbalance_for_high_momentum: float = 15.0  # При mom>60 треба imb>15
 
 class SpreadSettings(BaseSettings):
     """🆕 O'HARA METHOD 7: Spread as Risk Measure"""
@@ -316,11 +323,11 @@ class OHaraSettings(BaseSettings):
     large_order_min_count_medium: int = 2  # 2 великих = середній сигнал
     large_order_net_threshold: int = 2  # Різниця buy/sell >= 2
     
-    # METHOD 3: Trade Frequency (див. VolumeSettings)
+    # METHOD 3: Trade Frequency (див.VolumeSettings)
     # METHOD 4: Buy/Sell Imbalance (вже в ImbalanceSettings)
-    # METHOD 5: Volume Confirmation (див. VolumeSettings)
+    # METHOD 5: Volume Confirmation (див.VolumeSettings)
     
-    # METHOD 7: Spread Risk (див. SpreadSettings)
+    # METHOD 7: Spread Risk (див.SpreadSettings)
     
     # Combined Signal Scoring
     enable_combined_ohara_score: bool = True

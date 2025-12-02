@@ -510,13 +510,13 @@ class SignalGenerator:
         strength = 0
         composite_thresholds = self.cfg.composite_thresholds
         
-        if abs_score >= composite_thresholds.get("strength_5", 0.75):
+        if abs_score >= composite_thresholds.get("strength_5", 0.80):
             strength = 5
-        elif abs_score >= composite_thresholds.get("strength_4", 0.60):
+        elif abs_score >= composite_thresholds.get("strength_4", 0.65):
             strength = 4
-        elif abs_score >= composite_thresholds.get("strength_3", 0.40):
+        elif abs_score >= composite_thresholds.get("strength_3", 0.45):
             strength = 3
-        elif abs_score >= composite_thresholds.get("strength_2", 0.25):
+        elif abs_score >= composite_thresholds.get("strength_2", 0.30):
             strength = 2
         elif abs_score >= composite_thresholds.get("strength_1", 0.15):
             strength = 1
@@ -548,11 +548,29 @@ class SignalGenerator:
         return "ok"
 
     def _validate_signal_quality(self, action: str, strength: int, raw_values: Dict) -> str:
-        """Перевірка якості сигналів з O'Hara"""
+        """✅ ВИПРАВЛЕНО: Перевірка якості сигналів з O'Hara + фільтр пізнього входу"""
         large_net = raw_values.get("large_net", 0)
         support_ratio = raw_values.get("support_ratio", 0.5)
         momentum_score = raw_values.get("momentum_score", 0)
         imbalance_score = raw_values.get("imbalance_score", 0)
+        
+        # 🆕 ВИПРАВЛЕННЯ 1: Фільтр пізнього входу (Late Entry Filter)
+        if self.cfg.enable_exhaustion_filter:
+            # Якщо моментум екстремальний але імбаланс слабкий = пропустили рух
+            if abs(momentum_score) > self.cfg.max_momentum_for_entry:
+                if abs(imbalance_score) < self.cfg.min_imbalance_for_high_momentum:
+                    logger.debug(f"[LATE_ENTRY] {action}: mom={momentum_score:.0f}, imb={imbalance_score:.0f}")
+                    return "late_entry"
+            
+            # 🆕 ВИПРАВЛЕННЯ 2: Суперечність між моментумом і імбалансом
+            if action == "BUY":
+                if momentum_score > 60 and imbalance_score < -5:
+                    logger.debug(f"[CONTRADICTORY] BUY: mom={momentum_score:.0f}, imb={imbalance_score:.0f}")
+                    return "contradictory_momentum_imbalance"
+            elif action == "SELL":
+                if momentum_score < -60 and imbalance_score > 5:
+                    logger.debug(f"[CONTRADICTORY] SELL: mom={momentum_score:0f}, imb={imbalance_score:.0f}")
+                    return "contradictory_momentum_imbalance"
         
         # 🆕 O'HARA VALIDATION: Large orders consistency
         informed_direction = raw_values.get("informed_direction", "NEUTRAL")
