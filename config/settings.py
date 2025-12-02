@@ -251,8 +251,8 @@ class AdaptiveSettings(BaseSettings):
 class SignalSettings(BaseSettings):
     """Налаштування генерації сигналів"""
     # ✅ ВИПРАВЛЕНО: Більша вага на імбаланс (leading indicator)
-    weight_imbalance: float = 0.40           # Було 0.30
-    weight_momentum: float = 0.20            # Було 0.25
+    weight_imbalance: float = 0.45           # Було 0.30
+    weight_momentum: float = 0.15            # Було 0.25
     weight_ohara_bayesian: float = 0.12      # Було 0.15
     weight_ohara_large_orders: float = 0.15
     weight_ohara_frequency: float = 0.065    # Було 0.075
