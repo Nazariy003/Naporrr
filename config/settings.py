@@ -251,24 +251,24 @@ class AdaptiveSettings(BaseSettings):
 class SignalSettings(BaseSettings):
     """Налаштування генерації сигналів"""
     # ✅ ВИПРАВЛЕНО: Більша вага на імбаланс (leading indicator)
-    weight_imbalance: float = 0.45           # Було 0.30
     weight_momentum: float = 0.15            # Було 0.25
     weight_ohara_bayesian: float = 0.12      # Було 0.15
-    weight_ohara_large_orders: float = 0.15
+    weight_ohara_large_orders: float = 0.10  # Було 0.15 ✅
+    weight_imbalance: float = 0.50           # Було 0.45 ✅
     weight_ohara_frequency: float = 0.065    # Було 0.075
     weight_ohara_volume_confirm: float = 0.065  # Було 0.075
     spike_bonus: float = 0.1
     
-    smoothing_alpha: float = 0.4
+    smoothing_alpha: float = 0.6  # Було 0.4 
     hold_threshold: float = 0.12
     
     # ✅ ВИПРАВЛЕНО: Вищі пороги для раніших входів
     composite_thresholds: dict = {
-        "strength_1": 0.15,
-        "strength_2": 0.30,  # Було 0.25
-        "strength_3": 0.45,  # Було 0.40
-        "strength_4": 0.65,  # Було 0.60 ← Важливо! 
-        "strength_5": 0.80   # Було 0.75
+        "strength_1": 0.12,  # Було 0.15 ✅
+        "strength_2": 0.25,  # Було 0.30 ✅
+        "strength_3": 0.35,  # Було 0.45 ✅
+        "strength_4": 0.50,  # Було 0.65 ✅
+        "strength_5": 0.70   # Було 0.80 ✅
     }
     
     min_strength_for_action: int = 3
@@ -331,7 +331,7 @@ class OHaraSettings(BaseSettings):
     
     # Combined Signal Scoring
     enable_combined_ohara_score: bool = True
-    min_ohara_score_for_trade: int = 5  # Мінімум 5 балів з усіх методів
+    min_ohara_score_for_trade: int = 4  # Було 5 ✅
     strong_ohara_score_threshold: int = 8  # 8+ балів = дуже сильний сигнал
 
 class Settings(BaseSettings):

@@ -5,6 +5,7 @@ from typing import Dict, Any, Tuple
 from collections import deque
 from config.settings import settings
 from utils.logger import logger
+from utils.signal_logger import signal_logger
 
 class SignalQualityMonitor:
     def __init__(self):
@@ -210,8 +211,8 @@ class SignalGenerator:
 
         logger.debug(f"[SIGNAL_DEBUG] {symbol}: imb={imb_score}, mom={mom_score}, vol={volatility}")
         logger.debug(f"[SIGNAL_DEBUG] {symbol}: bayesian={bayesian_data.get('signal')}, "
-                     f"freq={frequency_data.get('activity_level')}, "
-                     f"vol_confirm={volume_confirm.get('confirmation')}")
+                    f"freq={frequency_data.get('activity_level')}, "
+                    f"vol_confirm={volume_confirm.get('confirmation')}")
 
         factors = self._calculate_all_factors(
             imb_score, mom_score, tape_analysis, depth_analysis,
@@ -232,6 +233,31 @@ class SignalGenerator:
         result = self._create_signal_response(
             symbol, action, strength, ema_score, composite_score, factors, reason
         )
+        
+        # ✅ ДОДАТИ ЦЕЙ БЛОК ПЕРЕД return result:
+        # Логуємо сигнал в CSV
+        try:
+            raw_values = factors.get("raw_values", {})
+            signal_logger.log_signal(
+                symbol=symbol,
+                action=result["action"],
+                strength=result["strength"],
+                composite=composite_score,
+                ema=ema_score,
+                imbalance=raw_values.get("imbalance_score", 0.0),
+                momentum=raw_values.get("momentum_score", 0.0),
+                bayesian=raw_values.get("bayesian_signal", "NEUTRAL"),
+                large_orders=raw_values.get("informed_direction", "NEUTRAL"),
+                frequency=raw_values.get("activity_level", "UNKNOWN"),
+                vol_confirm=raw_values.get("vol_confirmation", "UNKNOWN"),
+                ohara_score=result.get("ohara_score", 0),
+                reason=result.get("reason", "ok"),
+                accepted=(result["strength"] >= self.cfg.min_strength_for_action)
+            )
+        except Exception as e:
+            logger.warning(f"[SIGNAL_LOGGER] Failed to log signal for {symbol}: {e}")
+        # ✅ КІНЕЦЬ ДОДАВАННЯ
+        
         self._log_signal_generation(symbol, result, factors)
         return result
 
@@ -641,7 +667,7 @@ class SignalGenerator:
         now = time.time()
         st = self._state.get(symbol, {})
         
-        return {
+        result = {
             "symbol": symbol,
             "action": "HOLD",
             "strength": 0,
@@ -659,6 +685,30 @@ class SignalGenerator:
             "factors": {},
             "ohara_score": 0
         }
+        
+        # ✅ ДОДАТИ ЛОГУВАННЯ:
+        try:
+            signal_logger.log_signal(
+                symbol=symbol,
+                action="HOLD",
+                strength=0,
+                composite=0.0,
+                ema=0.0,
+                imbalance=0.0,
+                momentum=0.0,
+                bayesian="NEUTRAL",
+                large_orders="NEUTRAL",
+                frequency="UNKNOWN",
+                vol_confirm="UNKNOWN",
+                ohara_score=0,
+                reason=reason,
+                accepted=False
+            )
+        except Exception as e:
+            logger.warning(f"[SIGNAL_LOGGER] Failed to log HOLD signal for {symbol}: {e}")
+        # ✅ КІНЕЦЬ ДОДАВАННЯ
+        
+        return result
 
     def _create_cooldown_response(self, symbol: str, action: str, strength: int, 
                                 ema_score: float, factors: Dict) -> Dict[str, Any]:
