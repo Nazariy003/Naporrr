@@ -88,7 +88,7 @@ class TradingSettings(BaseSettings):
     enable_parallel_monitoring: bool = True
     monitoring_batch_size: int = 5
     
-    reverse_signals: bool = False  # ✅ ВИПРАВЛЕНО: використовуємо правильну логіку імбалансу
+    reverse_signals: bool = False
     reverse_double_size: bool = False
     
     enable_aggressive_filtering: bool = True
@@ -195,7 +195,16 @@ class ImbalanceSettings(BaseSettings):
     depth_limit_for_calc: int = 50
     min_volume_epsilon: float = 1e-9
     large_order_side_percent: float = 0.05
-    large_order_min_notional_abs: float = 500.0
+    
+    # ✅ АДАПТИВНЕ ВИЗНАЧЕННЯ ВЕЛИКИХ ОРДЕРІВ (Z-Score метод)
+    enable_adaptive_large_orders: bool = True
+    large_order_zscore_threshold: float = 2.0  # >2.0 стандартних відхилень = великий ордер
+    large_order_lookback_periods: int = 100  # Кількість періодів для розрахунку статистики
+    large_order_min_samples: int = 20  # Мінімум семплів для початку аналізу
+    
+    # Fallback якщо адаптивний метод вимкнено (для зворотної сумісності)
+    large_order_min_notional_abs: float = 500.0  # Використовується тільки якщо enable_adaptive_large_orders = False
+    
     spoof_lifetime_ms: int = 3000
     
     enable_spoof_filter: bool = True
@@ -218,24 +227,44 @@ class VolumeSettings(BaseSettings):
     momentum_windows: list = [15, 30, 60, 120]
     momentum_weights: list = [0.4, 0.3, 0.2, 0.1]
     
+    # ✅ АДАПТИВНИЙ АНАЛІЗ ОБСЯГІВ (Z-Score + Percentile + EMA)
+    enable_adaptive_volume_analysis: bool = True
+    volume_zscore_threshold_high: float = 2.0  # >2.0σ = високий обсяг
+    volume_zscore_threshold_very_high: float = 3.0  # >3.0σ = дуже високий
+    volume_zscore_threshold_low: float = -1.0  # <-1.0σ = низький обсяг
+    volume_lookback_periods: int = 96  # 24 години при 15-хв свічках
+    volume_min_samples: int = 20  # Мінімум для розрахунку
+    
+    # Percentile метод (альтернатива Z-Score)
+    enable_percentile_method: bool = True
+    volume_percentile_very_high: float = 95.0  # Топ 5% = дуже високий
+    volume_percentile_high: float = 75.0  # Топ 25% = високий
+    volume_percentile_low: float = 25.0  # Низ 25% = низький
+    
+    # EMA-based (швидкий метод)
+    enable_ema_volume_analysis: bool = True
+    ema_fast_period: int = 20
+    ema_slow_period: int = 100
+    ema_ratio_high: float = 2.0  # >2x від EMA = високий
+    ema_ratio_very_high: float = 3.0  # >3x від EMA = дуже високий
+    
     # 🆕 O'HARA METHOD 3: Trade Frequency Analysis
     enable_trade_frequency_analysis: bool = True
-    frequency_baseline_window_sec: int = 300  # 5 хвилин для baseline
-    frequency_very_high_multiplier: float = 5.0  # >5x від baseline = VERY_HIGH
-    frequency_high_multiplier: float = 2.5  # >2.5x від baseline = HIGH
-    frequency_very_low_multiplier: float = 0.3  # <0.3x від baseline = VERY_LOW
+    frequency_baseline_window_sec: int = 300
+    frequency_very_high_multiplier: float = 5.0
+    frequency_high_multiplier: float = 2.5
+    frequency_very_low_multiplier: float = 0.3
     
-    # 🆕 O'HARA METHOD 5: Volume Confirmation
+    # 🆕 O'HARA METHOD 5: Volume Confirmation (АДАПТИВНО)
     enable_volume_confirmation: bool = True
-    volume_baseline_window_sec: int = 86400  # 24 години для baseline
-    volume_confirmation_multiplier: float = 2.0  # Обсяг повинен бути >2x від середнього
-    volume_weak_threshold: float = 0.8  # <0.8x від середнього = слабкий рух
+    volume_baseline_window_sec: int = 86400  # 24 години
+    volume_confirmation_zscore: float = 1.5  # >1.5σ = підтверджений рух
+    volume_weak_zscore: float = -0.5  # <-0.5σ = слабкий рух
     
-    # 🆕 O'HARA METHOD 2: Large Order Tracking (Enhanced)
+    # 🆕 O'HARA METHOD 2: Large Order Tracking (АДАПТИВНО)
     enable_large_order_tracker: bool = True
-    large_order_lookback_sec: int = 600  # 10 хвилин історії
-    large_order_significance_multiplier: float = 5.0  # >5x від середнього = великий
-    large_order_strong_threshold: int = 3  # 3+ великих ордера = сильний сигнал
+    large_order_lookback_sec: int = 600
+    large_order_strong_threshold: int = 3  # 3+ великих = сильний сигнал
 
 class AdaptiveSettings(BaseSettings):
     """Налаштування адаптивних механізмів"""
@@ -250,23 +279,22 @@ class AdaptiveSettings(BaseSettings):
 
 class SignalSettings(BaseSettings):
     """Налаштування генерації сигналів"""
-    # ✅ ВИПРАВЛЕНО: Більша вага на імбаланс (leading indicator)
-    weight_momentum: float = 0.15            # Було 0.25
-    weight_ohara_bayesian: float = 0.12      # Було 0.15
-    weight_ohara_large_orders: float = 0.10  # Було 0.15 ✅
-    weight_imbalance: float = 0.50           # Було 0.45 ✅
-    weight_ohara_frequency: float = 0.065    # Було 0.075
-    weight_ohara_volume_confirm: float = 0.065  # Було 0.075
+    weight_momentum: float = 0.15
+    weight_ohara_bayesian: float = 0.12
+    weight_ohara_large_orders: float = 0.10
+    weight_imbalance: float = 0.50
+    weight_ohara_frequency: float = 0.065
+    weight_ohara_volume_confirm: float = 0.065
     spike_bonus: float = 0.1
     
-    smoothing_alpha: float = 0.6  # Було 0.4 
+    smoothing_alpha: float = 0.6
     hold_threshold: float = 0.12
     
     # Composite score thresholds
     composite_thresholds: dict = {
         "strength_1": 0.15,
         "strength_2": 0.30,
-        "strength_3": 0.45,  # Мінімум для BUY/SELL
+        "strength_3": 0.45,
         "strength_4": 0.65,
         "strength_5": 0.80
     }
@@ -275,22 +303,22 @@ class SignalSettings(BaseSettings):
     
     # 🆕 EARLY ENTRY PARAMETERS
     early_entry_enabled: bool = True
-    early_entry_momentum_threshold: float = 40.0    # Max momentum для раннього входу
-    early_entry_volatility_threshold: float = 0.3   # Min волатильність
-    early_entry_ohara_threshold: int = 6            # Min O'Hara score
-    early_entry_imbalance_threshold: float = 35.0   # Min імбаланс
-    early_entry_threshold_multiplier: float = 0.72  # Множник для зниження порогу (0.35 * 0.72 = 0.25)
+    early_entry_momentum_threshold: float = 40.0
+    early_entry_volatility_threshold: float = 0.3
+    early_entry_ohara_threshold: int = 6
+    early_entry_imbalance_threshold: float = 35.0
+    early_entry_threshold_multiplier: float = 0.72
     
     # 🆕 CONTRADICTORY LARGE ORDERS OVERRIDE
     allow_override_contradictory_orders: bool = True
-    override_imbalance_threshold: float = 40.0      # Min імбаланс для override
-    override_momentum_threshold: float = 50.0       # Max momentum для override
+    override_imbalance_threshold: float = 40.0
+    override_momentum_threshold: float = 50.0
     strong_cooldown_level: int = 3
     cooldown_seconds: float = 180.0
     
     allow_reversal_during_cooldown: bool = True
     require_signal_consistency: bool = True
-    max_imbalance_contradiction: float = 20.0  # ✅ ВИПРАВЛЕНО: Було 30.0
+    max_imbalance_contradiction: float = 20.0
     
     enable_volume_validation: bool = True
     min_short_volume_for_signal: float = 1000.0
@@ -298,54 +326,41 @@ class SignalSettings(BaseSettings):
     
     volatility_filter_threshold: float = 0.25
     
-    # 🆕 ДОДАНО: Фільтри для запобігання пізньому входу
     enable_exhaustion_filter: bool = True
-    max_momentum_for_entry: float = 70.0  # Не входимо якщо momentum > 70%
-    min_imbalance_for_high_momentum: float = 15.0  # При mom>60 треба imb>15
+    max_momentum_for_entry: float = 70.0
+    min_imbalance_for_high_momentum: float = 15.0
 
 class SpreadSettings(BaseSettings):
     """🆕 O'HARA METHOD 7: Spread as Risk Measure"""
     enable_spread_monitor: bool = True
     
-    # Базові пороги spread (в basis points)
     max_spread_threshold_bps: float = 20.0
-    high_risk_spread_multiplier: float = 3.0  # >3x від середнього = HIGH_RISK
-    very_high_risk_spread_multiplier: float = 5.0  # >5x = VERY_HIGH_RISK
+    high_risk_spread_multiplier: float = 3.0
+    very_high_risk_spread_multiplier: float = 5.0
     
-    # Історія для розрахунку baseline
     spread_history_size: int = 100
-    spread_baseline_window_sec: int = 3600  # 1 година
+    spread_baseline_window_sec: int = 3600
     
-    # Фільтрація торгівлі
     avoid_trading_on_very_high_spread: bool = True
     reduce_size_on_high_spread: bool = True
-    high_spread_size_reduction_pct: float = 0.5  # Зменшити на 50%
+    high_spread_size_reduction_pct: float = 0.5
 
 class OHaraSettings(BaseSettings):
     """🆕 O'HARA METHODS: Comprehensive Settings"""
     
-    # METHOD 1: Bayesian Price Updating
     enable_bayesian_updating: bool = True
-    bayesian_update_step: float = 0.05  # Крок оновлення ймовірності
-    bayesian_bullish_threshold: float = 0.65  # >65% = BULLISH
-    bayesian_bearish_threshold: float = 0.35  # <35% = BEARISH
-    bayesian_decay_factor: float = 0.98  # Згасання для повернення до 0.5
+    bayesian_update_step: float = 0.05
+    bayesian_bullish_threshold: float = 0.65
+    bayesian_bearish_threshold: float = 0.35
+    bayesian_decay_factor: float = 0.98
     
-    # METHOD 2: Large Order Detection (Enhanced)
-    large_order_min_count_strong: int = 3  # 3+ великих = сильний сигнал
-    large_order_min_count_medium: int = 2  # 2 великих = середній сигнал
-    large_order_net_threshold: int = 2  # Різниця buy/sell >= 2
+    large_order_min_count_strong: int = 3
+    large_order_min_count_medium: int = 2
+    large_order_net_threshold: int = 2
     
-    # METHOD 3: Trade Frequency (див.VolumeSettings)
-    # METHOD 4: Buy/Sell Imbalance (вже в ImbalanceSettings)
-    # METHOD 5: Volume Confirmation (див.VolumeSettings)
-    
-    # METHOD 7: Spread Risk (див.SpreadSettings)
-    
-    # Combined Signal Scoring
     enable_combined_ohara_score: bool = True
-    min_ohara_score_for_trade: int = 4  # Було 5 ✅
-    strong_ohara_score_threshold: int = 8  # 8+ балів = дуже сильний сигнал
+    min_ohara_score_for_trade: int = 4
+    strong_ohara_score_threshold: int = 8
 
 class Settings(BaseSettings):
     """Головний клас налаштувань"""
@@ -363,6 +378,6 @@ class Settings(BaseSettings):
     adaptive: AdaptiveSettings = AdaptiveSettings()
     signals: SignalSettings = SignalSettings()
     spread: SpreadSettings = SpreadSettings()
-    ohara: OHaraSettings = OHaraSettings()  # 🆕 O'Hara settings
+    ohara: OHaraSettings = OHaraSettings()
 
 settings = Settings()

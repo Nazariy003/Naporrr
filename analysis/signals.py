@@ -86,8 +86,8 @@ class SpreadMonitor:
     
     def __init__(self):
         self.cfg = settings.spread
-        self._spread_history = {}  # {symbol: deque of spreads}
-        self._spread_baseline = {}  # {symbol: avg_spread}
+        self._spread_history = {}
+        self._spread_baseline = {}
     
     def update(self, symbol: str, bid: float, ask: float):
         """Оновлення spread даних"""
@@ -95,27 +95,22 @@ class SpreadMonitor:
             return
         
         spread_abs = ask - bid
-        spread_bps = (spread_abs / bid) * 10000  # basis points
+        spread_bps = (spread_abs / bid) * 10000
         
-        # Ініціалізація історії
         if symbol not in self._spread_history:
             self._spread_history[symbol] = deque(maxlen=self.cfg.spread_history_size)
         
-        # Додаємо до історії
         self._spread_history[symbol].append({
             'timestamp': time.time(),
             'spread_bps': spread_bps
         })
         
-        # Оновлюємо baseline (середній spread)
         if len(self._spread_history[symbol]) >= 10:
             avg_spread = sum(s['spread_bps'] for s in self._spread_history[symbol]) / len(self._spread_history[symbol])
             self._spread_baseline[symbol] = avg_spread
     
     def get_risk_level(self, symbol: str, current_spread_bps: float) -> Dict[str, Any]:
-        """
-        Визначення рівня ризику на основі spread згідно O'Hara
-        """
+        """Визначення рівня ризику на основі spread згідно O'Hara"""
         if symbol not in self._spread_baseline or len(self._spread_history.get(symbol, [])) < 10:
             return {
                 'risk_level': 'UNKNOWN',
@@ -133,7 +128,6 @@ class SpreadMonitor:
         else:
             spread_ratio = current_spread_bps / avg_spread
         
-        # Визначаємо рівень ризику
         if spread_ratio >= self.cfg.very_high_risk_spread_multiplier:
             risk_level = "VERY_HIGH_RISK"
             should_avoid = self.cfg.avoid_trading_on_very_high_spread
@@ -167,7 +161,7 @@ class SignalGenerator:
         self.ohara_cfg = settings.ohara
         self._state = {}
         self.quality_monitor = SignalQualityMonitor()
-        self.spread_monitor = SpreadMonitor()  # 🆕 O'Hara Method 7
+        self.spread_monitor = SpreadMonitor()
 
     def _init_symbol(self, symbol: str):
         if symbol not in self._state:
@@ -182,6 +176,10 @@ class SignalGenerator:
     def generate(self, symbol: str, imbalance_data: Dict, volume_data: Dict, spread_bps: float = None) -> Dict[str, Any]:
         self._init_symbol(symbol)
 
+        # ✅ АДАПТИВНІ ДАНІ ВЖЕ В volume_data (з analysis/volume.py)
+        # adaptive_volume_analysis - містить zscore, percentile, ema_ratio, classification
+        # large_order_data - містить адаптивні великі ордери (informed_direction)
+        
         mom_score = volume_data.get("momentum_score", 0)
         if abs(mom_score) > 50:
             self.debug_signal_calculation(symbol, imbalance_data, volume_data, spread_bps)
@@ -202,17 +200,21 @@ class SignalGenerator:
         depth_analysis = imbalance_data.get("depth_analysis", {})
         cluster_analysis = imbalance_data.get("cluster_analysis", {})
 
-        # 🆕 O'HARA DATA
         bayesian_data = imbalance_data.get("bayesian_data", {})
         trade_imbalance = imbalance_data.get("trade_imbalance", {})
         frequency_data = volume_data.get("frequency_data", {})
         volume_confirm = volume_data.get("volume_confirmation", {})
         large_order_data = volume_data.get("large_order_data", {})
+        
+        # ✅ АДАПТИВНІ ДАНІ
+        adaptive_volume = volume_data.get("adaptive_volume_analysis", {})
+        adaptive_stats = volume_data.get("adaptive_statistics", {})
 
         logger.debug(f"[SIGNAL_DEBUG] {symbol}: imb={imb_score}, mom={mom_score}, vol={volatility}")
-        logger.debug(f"[SIGNAL_DEBUG] {symbol}: bayesian={bayesian_data.get('signal')}, "
-                    f"freq={frequency_data.get('activity_level')}, "
-                    f"vol_confirm={volume_confirm.get('confirmation')}")
+        logger.debug(f"[SIGNAL_DEBUG_ADAPTIVE] {symbol}: "
+                    f"vol_class={adaptive_volume.get('classification')}, "
+                    f"vol_zscore={adaptive_volume.get('zscore', 0):.2f}, "
+                    f"large_orders={large_order_data.get('informed_direction')}")
 
         factors = self._calculate_all_factors(
             imb_score, mom_score, tape_analysis, depth_analysis,
@@ -234,7 +236,10 @@ class SignalGenerator:
             symbol, action, strength, ema_score, composite_score, factors, reason
         )
         
-        # ✅ ДОДАТИ ЦЕЙ БЛОК ПЕРЕД return result:
+        # Додаємо адаптивну статистику до результату
+        result["adaptive_volume"] = adaptive_volume
+        result["adaptive_stats"] = adaptive_stats
+        
         # Логуємо сигнал в CSV
         try:
             raw_values = factors.get("raw_values", {})
@@ -256,7 +261,6 @@ class SignalGenerator:
             )
         except Exception as e:
             logger.warning(f"[SIGNAL_LOGGER] Failed to log signal for {symbol}: {e}")
-        # ✅ КІНЕЦЬ ДОДАВАННЯ
         
         self._log_signal_generation(symbol, result, factors)
         return result
@@ -315,7 +319,6 @@ class SignalGenerator:
         spread_factor = self._calculate_spread_factor(spread_bps)
         volatility_factor = self._calculate_volatility_factor(volatility)
         
-        # 🆕 O'HARA FACTORS
         bayesian_factor = self._calculate_bayesian_factor(bayesian_data)
         large_order_factor = self._calculate_large_order_factor(large_order_data)
         frequency_factor = self._calculate_frequency_factor(frequency_data)
@@ -353,14 +356,14 @@ class SignalGenerator:
         confidence = bayesian_data.get("confidence", 0)
         
         if signal == "BULLISH":
-            return confidence * 0.5  # Позитивний фактор
+            return confidence * 0.5
         elif signal == "BEARISH":
-            return -confidence * 0.5  # Негативний фактор
+            return -confidence * 0.5
         else:
             return 0.0
 
     def _calculate_large_order_factor(self, large_order_data: Dict) -> float:
-        """🆕 O'HARA METHOD 2: Large orders factor"""
+        """🆕 O'HARA METHOD 2: Large orders factor (АДАПТИВНИЙ)"""
         direction = large_order_data.get("informed_direction", "NEUTRAL")
         
         if direction == "STRONG_BUY":
@@ -379,27 +382,26 @@ class SignalGenerator:
         activity_level = frequency_data.get("activity_level", "UNKNOWN")
         risk_signal = frequency_data.get("risk_signal", "OK")
         
-        # Штраф за аномальну активність
         if risk_signal == "AVOID":
-            return -0.5  # Дуже висока активність - не торгувати
+            return -0.5
         elif risk_signal == "CAUTION":
-            return -0.2  # Висока активність - обережно
+            return -0.2
         elif risk_signal == "LOW_LIQUIDITY":
-            return -0.3  # Дуже низька активність - тихо перед бурею
+            return -0.3
         else:
             return 0.0
 
     def _calculate_volume_confirm_factor(self, volume_confirm: Dict) -> float:
-        """🆕 O'HARA METHOD 5: Volume confirmation factor"""
+        """🆕 O'HARA METHOD 5: Volume confirmation factor (АДАПТИВНИЙ)"""
         confirmation = volume_confirm.get("confirmation", "UNKNOWN")
         strength = volume_confirm.get("strength", "WEAK")
         
         if confirmation == "CONFIRMED" and strength == "STRONG":
-            return 0.3  # Обсяг підтверджує рух
+            return 0.3
         elif confirmation == "MODERATE":
             return 0.1
         elif confirmation == "WEAK":
-            return -0.2  # Фейковий рух
+            return -0.2
         else:
             return 0.0
 
@@ -448,13 +450,11 @@ class SignalGenerator:
         if spread_bps is None:
             return 0.0
         
-        # Отримуємо рівень ризику від SpreadMonitor
-        # Тут spread_bps вже передано, тож просто перевіряємо поріг
         max_spread = settings.spread.max_spread_threshold_bps
         if spread_bps > max_spread * 2:
-            return -0.5  # Дуже широкий spread
+            return -0.5
         elif spread_bps > max_spread:
-            return -0.2  # Широкий spread
+            return -0.2
         else:
             return 0.0
 
@@ -501,45 +501,14 @@ class SignalGenerator:
     volume_data: Dict, 
     factors: Dict
 ) -> Tuple[str, int, str]:
-        """
-        Визначення дії (BUY/SELL/HOLD) та її сили з урахуванням:
-        - Composite score (EMA + factors)
-        - Volume validation (O'Hara metrics)
-        - Early Entry логіки для ранніх входів
-        - Late Entry detection для захисту від запізнілих входів
-        
-        Args:
-            symbol: Символ інструменту
-            ema_score: Оцінка з EMA (позитивна=BUY, негативна=SELL)
-            volume_data: Дані про обсяг та волатильність
-            factors: Додаткові фактори (momentum, imbalance, bayesian, large_orders, etc.)
-        
-        Returns:
-            Tuple[action, strength, reason]:
-                - action: "BUY", "SELL" або "HOLD"
-                - strength: 0-5 (0=HOLD, 5=найсильніший)
-                - reason: Причина рішення ("ok", "weak_signal", "late_entry", etc.)
-        """
         abs_score = abs(ema_score)
         direction = "BUY" if ema_score > 0 else "SELL"
         raw_values = factors.get("raw_values", {})
-        
-        # ========================================================================
-        # 🆕 EARLY ENTRY LOGIC
-        # ========================================================================
-        # Дозволяємо ранні входи з нижчим порогом якщо всі умови ідеальні:
-        # 1.Momentum низький - рух тільки почався
-        # 2.Висока волатильність - є сильний рух
-        # 3.Високий O'Hara score - якісний сигнал
-        # 4.Large Orders підтверджують напрямок
-        # 5.Bayesian підтверджує напрямок
-        # 6.Сильний order book імбаланс
         
         early_entry_mode = False
         early_entry_min_threshold = self.cfg.composite_thresholds["strength_3"]
         
         if self.cfg.early_entry_enabled:
-            # Отримуємо всі необхідні метрики
             momentum_score = abs(raw_values.get("momentum_score", 0))
             volatility = volume_data.get("volatility", 0)
             ohara_score = factors.get("ohara_score", 0)
@@ -547,18 +516,16 @@ class SignalGenerator:
             bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
             imbalance_score = abs(raw_values.get("imbalance_score", 0))
             
-            # Перевіряємо чи Large Orders та Bayesian підтверджують напрямок
             large_orders_confirm = False
             bayesian_confirm = False
             
             if direction == "BUY":
                 large_orders_confirm = informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]
                 bayesian_confirm = bayesian_signal == "BULLISH"
-            else:  # SELL
+            else:
                 large_orders_confirm = informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]
                 bayesian_confirm = bayesian_signal == "BEARISH"
             
-            # Перевіряємо всі умови для Early Entry
             if (momentum_score < self.cfg.early_entry_momentum_threshold and 
                 volatility >= self.cfg.early_entry_volatility_threshold and 
                 ohara_score >= self.cfg.early_entry_ohara_threshold and 
@@ -567,7 +534,6 @@ class SignalGenerator:
                 imbalance_score > self.cfg.early_entry_imbalance_threshold):
                 
                 early_entry_mode = True
-                # Знижуємо поріг згідно з multiplier з config
                 early_entry_min_threshold = (
                     self.cfg.composite_thresholds["strength_3"] * 
                     self.cfg.early_entry_threshold_multiplier
@@ -585,17 +551,10 @@ class SignalGenerator:
                     f"  └─ bayesian={bayesian_signal} ✅"
                 )
         
-        # ========================================================================
-        # 🆕 O'HARA FILTER: Trade Frequency
-        # ========================================================================
-        # Фільтруємо за рівнем активності торгів
-        
         if self.cfg.enable_volume_validation:
             activity_level = raw_values.get("activity_level", "UNKNOWN")
             
-            # Дуже висока активність - можливо маніпуляція або wash trading
             if activity_level == "VERY_HIGH":
-                # Блокуємо лише слабкі сигнали
                 if abs_score < 0.50:
                     logger.debug(
                         f"[OHARA_FILTER] {symbol}: VERY_HIGH activity detected - "
@@ -608,7 +567,6 @@ class SignalGenerator:
                         f"(score={abs_score:.2f}) - allowing trade"
                     )
             
-            # Дуже низька активність - низька ліквідність
             elif activity_level == "VERY_LOW":
                 logger.debug(
                     f"[OHARA_FILTER] {symbol}: VERY_LOW activity - "
@@ -616,19 +574,12 @@ class SignalGenerator:
                 )
                 return "HOLD", 0, "very_low_activity"
         
-        # ========================================================================
-        # STRENGTH DETERMINATION
-        # ========================================================================
-        # Визначаємо силу сигналу на основі composite score
-        
         action = "HOLD"
         strength = 0
         reason = "weak_signal"
         
-        # Використовуємо знижений поріг якщо в режимі Early Entry
         min_threshold = early_entry_min_threshold if early_entry_mode else self.cfg.composite_thresholds["strength_3"]
         
-        # Визначаємо рівень сили (1-5)
         if abs_score >= self.cfg.composite_thresholds["strength_5"]:
             strength = 5
         elif abs_score >= self.cfg.composite_thresholds["strength_4"]:
@@ -640,7 +591,6 @@ class SignalGenerator:
         elif abs_score >= self.cfg.composite_thresholds["strength_1"]:
             strength = 1
         
-        # Перевіряємо чи досягли мінімального порогу
         if abs_score >= min_threshold and strength >= self.cfg.min_strength_for_action:
             action = direction
             reason = "ok"
@@ -656,7 +606,6 @@ class SignalGenerator:
                     f"composite_score={abs_score:.3f} >= threshold={min_threshold:.3f}"
                 )
         else:
-            # Визначаємо причину відхилення
             if abs_score < min_threshold:
                 reason = "below_threshold"
                 logger.debug(
@@ -668,15 +617,9 @@ class SignalGenerator:
                     f"[REJECT] {symbol}: Strength {strength} < minimum {self.cfg.min_strength_for_action}"
                 )
         
-        # ========================================================================
-        # 🆕 LATE ENTRY DETECTION
-        # ========================================================================
-        # Захист від входу на вершинах - блокуємо якщо momentum занадто високий
-        
         if action != "HOLD":
             momentum_pct = raw_values.get("momentum_score", 0)
             
-            # Якщо momentum > 70%, рух вже дуже сильний - ризик реверсу
             if abs(momentum_pct) > 70:
                 logger.warning(
                     f"[LATE_ENTRY] {symbol}: High momentum {momentum_pct:.1f}% detected - "
@@ -685,10 +628,6 @@ class SignalGenerator:
                 action = "HOLD"
                 strength = 0
                 reason = "late_entry"
-        
-        # ========================================================================
-        # FINAL LOGGING
-        # ========================================================================
         
         if action != "HOLD":
             logger.info(
@@ -711,28 +650,21 @@ class SignalGenerator:
         return "ok"
 
     def _validate_signal_quality(self, symbol: str, action: str, factors: Dict, volume_data: Dict) -> str:
-        """
-        Валідація якості сигналу
-        Returns: "ok" або reason для відхилення
-        """
+        """Валідація якості сигналу"""
         raw_values = factors.get("raw_values", {})
         
-        # Волатильність
         volatility = volume_data.get("volatility", 0)
         if volatility < self.cfg.volatility_filter_threshold:
             logger.debug(f"[QUALITY] {symbol}: Low volatility {volatility:.3f}")
             return "low_volatility"
         
-        # Якщо override вимкнено - використовуємо стару логіку
         if not self.cfg.allow_override_contradictory_orders:
-            # Стара логіка (без override)
             informed_direction = raw_values.get("informed_direction", "NEUTRAL")
             if action == "BUY" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
                 return "contradictory_large_orders"
             if action == "SELL" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
                 return "contradictory_large_orders"
         else:
-            # 🆕 Нова логіка з override
             informed_direction = raw_values.get("informed_direction", "NEUTRAL")
             imbalance_score = abs(raw_values.get("imbalance_score", 0))
             momentum_score = raw_values.get("momentum_score", 0)
@@ -740,7 +672,6 @@ class SignalGenerator:
             if action == "BUY" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
                 bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
                 
-                # ✅ Використовуємо параметри з config
                 if (imbalance_score > self.cfg.override_imbalance_threshold and 
                     abs(momentum_score) < self.cfg.override_momentum_threshold and 
                     bayesian_signal == "BULLISH"):
@@ -754,7 +685,6 @@ class SignalGenerator:
             if action == "SELL" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
                 bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
                 
-                # ✅ Використовуємо параметри з config
                 if (imbalance_score > self.cfg.override_imbalance_threshold and 
                     abs(momentum_score) < self.cfg.override_momentum_threshold and 
                     bayesian_signal == "BEARISH"):
@@ -765,13 +695,11 @@ class SignalGenerator:
                 logger.debug(f"[QUALITY] {symbol}: Large orders contradictory (SELL vs {informed_direction})")
                 return "contradictory_large_orders"
         
-        # Volume confirmation
         vol_confirmation = raw_values.get("vol_confirmation", "UNKNOWN")
         if vol_confirmation == "CONTRADICTORY":
             logger.debug(f"[QUALITY] {symbol}: Volume contradictory")
             return "contradictory_volume"
         
-        # Spike check
         if factors.get("spike", False):
             logger.debug(f"[QUALITY] {symbol}: Spike detected")
             return "spike_detected"
@@ -815,7 +743,6 @@ class SignalGenerator:
             "ohara_score": 0
         }
         
-        # ✅ ДОДАТИ ЛОГУВАННЯ:
         try:
             signal_logger.log_signal(
                 symbol=symbol,
@@ -835,7 +762,6 @@ class SignalGenerator:
             )
         except Exception as e:
             logger.warning(f"[SIGNAL_LOGGER] Failed to log HOLD signal for {symbol}: {e}")
-        # ✅ КІНЕЦЬ ДОДАВАННЯ
         
         return result
 
@@ -900,47 +826,37 @@ class SignalGenerator:
             "cooldown_active": now < st["cooldown_until"],
             "reason": reason,
             "factors": factors,
-            "ohara_score": ohara_score  # 🆕 Combined O'Hara score
+            "ohara_score": ohara_score
         }
 
     def _calculate_ohara_score(self, factors: Dict) -> int:
-        """
-        🆕 Розрахунок комбінованого O'Hara score (0-10 балів)
-        """
+        """🆕 Розрахунок комбінованого O'Hara score (0-10 балів)"""
         score = 0
         raw_values = factors.get("raw_values", {})
         
-        # Bayesian (0-2 бали)
         bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
         if bayesian_signal in ["BULLISH", "BEARISH"]:
             score += 2
         elif bayesian_signal != "NEUTRAL":
             score += 1
         
-        # Large Orders (0-3 бали)
         informed_dir = raw_values.get("informed_direction", "NEUTRAL")
         if informed_dir in ["STRONG_BUY", "STRONG_SELL"]:
             score += 3
         elif informed_dir in ["MEDIUM_BUY", "MEDIUM_SELL"]:
             score += 2
         
-        # Frequency (0-2 бали - штраф за аномалії)
         activity = raw_values.get("activity_level", "UNKNOWN")
         if activity == "NORMAL":
             score += 2
         elif activity in ["HIGH", "LOW"]:
             score += 1
-        # VERY_HIGH, VERY_LOW = 0 балів
         
-        # Volume Confirmation (0-2 бали)
         vol_conf = raw_values.get("vol_confirmation", "UNKNOWN")
         if vol_conf == "CONFIRMED":
             score += 2
         elif vol_conf == "MODERATE":
             score += 1
-        
-        # Trade Imbalance (0-1 бал) - вже врахований в imbalance
-        # Spread (додатковий штраф вже в spread_factor)
         
         return min(10, score)
 
