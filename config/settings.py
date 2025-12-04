@@ -258,7 +258,7 @@ class VolumeSettings(BaseSettings):
     # 🆕 O'HARA METHOD 5: Volume Confirmation (АДАПТИВНО)
     enable_volume_confirmation: bool = True
     volume_baseline_window_sec: int = 86400  # 24 години
-    volume_confirmation_zscore: float = 1.5  # >1.5σ = підтверджений рух
+    volume_confirmation_zscore: float = 1.2  # >1.5σ = підтверджений рух
     volume_weak_zscore: float = -0.5  # <-0.5σ = слабкий рух
     
     # 🆕 O'HARA METHOD 2: Large Order Tracking (АДАПТИВНО)
@@ -287,14 +287,14 @@ class SignalSettings(BaseSettings):
     weight_ohara_volume_confirm: float = 0.065
     spike_bonus: float = 0.1
     
-    smoothing_alpha: float = 0.6
+    smoothing_alpha: float = 0.75
     hold_threshold: float = 0.12
     
     # Composite score thresholds
     composite_thresholds: dict = {
         "strength_1": 0.15,
         "strength_2": 0.30,
-        "strength_3": 0.45,
+        "strength_3": 0.40,
         "strength_4": 0.65,
         "strength_5": 0.80
     }
@@ -327,7 +327,7 @@ class SignalSettings(BaseSettings):
     volatility_filter_threshold: float = 0.25
     
     enable_exhaustion_filter: bool = True
-    max_momentum_for_entry: float = 70.0
+    max_momentum_for_entry: float = 80.0
     min_imbalance_for_high_momentum: float = 15.0
 
 class SpreadSettings(BaseSettings):

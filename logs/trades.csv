@@ -1,0 +1,3 @@
+timestamp,event,symbol,side,qty,price,sl,tp,reason,meta
+2025-12-04 21:32:26,OPEN,TRXUSDT,LONG,545.000000,0.282230,0.279119,0.287520,limit_filled,"entryId=843e14e9-df78-48d9-b903-7853c9af341f; signal=BUY4 (imb:79,mom:21,oh:6)"
+2025-12-04 22:17:33,CLOSE,TRXUSDT,LONG,545.000000,0.283590,0.279119,0.287520,TIME_EXIT,pnl=0.625431; avgExit=0.283590; lifetime=45.1min
