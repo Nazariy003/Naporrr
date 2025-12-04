@@ -262,16 +262,29 @@ class SignalSettings(BaseSettings):
     smoothing_alpha: float = 0.6  # Було 0.4 
     hold_threshold: float = 0.12
     
-    # ✅ ВИПРАВЛЕНО: Вищі пороги для раніших входів
+    # Composite score thresholds
     composite_thresholds: dict = {
-        "strength_1": 0.12,  # Було 0.15 ✅
-        "strength_2": 0.25,  # Було 0.30 ✅
-        "strength_3": 0.35,  # Було 0.45 ✅
-        "strength_4": 0.50,  # Було 0.65 ✅
-        "strength_5": 0.70   # Було 0.80 ✅
+        "strength_1": 0.15,
+        "strength_2": 0.30,
+        "strength_3": 0.45,  # Мінімум для BUY/SELL
+        "strength_4": 0.65,
+        "strength_5": 0.80
     }
     
     min_strength_for_action: int = 3
+    
+    # 🆕 EARLY ENTRY PARAMETERS
+    early_entry_enabled: bool = True
+    early_entry_momentum_threshold: float = 40.0    # Max momentum для раннього входу
+    early_entry_volatility_threshold: float = 0.3   # Min волатильність
+    early_entry_ohara_threshold: int = 6            # Min O'Hara score
+    early_entry_imbalance_threshold: float = 35.0   # Min імбаланс
+    early_entry_threshold_multiplier: float = 0.72  # Множник для зниження порогу (0.35 * 0.72 = 0.25)
+    
+    # 🆕 CONTRADICTORY LARGE ORDERS OVERRIDE
+    allow_override_contradictory_orders: bool = True
+    override_imbalance_threshold: float = 40.0      # Min імбаланс для override
+    override_momentum_threshold: float = 50.0       # Max momentum для override
     strong_cooldown_level: int = 3
     cooldown_seconds: float = 180.0
     

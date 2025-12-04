@@ -495,71 +495,208 @@ class SignalGenerator:
         return ema_new
 
     def _generate_action_strength(
-        self, symbol: str, ema_score: float, volume_data: Dict, factors: Dict
-    ) -> Tuple[str, int, str]:
-        """Генерація дії та сили з O'Hara фільтрами"""
+    self, 
+    symbol: str, 
+    ema_score: float, 
+    volume_data: Dict, 
+    factors: Dict
+) -> Tuple[str, int, str]:
+        """
+        Визначення дії (BUY/SELL/HOLD) та її сили з урахуванням:
+        - Composite score (EMA + factors)
+        - Volume validation (O'Hara metrics)
+        - Early Entry логіки для ранніх входів
+        - Late Entry detection для захисту від запізнілих входів
+        
+        Args:
+            symbol: Символ інструменту
+            ema_score: Оцінка з EMA (позитивна=BUY, негативна=SELL)
+            volume_data: Дані про обсяг та волатильність
+            factors: Додаткові фактори (momentum, imbalance, bayesian, large_orders, etc.)
+        
+        Returns:
+            Tuple[action, strength, reason]:
+                - action: "BUY", "SELL" або "HOLD"
+                - strength: 0-5 (0=HOLD, 5=найсильніший)
+                - reason: Причина рішення ("ok", "weak_signal", "late_entry", etc.)
+        """
         abs_score = abs(ema_score)
-        raw_values = factors["raw_values"]
-
+        direction = "BUY" if ema_score > 0 else "SELL"
+        raw_values = factors.get("raw_values", {})
+        
+        # ========================================================================
+        # 🆕 EARLY ENTRY LOGIC
+        # ========================================================================
+        # Дозволяємо ранні входи з нижчим порогом якщо всі умови ідеальні:
+        # 1.Momentum низький - рух тільки почався
+        # 2.Висока волатильність - є сильний рух
+        # 3.Високий O'Hara score - якісний сигнал
+        # 4.Large Orders підтверджують напрямок
+        # 5.Bayesian підтверджує напрямок
+        # 6.Сильний order book імбаланс
+        
+        early_entry_mode = False
+        early_entry_min_threshold = self.cfg.composite_thresholds["strength_3"]
+        
+        if self.cfg.early_entry_enabled:
+            # Отримуємо всі необхідні метрики
+            momentum_score = abs(raw_values.get("momentum_score", 0))
+            volatility = volume_data.get("volatility", 0)
+            ohara_score = factors.get("ohara_score", 0)
+            informed_direction = raw_values.get("informed_direction", "NEUTRAL")
+            bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
+            imbalance_score = abs(raw_values.get("imbalance_score", 0))
+            
+            # Перевіряємо чи Large Orders та Bayesian підтверджують напрямок
+            large_orders_confirm = False
+            bayesian_confirm = False
+            
+            if direction == "BUY":
+                large_orders_confirm = informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]
+                bayesian_confirm = bayesian_signal == "BULLISH"
+            else:  # SELL
+                large_orders_confirm = informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]
+                bayesian_confirm = bayesian_signal == "BEARISH"
+            
+            # Перевіряємо всі умови для Early Entry
+            if (momentum_score < self.cfg.early_entry_momentum_threshold and 
+                volatility >= self.cfg.early_entry_volatility_threshold and 
+                ohara_score >= self.cfg.early_entry_ohara_threshold and 
+                large_orders_confirm and
+                bayesian_confirm and
+                imbalance_score > self.cfg.early_entry_imbalance_threshold):
+                
+                early_entry_mode = True
+                # Знижуємо поріг згідно з multiplier з config
+                early_entry_min_threshold = (
+                    self.cfg.composite_thresholds["strength_3"] * 
+                    self.cfg.early_entry_threshold_multiplier
+                )
+                
+                logger.info(
+                    f"[EARLY_ENTRY] {symbol}: Ideal conditions detected - "
+                    f"lowering threshold from {self.cfg.composite_thresholds['strength_3']:.3f} "
+                    f"to {early_entry_min_threshold:.3f}\n"
+                    f"  ├─ momentum={momentum_score:.1f} (< {self.cfg.early_entry_momentum_threshold})\n"
+                    f"  ├─ volatility={volatility:.2f} (>= {self.cfg.early_entry_volatility_threshold})\n"
+                    f"  ├─ ohara_score={ohara_score} (>= {self.cfg.early_entry_ohara_threshold})\n"
+                    f"  ├─ imbalance={imbalance_score:.1f}% (> {self.cfg.early_entry_imbalance_threshold})\n"
+                    f"  ├─ large_orders={informed_direction} ✅\n"
+                    f"  └─ bayesian={bayesian_signal} ✅"
+                )
+        
+        # ========================================================================
         # 🆕 O'HARA FILTER: Trade Frequency
+        # ========================================================================
+        # Фільтруємо за рівнем активності торгів
+        
         if self.cfg.enable_volume_validation:
             activity_level = raw_values.get("activity_level", "UNKNOWN")
-            if activity_level == "VERY_HIGH":
-                logger.debug(f"[OHARA_FILTER] {symbol}: VERY_HIGH activity - avoiding trade")
-                return "HOLD", 0, "very_high_activity"
-            elif activity_level == "VERY_LOW":
-                logger.debug(f"[OHARA_FILTER] {symbol}: VERY_LOW activity - low liquidity")
-                return "HOLD", 0, "very_low_activity"
-
-        # Фільтр волатильності
-        volatility_percent = volume_data.get("volatility", 0)
-        if volatility_percent < self.cfg.volatility_filter_threshold:
-            logger.debug(f"[VOL_FILTER] {symbol} filtered: {volatility_percent:.3f}% < {self.cfg.volatility_filter_threshold}%")
-            return "HOLD", 0, "low_volatility"
-
-        # Перевірка мінімального обсягу
-        if self.cfg.enable_volume_validation:
-            min_volume = self.cfg.min_short_volume_for_signal
-            current_volume = volume_data.get("total_volume_short", 0)
-            trades_count = volume_data.get("short_trades_count", 0)
             
-            if current_volume < min_volume and trades_count < self.cfg.min_trades_for_signal:
-                return "HOLD", 0, "low_volume"
-
-        # Основний поріг
-        if abs_score < self.cfg.hold_threshold:
-            return "HOLD", 0, "below_threshold"
-
-        action = "BUY" if ema_score > 0 else "SELL"
-
-        # Оптимізована система визначення сили
-        strength = 0
-        composite_thresholds = self.cfg.composite_thresholds
+            # Дуже висока активність - можливо маніпуляція або wash trading
+            if activity_level == "VERY_HIGH":
+                # Блокуємо лише слабкі сигнали
+                if abs_score < 0.50:
+                    logger.debug(
+                        f"[OHARA_FILTER] {symbol}: VERY_HIGH activity detected - "
+                        f"avoiding trade (score={abs_score:.3f})"
+                    )
+                    return "HOLD", 0, "very_high_activity"
+                else:
+                    logger.info(
+                        f"[OHARA_OVERRIDE] {symbol}: VERY_HIGH activity BUT strong signal "
+                        f"(score={abs_score:.2f}) - allowing trade"
+                    )
+            
+            # Дуже низька активність - низька ліквідність
+            elif activity_level == "VERY_LOW":
+                logger.debug(
+                    f"[OHARA_FILTER] {symbol}: VERY_LOW activity - "
+                    f"low liquidity, avoiding trade"
+                )
+                return "HOLD", 0, "very_low_activity"
         
-        if abs_score >= composite_thresholds.get("strength_5", 0.80):
+        # ========================================================================
+        # STRENGTH DETERMINATION
+        # ========================================================================
+        # Визначаємо силу сигналу на основі composite score
+        
+        action = "HOLD"
+        strength = 0
+        reason = "weak_signal"
+        
+        # Використовуємо знижений поріг якщо в режимі Early Entry
+        min_threshold = early_entry_min_threshold if early_entry_mode else self.cfg.composite_thresholds["strength_3"]
+        
+        # Визначаємо рівень сили (1-5)
+        if abs_score >= self.cfg.composite_thresholds["strength_5"]:
             strength = 5
-        elif abs_score >= composite_thresholds.get("strength_4", 0.65):
+        elif abs_score >= self.cfg.composite_thresholds["strength_4"]:
             strength = 4
-        elif abs_score >= composite_thresholds.get("strength_3", 0.45):
+        elif abs_score >= self.cfg.composite_thresholds["strength_3"]:
             strength = 3
-        elif abs_score >= composite_thresholds.get("strength_2", 0.30):
+        elif abs_score >= self.cfg.composite_thresholds["strength_2"]:
             strength = 2
-        elif abs_score >= composite_thresholds.get("strength_1", 0.15):
+        elif abs_score >= self.cfg.composite_thresholds["strength_1"]:
             strength = 1
-
-        if strength < self.cfg.min_strength_for_action:
-            return "HOLD", 0, "weak_signal"
-
-        if self.cfg.require_signal_consistency:
-            reason = self._validate_signal_consistency(action, strength, raw_values)
-            if reason != "ok":
-                return "HOLD", 0, reason
-
-        quality_reason = self._validate_signal_quality(action, strength, raw_values)
-        if quality_reason != "ok":
-            return "HOLD", 0, quality_reason
-
-        return action, strength, "ok"
+        
+        # Перевіряємо чи досягли мінімального порогу
+        if abs_score >= min_threshold and strength >= self.cfg.min_strength_for_action:
+            action = direction
+            reason = "ok"
+            
+            if early_entry_mode:
+                logger.info(
+                    f"[EARLY_ENTRY_SIGNAL] {symbol} {action}{strength}: "
+                    f"composite_score={abs_score:.3f} >= threshold={min_threshold:.3f} ✅"
+                )
+            else:
+                logger.debug(
+                    f"[SIGNAL] {symbol} {action}{strength}: "
+                    f"composite_score={abs_score:.3f} >= threshold={min_threshold:.3f}"
+                )
+        else:
+            # Визначаємо причину відхилення
+            if abs_score < min_threshold:
+                reason = "below_threshold"
+                logger.debug(
+                    f"[REJECT] {symbol}: Score {abs_score:.3f} below threshold {min_threshold:.3f}"
+                )
+            elif strength < self.cfg.min_strength_for_action:
+                reason = "weak_signal"
+                logger.debug(
+                    f"[REJECT] {symbol}: Strength {strength} < minimum {self.cfg.min_strength_for_action}"
+                )
+        
+        # ========================================================================
+        # 🆕 LATE ENTRY DETECTION
+        # ========================================================================
+        # Захист від входу на вершинах - блокуємо якщо momentum занадто високий
+        
+        if action != "HOLD":
+            momentum_pct = raw_values.get("momentum_score", 0)
+            
+            # Якщо momentum > 70%, рух вже дуже сильний - ризик реверсу
+            if abs(momentum_pct) > 70:
+                logger.warning(
+                    f"[LATE_ENTRY] {symbol}: High momentum {momentum_pct:.1f}% detected - "
+                    f"potential late entry, rejecting signal"
+                )
+                action = "HOLD"
+                strength = 0
+                reason = "late_entry"
+        
+        # ========================================================================
+        # FINAL LOGGING
+        # ========================================================================
+        
+        if action != "HOLD":
+            logger.info(
+                f"[ACTION] {symbol} → {action}{strength} "
+                f"(composite={abs_score:.3f}, reason={reason})"
+            )
+        
+        return action, strength, reason
 
     def _validate_signal_consistency(self, action: str, strength: int, raw_values: Dict) -> str:
         """Перевірка узгодженості сигналів"""
@@ -573,79 +710,71 @@ class SignalGenerator:
         
         return "ok"
 
-    def _validate_signal_quality(self, action: str, strength: int, raw_values: Dict) -> str:
-        """✅ ВИПРАВЛЕНО: Перевірка якості сигналів з O'Hara + фільтр пізнього входу"""
-        large_net = raw_values.get("large_net", 0)
-        support_ratio = raw_values.get("support_ratio", 0.5)
-        momentum_score = raw_values.get("momentum_score", 0)
-        imbalance_score = raw_values.get("imbalance_score", 0)
+    def _validate_signal_quality(self, symbol: str, action: str, factors: Dict, volume_data: Dict) -> str:
+        """
+        Валідація якості сигналу
+        Returns: "ok" або reason для відхилення
+        """
+        raw_values = factors.get("raw_values", {})
         
-        # 🆕 ВИПРАВЛЕННЯ 1: Фільтр пізнього входу (Late Entry Filter)
-        if self.cfg.enable_exhaustion_filter:
-            # Перевірка 1: Екстремальний моментум + слабкий імбаланс
-            if abs(momentum_score) > self.cfg.max_momentum_for_entry:
-                if abs(imbalance_score) < self.cfg.min_imbalance_for_high_momentum:
-                    logger.debug(f"[LATE_ENTRY] {action}: mom={momentum_score:.0f}, imb={imbalance_score:.0f}")
-                    return "late_entry"
+        # Волатильність
+        volatility = volume_data.get("volatility", 0)
+        if volatility < self.cfg.volatility_filter_threshold:
+            logger.debug(f"[QUALITY] {symbol}: Low volatility {volatility:.3f}")
+            return "low_volatility"
+        
+        # Якщо override вимкнено - використовуємо стару логіку
+        if not self.cfg.allow_override_contradictory_orders:
+            # Стара логіка (без override)
+            informed_direction = raw_values.get("informed_direction", "NEUTRAL")
+            if action == "BUY" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
+                return "contradictory_large_orders"
+            if action == "SELL" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
+                return "contradictory_large_orders"
+        else:
+            # 🆕 Нова логіка з override
+            informed_direction = raw_values.get("informed_direction", "NEUTRAL")
+            imbalance_score = abs(raw_values.get("imbalance_score", 0))
+            momentum_score = raw_values.get("momentum_score", 0)
             
-            # 🆕 ДОДАТИ: Дозволити реверсні сигнали
-            if abs(momentum_score) > 60:
-                # Якщо моментум і імбаланс мають ПРОТИЛЕЖНІ знаки
-                momentum_direction = 1 if momentum_score > 0 else -1
-                imbalance_direction = 1 if imbalance_score > 0 else -1
+            if action == "BUY" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
+                bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
                 
-                if momentum_direction != imbalance_direction:
-                    # Це МОЖЛИВИЙ розворот
-                    # Перевіряємо чи є підтвердження від Large Orders
-                    informed_direction = raw_values.get("informed_direction", "NEUTRAL")
-                    
-                    # Якщо Large Orders підтверджують імбаланс (не моментум) = дозволяємо
-                    if action == "BUY" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
-                        logger.info(f"[REVERSAL_ALLOWED] BUY: mom={momentum_score:.0f}, imb={imbalance_score:.0f}, large_orders={informed_direction}")
-                        return "ok"  # Дозволяємо вхід на розворот
-                    elif action == "SELL" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
-                        logger.info(f"[REVERSAL_ALLOWED] SELL: mom={momentum_score:.0f}, imb={imbalance_score:.0f}, large_orders={informed_direction}")
-                        return "ok"
-
-            # 🆕 ДОДАТИ: Перевірка 2: Екстремальний моментум навіть з сильним імбалансом
-            if abs(momentum_score) > 85:  # Якщо mom > 85%, це занадто пізно незалежно від імбалансу
-                logger.debug(f"[EXTREME_LATE_ENTRY] {action}: mom={momentum_score:.0f} too extreme")
-                return "extreme_momentum"
+                # ✅ Використовуємо параметри з config
+                if (imbalance_score > self.cfg.override_imbalance_threshold and 
+                    abs(momentum_score) < self.cfg.override_momentum_threshold and 
+                    bayesian_signal == "BULLISH"):
+                    logger.info(f"[OVERRIDE] {symbol} BUY: Very strong early signal overrides contradictory large_orders "
+                            f"(imb={imbalance_score:.1f}%, mom={momentum_score:.1f}, bayesian={bayesian_signal})")
+                    return "ok"
+                
+                logger.debug(f"[QUALITY] {symbol}: Large orders contradictory (BUY vs {informed_direction})")
+                return "contradictory_large_orders"
             
-            # 🆕 ВИПРАВЛЕННЯ 2: Суперечність між моментумом і імбалансом
-            if action == "BUY":
-                if momentum_score > 60 and imbalance_score < -5:
-                    logger.debug(f"[CONTRADICTORY] BUY: mom={momentum_score:.0f}, imb={imbalance_score:.0f}")
-                    return "contradictory_momentum_imbalance"
-            elif action == "SELL":
-                if momentum_score < -60 and imbalance_score > 5:
-                    logger.debug(f"[CONTRADICTORY] SELL: mom={momentum_score:0f}, imb={imbalance_score:.0f}")
-                    return "contradictory_momentum_imbalance"
+            if action == "SELL" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
+                bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
+                
+                # ✅ Використовуємо параметри з config
+                if (imbalance_score > self.cfg.override_imbalance_threshold and 
+                    abs(momentum_score) < self.cfg.override_momentum_threshold and 
+                    bayesian_signal == "BEARISH"):
+                    logger.info(f"[OVERRIDE] {symbol} SELL: Very strong early signal overrides contradictory large_orders "
+                            f"(imb={imbalance_score:.1f}%, mom={momentum_score:.1f}, bayesian={bayesian_signal})")
+                    return "ok"
+                
+                logger.debug(f"[QUALITY] {symbol}: Large orders contradictory (SELL vs {informed_direction})")
+                return "contradictory_large_orders"
         
-        # 🆕 O'HARA VALIDATION: Large orders consistency
-        informed_direction = raw_values.get("informed_direction", "NEUTRAL")
-        if action == "BUY" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
-            return "contradictory_large_orders"
-        if action == "SELL" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
-            return "contradictory_large_orders"
-        
-        # 🆕 O'HARA VALIDATION: Volume confirmation
+        # Volume confirmation
         vol_confirmation = raw_values.get("vol_confirmation", "UNKNOWN")
-        if vol_confirmation == "WEAK" and strength >= 4:
-            return "weak_volume_confirmation"
+        if vol_confirmation == "CONTRADICTORY":
+            logger.debug(f"[QUALITY] {symbol}: Volume contradictory")
+            return "contradictory_volume"
         
-        if abs(momentum_score) > 95 and strength >= 3:
-            return "extreme_momentum"
-        
-        if action == "BUY" and imbalance_score < -20 and momentum_score > 80:
-            return "contradictory_signals"
-        if action == "SELL" and imbalance_score > 20 and momentum_score < -80:
-            return "contradictory_signals"
-        
-        if action == "BUY" and support_ratio < 0.3:
-            return "weak_support"
-        if action == "SELL" and support_ratio > 0.7:
-            return "weak_resistance"
+        # Spike check
+        if factors.get("spike", False):
+            logger.debug(f"[QUALITY] {symbol}: Spike detected")
+            return "spike_detected"
         
         return "ok"
 
