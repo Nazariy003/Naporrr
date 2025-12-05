@@ -61,8 +61,13 @@ class PairsSettings(BaseSettings):
     trade_pairs: list = [
         "BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", 
         "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "TRXUSDT",
-        "HFTUSDT", "AAVEUSDT", "STRKUSDT"
+        "AAVEUSDT", "STRKUSDT"
+        # HFTUSDT видалено через постійну низьку ліквідність
     ]
+    
+    # 🆕 Пари з особливою обробкою
+    low_liquidity_pairs: list = ["HFTUSDT", "TRXUSDT"]
+    excluded_pairs: list = ["HFTUSDT"]
 
 class TradingSettings(BaseSettings):
     """Основні налаштування торгівлі"""
@@ -279,12 +284,13 @@ class AdaptiveSettings(BaseSettings):
 
 class SignalSettings(BaseSettings):
     """Налаштування генерації сигналів"""
-    weight_momentum: float = 0.15
-    weight_ohara_bayesian: float = 0.12
-    weight_ohara_large_orders: float = 0.10
-    weight_imbalance: float = 0.50
-    weight_ohara_frequency: float = 0.065
-    weight_ohara_volume_confirm: float = 0.065
+    # 🆕 ОПТИМІЗОВАНІ ВАГИ
+    weight_momentum: float = 0.20          # було 0.15
+    weight_ohara_bayesian: float = 0.12    # без змін
+    weight_ohara_large_orders: float = 0.08  # було 0.10 (зменшено)
+    weight_imbalance: float = 0.45         # було 0.50 (трохи зменшено)
+    weight_ohara_frequency: float = 0.075  # було 0.065
+    weight_ohara_volume_confirm: float = 0.075  # було 0.065
     spike_bonus: float = 0.1
     
     smoothing_alpha: float = 0.75
@@ -301,6 +307,22 @@ class SignalSettings(BaseSettings):
     
     min_strength_for_action: int = 3
     
+    # 🆕 АДАПТИВНІ ПОРОГИ
+    enable_adaptive_threshold: bool = True
+    base_threshold: float = 0.40
+    min_threshold: float = 0.32
+    max_threshold: float = 0.50
+    
+    # Коригування порогу на основі волатильності
+    high_volatility_threshold_reduction: float = 0.05  # знижуємо поріг при високій волатильності
+    low_volatility_threshold_increase: float = 0.03   # підвищуємо при низькій
+    volatility_high_level: float = 2.0
+    volatility_low_level: float = 0.5
+    
+    # Коригування на основі ліквідності
+    high_liquidity_threshold_reduction: float = 0.03
+    low_liquidity_threshold_increase: float = 0.05
+    
     # 🆕 EARLY ENTRY PARAMETERS
     early_entry_enabled: bool = True
     early_entry_momentum_threshold: float = 40.0
@@ -308,6 +330,12 @@ class SignalSettings(BaseSettings):
     early_entry_ohara_threshold: int = 6
     early_entry_imbalance_threshold: float = 35.0
     early_entry_threshold_multiplier: float = 0.72
+    
+    # 🆕 ПОКРАЩЕНИЙ LATE ENTRY
+    late_entry_momentum_threshold: float = 85.0  # було 70.0
+    late_entry_allow_strong_trend: bool = True
+    late_entry_min_ohara_for_override: int = 7
+    late_entry_position_size_reduction: float = 0.5  # половина позиції для late entry
     
     # 🆕 CONTRADICTORY LARGE ORDERS OVERRIDE
     allow_override_contradictory_orders: bool = True
