@@ -363,17 +363,30 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_large_order_factor(self, large_order_data: Dict) -> float:
-        """🆕 O'HARA METHOD 2: Large orders factor (АДАПТИВНИЙ)"""
+        """O'HARA METHOD 2: Large orders factor (ADAPTIVE) - OPTIMIZED"""
         direction = large_order_data.get("informed_direction", "NEUTRAL")
+        count = large_order_data.get("count", 0)
+        
+        # Base values (reduced from 0.8/0.4 to 0.5/0.25)
+        base_strong = 0.5
+        base_medium = 0.25
+        
+        # Additional bonus for multiple large orders
+        count_bonus = 0
+        if count > self.cfg.large_order_count_bonus_threshold:
+            count_bonus = min(
+                self.cfg.large_order_count_bonus_max, 
+                count * self.cfg.large_order_count_bonus_per_order
+            )
         
         if direction == "STRONG_BUY":
-            return 0.8
+            return base_strong + count_bonus
         elif direction == "MEDIUM_BUY":
-            return 0.4
+            return base_medium + count_bonus * 0.5
         elif direction == "STRONG_SELL":
-            return -0.8
+            return -(base_strong + count_bonus)
         elif direction == "MEDIUM_SELL":
-            return -0.4
+            return -(base_medium + count_bonus * 0.5)
         else:
             return 0.0
 
@@ -494,6 +507,47 @@ class SignalGenerator:
         st["ema_score"] = ema_new
         return ema_new
 
+    def _get_adaptive_threshold(self, symbol: str, volume_data: Dict, factors: Dict) -> float:
+        """Calculate adaptive threshold based on market conditions"""
+        if not self.cfg.enable_adaptive_threshold:
+            return self.cfg.composite_thresholds["strength_3"]
+        
+        base = self.cfg.base_threshold
+        adjustment = 0.0
+        
+        # Adjust based on volatility
+        volatility = volume_data.get("volatility", 1.0)
+        if volatility >= self.cfg.volatility_high_level:
+            adjustment -= self.cfg.high_volatility_threshold_reduction
+            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: High volatility ({volatility:.2f}) → threshold -{self.cfg.high_volatility_threshold_reduction:.2f}")
+        elif volatility <= self.cfg.volatility_low_level:
+            adjustment += self.cfg.low_volatility_threshold_increase
+            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Low volatility ({volatility:.2f}) → threshold +{self.cfg.low_volatility_threshold_increase:.2f}")
+        
+        # Adjust based on volume (liquidity)
+        adaptive_volume = volume_data.get("adaptive_volume_analysis", {})
+        vol_zscore = adaptive_volume.get("zscore", 0)
+        
+        if vol_zscore > 1.0:  # High liquidity
+            adjustment -= self.cfg.high_liquidity_threshold_reduction
+            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: High liquidity (zscore={vol_zscore:.2f}) → threshold -{self.cfg.high_liquidity_threshold_reduction:.2f}")
+        elif vol_zscore < -0.5:  # Low liquidity
+            adjustment += self.cfg.low_liquidity_threshold_increase
+            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Low liquidity (zscore={vol_zscore:.2f}) → threshold +{self.cfg.low_liquidity_threshold_increase:.2f}")
+        
+        # O'Hara score bonus
+        ohara_score = self._calculate_ohara_score(factors)
+        if ohara_score >= self.cfg.ohara_strong_score_threshold:
+            adjustment -= self.cfg.ohara_threshold_reduction
+            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Strong O'Hara ({ohara_score}/10) → threshold -{self.cfg.ohara_threshold_reduction:.2f}")
+        
+        final_threshold = max(self.cfg.min_threshold, min(self.cfg.max_threshold, base + adjustment))
+        
+        if adjustment != 0:
+            logger.info(f"[ADAPTIVE_THRESHOLD] {symbol}: base={base:.2f} + adjustment={adjustment:.2f} = {final_threshold:.2f}")
+        
+        return final_threshold
+
     def _generate_action_strength(
     self, 
     symbol: str, 
@@ -578,7 +632,11 @@ class SignalGenerator:
         strength = 0
         reason = "weak_signal"
         
-        min_threshold = early_entry_min_threshold if early_entry_mode else self.cfg.composite_thresholds["strength_3"]
+        # Use adaptive threshold
+        if early_entry_mode:
+            min_threshold = early_entry_min_threshold
+        else:
+            min_threshold = self._get_adaptive_threshold(symbol, volume_data, factors)
         
         if abs_score >= self.cfg.composite_thresholds["strength_5"]:
             strength = 5
@@ -611,23 +669,47 @@ class SignalGenerator:
                 logger.debug(
                     f"[REJECT] {symbol}: Score {abs_score:.3f} below threshold {min_threshold:.3f}"
                 )
+                # Log near-miss signals
+                if abs_score >= min_threshold * 0.9:
+                    logger.info(
+                        f"[NEAR_MISS] {symbol}: Score {abs_score:.3f} close to threshold {min_threshold:.3f} "
+                        f"(diff={min_threshold - abs_score:.3f})"
+                    )
             elif strength < self.cfg.min_strength_for_action:
                 reason = "weak_signal"
                 logger.debug(
                     f"[REJECT] {symbol}: Strength {strength} < minimum {self.cfg.min_strength_for_action}"
                 )
         
+        # Late entry check with improved logic
         if action != "HOLD":
-            momentum_pct = raw_values.get("momentum_score", 0)
+            momentum_pct = abs(raw_values.get("momentum_score", 0))
+            ohara_score = self._calculate_ohara_score(factors)
             
-            if abs(momentum_pct) > 70:
+            if momentum_pct > self.cfg.late_entry_momentum_threshold:
+                # Full block only for very extreme cases
                 logger.warning(
-                    f"[LATE_ENTRY] {symbol}: High momentum {momentum_pct:.1f}% detected - "
-                    f"potential late entry, rejecting signal"
+                    f"[LATE_ENTRY] {symbol}: Extreme momentum {momentum_pct:.1f}% - rejecting signal"
                 )
                 action = "HOLD"
                 strength = 0
                 reason = "late_entry"
+            elif momentum_pct > self.cfg.late_entry_high_momentum_threshold:
+                # Allow with position reduction if O'Hara is strong
+                if self.cfg.late_entry_allow_strong_trend and ohara_score >= self.cfg.late_entry_min_ohara_for_override:
+                    logger.info(
+                        f"[LATE_ENTRY_ALLOWED] {symbol}: momentum={momentum_pct:.1f}% but O'Hara={ohara_score}/10 - "
+                        f"allowing with {self.cfg.late_entry_position_size_reduction*100:.0f}% position size"
+                    )
+                    # Add flag for position reduction
+                    reason = "late_entry_reduced"
+                else:
+                    logger.warning(
+                        f"[LATE_ENTRY] {symbol}: High momentum {momentum_pct:.1f}% (O'Hara={ohara_score}/10 too low) - rejecting"
+                    )
+                    action = "HOLD"
+                    strength = 0
+                    reason = "late_entry"
         
         if action != "HOLD":
             logger.info(
