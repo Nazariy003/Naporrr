@@ -53,3 +53,4 @@ config/.backup/
 # OS
 .DS_Store
 Thumbs.db
+*.csv
