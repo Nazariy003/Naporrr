@@ -76,7 +76,7 @@ class TradingSettings(BaseSettings):
     max_orders_per_minute: int = 100
     max_reprice_attempts: int = 8
     
-    entry_signal_min_strength: int = 4
+    entry_signal_min_strength: int = 3
     close_on_opposite_strength: int = 5
     
     decision_interval_sec: float = 2.0
@@ -100,7 +100,7 @@ class RiskSettings(BaseSettings):
     max_position_notional_pct: float = 1.0
     
     # Адаптивний lifetime
-    base_position_lifetime_minutes: int = 30
+    base_position_lifetime_minutes: int = 120
     enable_adaptive_lifetime: bool = True
     
     low_volatility_lifetime_multiplier: float = 1.5
