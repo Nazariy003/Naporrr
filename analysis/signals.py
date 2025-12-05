@@ -363,16 +363,21 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_large_order_factor(self, large_order_data: Dict) -> float:
-        """🆕 O'HARA METHOD 2: Large orders factor (АДАПТИВНИЙ) - ОПТИМІЗОВАНО"""
+        """O'HARA METHOD 2: Large orders factor (ADAPTIVE) - OPTIMIZED"""
         direction = large_order_data.get("informed_direction", "NEUTRAL")
         count = large_order_data.get("count", 0)
         
-        # Базові значення (зменшені з 0.8/0.4 до 0.5/0.25)
+        # Base values (reduced from 0.8/0.4 to 0.5/0.25)
         base_strong = 0.5
         base_medium = 0.25
         
-        # Додатковий бонус за кількість великих ордерів
-        count_bonus = min(0.15, count * 0.03) if count > 3 else 0
+        # Additional bonus for multiple large orders
+        count_bonus = 0
+        if count > self.cfg.large_order_count_bonus_threshold:
+            count_bonus = min(
+                self.cfg.large_order_count_bonus_max, 
+                count * self.cfg.large_order_count_bonus_per_order
+            )
         
         if direction == "STRONG_BUY":
             return base_strong + count_bonus
@@ -503,14 +508,14 @@ class SignalGenerator:
         return ema_new
 
     def _get_adaptive_threshold(self, symbol: str, volume_data: Dict, factors: Dict) -> float:
-        """Розрахунок адаптивного порогу на основі ринкових умов"""
+        """Calculate adaptive threshold based on market conditions"""
         if not self.cfg.enable_adaptive_threshold:
             return self.cfg.composite_thresholds["strength_3"]
         
         base = self.cfg.base_threshold
         adjustment = 0.0
         
-        # Коригування на основі волатильності
+        # Adjust based on volatility
         volatility = volume_data.get("volatility", 1.0)
         if volatility >= self.cfg.volatility_high_level:
             adjustment -= self.cfg.high_volatility_threshold_reduction
@@ -519,22 +524,22 @@ class SignalGenerator:
             adjustment += self.cfg.low_volatility_threshold_increase
             logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Low volatility ({volatility:.2f}) → threshold +{self.cfg.low_volatility_threshold_increase:.2f}")
         
-        # Коригування на основі обсягу (ліквідності)
+        # Adjust based on volume (liquidity)
         adaptive_volume = volume_data.get("adaptive_volume_analysis", {})
         vol_zscore = adaptive_volume.get("zscore", 0)
         
-        if vol_zscore > 1.0:  # Висока ліквідність
+        if vol_zscore > 1.0:  # High liquidity
             adjustment -= self.cfg.high_liquidity_threshold_reduction
             logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: High liquidity (zscore={vol_zscore:.2f}) → threshold -{self.cfg.high_liquidity_threshold_reduction:.2f}")
-        elif vol_zscore < -0.5:  # Низька ліквідність
+        elif vol_zscore < -0.5:  # Low liquidity
             adjustment += self.cfg.low_liquidity_threshold_increase
             logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Low liquidity (zscore={vol_zscore:.2f}) → threshold +{self.cfg.low_liquidity_threshold_increase:.2f}")
         
-        # O'Hara score бонус
+        # O'Hara score bonus
         ohara_score = self._calculate_ohara_score(factors)
-        if ohara_score >= 8:
-            adjustment -= 0.03
-            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Strong O'Hara ({ohara_score}/10) → threshold -0.03")
+        if ohara_score >= self.cfg.ohara_strong_score_threshold:
+            adjustment -= self.cfg.ohara_threshold_reduction
+            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Strong O'Hara ({ohara_score}/10) → threshold -{self.cfg.ohara_threshold_reduction:.2f}")
         
         final_threshold = max(self.cfg.min_threshold, min(self.cfg.max_threshold, base + adjustment))
         
@@ -682,21 +687,21 @@ class SignalGenerator:
             ohara_score = self._calculate_ohara_score(factors)
             
             if momentum_pct > self.cfg.late_entry_momentum_threshold:
-                # Повне блокування тільки для дуже екстремальних випадків
+                # Full block only for very extreme cases
                 logger.warning(
                     f"[LATE_ENTRY] {symbol}: Extreme momentum {momentum_pct:.1f}% - rejecting signal"
                 )
                 action = "HOLD"
                 strength = 0
                 reason = "late_entry"
-            elif momentum_pct > 70:
-                # Дозволяємо з редукцією позиції якщо O'Hara сильний
+            elif momentum_pct > self.cfg.late_entry_high_momentum_threshold:
+                # Allow with position reduction if O'Hara is strong
                 if self.cfg.late_entry_allow_strong_trend and ohara_score >= self.cfg.late_entry_min_ohara_for_override:
                     logger.info(
                         f"[LATE_ENTRY_ALLOWED] {symbol}: momentum={momentum_pct:.1f}% but O'Hara={ohara_score}/10 - "
                         f"allowing with {self.cfg.late_entry_position_size_reduction*100:.0f}% position size"
                     )
-                    # Додаємо флаг для редукції позиції
+                    # Add flag for position reduction
                     reason = "late_entry_reduced"
                 else:
                     logger.warning(

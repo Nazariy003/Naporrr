@@ -62,10 +62,9 @@ class PairsSettings(BaseSettings):
         "BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", 
         "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "TRXUSDT",
         "AAVEUSDT", "STRKUSDT"
-        # HFTUSDT видалено через постійну низьку ліквідність
     ]
     
-    # 🆕 Пари з особливою обробкою
+    # Pairs with special handling (HFTUSDT removed due to consistently low liquidity)
     low_liquidity_pairs: list = ["HFTUSDT", "TRXUSDT"]
     excluded_pairs: list = ["HFTUSDT"]
 
@@ -336,6 +335,16 @@ class SignalSettings(BaseSettings):
     late_entry_allow_strong_trend: bool = True
     late_entry_min_ohara_for_override: int = 7
     late_entry_position_size_reduction: float = 0.5  # половина позиції для late entry
+    late_entry_high_momentum_threshold: float = 70.0  # High momentum warning level
+    
+    # 🆕 LARGE ORDER COUNT BONUS
+    large_order_count_bonus_threshold: int = 3  # Minimum count for bonus
+    large_order_count_bonus_per_order: float = 0.03  # Bonus per large order
+    large_order_count_bonus_max: float = 0.15  # Maximum count bonus
+    
+    # 🆕 O'HARA THRESHOLD ADJUSTMENT
+    ohara_strong_score_threshold: int = 8  # Strong O'Hara score level
+    ohara_threshold_reduction: float = 0.03  # Threshold reduction for strong O'Hara
     
     # 🆕 CONTRADICTORY LARGE ORDERS OVERRIDE
     allow_override_contradictory_orders: bool = True
