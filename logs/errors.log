@@ -1,0 +1,3 @@
+2025-12-05 15:42:02 | ERROR | bot | [API] Error: order not exists or too late to replace (code: 110001)
+2025-12-05 18:43:44 | ERROR | bot | [API] Error: TakeProfit:92590000000 set for Sell position should be lower than base_price:87300000000??LastPrice (code: 10001)
+2025-12-05 22:46:02 | ERROR | bot | [API] Error: TakeProfit:91130000000 set for Sell position should be lower than base_price:88000000000??LastPrice (code: 10001)
