@@ -419,6 +419,10 @@ class MultiTimeframeSettings(BaseSettings):
     weight_5m: float = 0.35  # 35% weight for mid-trends
     weight_30m: float = 0.25  # 25% weight for macro-trends
     
+    # Multi-timeframe factor weights in signal calculation
+    mtf_trend_weight: float = 0.12  # Weight of trend consensus factor
+    mtf_consensus_weight: float = 0.13  # Weight of combined consensus factor
+    
     # Consensus mechanism: require N timeframes to agree
     min_timeframes_agreement: int = 2  # At least 2 out of 3 must agree
     

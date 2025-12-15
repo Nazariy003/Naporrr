@@ -3,11 +3,11 @@ import time
 import math
 import statistics
 import numpy as np
-from typing import Dict, Any, List, Tuple, Deque
+from typing import Dict, Any, List, Tuple, Deque, Optional
 from collections import deque
 from datetime import datetime
 from config.settings import settings
-from data.storage import DataStorage, TradeEntry
+from data.storage import DataStorage, TradeEntry, OHLCCandle
 from utils.logger import logger
 
 
@@ -1021,10 +1021,8 @@ class VolumeAnalyzer:
             "timeframes_available": len(valid_data)
         }
     
-    def _calculate_candle_volatility(self, candles: List, timeframe: str) -> Optional[float]:
+    def _calculate_candle_volatility(self, candles: List[OHLCCandle], timeframe: str) -> Optional[float]:
         """Calculate volatility from candles"""
-        from data.storage import OHLCCandle
-        
         min_candles = {
             "1m": self.mtf_cfg.min_candles_1m,
             "5m": self.mtf_cfg.min_candles_5m,
@@ -1050,10 +1048,8 @@ class VolumeAnalyzer:
         atr_pct = statistics.mean(price_changes)
         return atr_pct
     
-    def _detect_trend_from_candles(self, candles: List, timeframe: str) -> str:
+    def _detect_trend_from_candles(self, candles: List[OHLCCandle], timeframe: str) -> str:
         """Detect trend direction from candles"""
-        from data.storage import OHLCCandle
-        
         min_candles = {
             "1m": self.mtf_cfg.min_candles_1m,
             "5m": self.mtf_cfg.min_candles_5m,

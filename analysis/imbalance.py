@@ -2,9 +2,9 @@
 import time
 import statistics
 from collections import deque
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from config.settings import settings
-from data.storage import DataStorage
+from data.storage import DataStorage, OHLCCandle
 from utils.logger import logger
 
 class ImbalanceAnalyzer:
@@ -685,10 +685,8 @@ class ImbalanceAnalyzer:
             "timeframes_available": len(valid_data)
         }
     
-    def _calculate_candle_imbalance(self, candles: List, timeframe: str) -> Optional[float]:
+    def _calculate_candle_imbalance(self, candles: List[OHLCCandle], timeframe: str) -> Optional[float]:
         """Calculate buy/sell imbalance from candles"""
-        from data.storage import OHLCCandle
-        
         min_candles = {
             "1m": self.mtf_cfg.min_candles_1m,
             "5m": self.mtf_cfg.min_candles_5m,
@@ -724,16 +722,18 @@ class ImbalanceAnalyzer:
         imbalance = (buy_pressure - sell_pressure) / total * 100.0
         return imbalance
     
-    def _detect_pressure_from_candles(self, candles: List) -> str:
+    def _detect_pressure_from_candles(self, candles: List[OHLCCandle]) -> str:
         """Detect buying/selling pressure from candles"""
-        from data.storage import OHLCCandle
+        # Use configurable lookback instead of magic number
+        lookback = min(len(candles), self.mtf_cfg.min_candles_1m) if len(candles) >= 3 else len(candles)
         
-        if len(candles) < 3:
+        if lookback < 3:
             return "NEUTRAL"
         
         # Count bullish vs bearish candles
-        bullish = sum(1 for c in candles[-10:] if c.close > c.open)
-        bearish = sum(1 for c in candles[-10:] if c.close < c.open)
+        recent_candles = candles[-lookback:]
+        bullish = sum(1 for c in recent_candles if c.close > c.open)
+        bearish = sum(1 for c in recent_candles if c.close < c.open)
         
         total = bullish + bearish
         if total == 0:

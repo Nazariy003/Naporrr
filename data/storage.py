@@ -668,7 +668,10 @@ class DataStorage:
         return candles
     
     def aggregate_candles(self, candles_1m: List[OHLCCandle], target_timeframe: str) -> Optional[OHLCCandle]:
-        """Aggregate 1m candles into higher timeframe candles"""
+        """Aggregate 1m candles into higher timeframe candles
+        
+        Validates that source candles represent consecutive time periods
+        """
         if not candles_1m:
             return None
         
@@ -681,6 +684,14 @@ class DataStorage:
         
         # Take the last N candles
         source_candles = candles_1m[-multiplier:]
+        
+        # Validate timestamp continuity (each candle should be 60 seconds apart)
+        for i in range(1, len(source_candles)):
+            time_diff = source_candles[i].ts - source_candles[i-1].ts
+            # Allow some tolerance (55-65 seconds for 1m candles)
+            if not (55 <= time_diff <= 65):
+                logger.warning(f"[CANDLE_AGG] Non-consecutive timestamps detected: {time_diff}s gap")
+                # Still aggregate but log warning
         
         # Create aggregated candle
         return OHLCCandle(

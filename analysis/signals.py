@@ -561,8 +561,8 @@ class SignalGenerator:
         
         # Add multi-timeframe factors if enabled
         if mtf_cfg.enable_multi_timeframe:
-            score += factors.get("mtf_trend", 0.0) * 0.12
-            score += factors.get("mtf_consensus", 0.0) * 0.13
+            score += factors.get("mtf_trend", 0.0) * mtf_cfg.mtf_trend_weight
+            score += factors.get("mtf_consensus", 0.0) * mtf_cfg.mtf_consensus_weight
         
         if factors["raw_values"]["volume_acceleration"] > 50:
             score += self.cfg.spike_bonus
