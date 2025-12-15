@@ -166,13 +166,16 @@ class RiskManager:
 
     # ==================== АДАПТИВНИЙ LIFETIME ====================
     
-    def get_adaptive_lifetime_seconds(self, symbol: str, volatility: float) -> int:
+    def get_adaptive_lifetime_seconds(self, symbol: str, volatility: float, 
+                                      mtf_volatility: Dict[str, Any] = None) -> int:
         """
         🆕 Розрахунок адаптивного lifetime на основі волатильності
         
         Args:
             symbol: Торговий символ
             volatility: Поточна волатільність (у %)
+        
+            mtf_volatility: Multi-timeframe volatility data (optional)
         
         Returns:
             Lifetime у секундах
@@ -181,6 +184,11 @@ class RiskManager:
         
         if not self.cfg.enable_adaptive_lifetime:
             return base_lifetime_sec
+        
+        # Use multi-timeframe weighted volatility if available
+        if mtf_volatility and mtf_volatility.get("timeframes_available", 0) >= 2:
+            volatility = mtf_volatility.get("weighted_volatility", volatility)
+            logger.debug(f"[MTF_LIFETIME] {symbol}: Using MTF weighted volatility {volatility:.3f}%")
         
         # Визначаємо множник на основі волатільності
         if volatility < self.cfg.volatility_threshold_low:
