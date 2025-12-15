@@ -686,11 +686,16 @@ class DataStorage:
         source_candles = candles_1m[-multiplier:]
         
         # Validate timestamp continuity (each candle should be 60 seconds apart)
+        expected_interval = 60  # 1-minute candles
+        tolerance = expected_interval * settings.multiframe.candle_timestamp_tolerance_pct
+        min_acceptable = expected_interval - tolerance
+        max_acceptable = expected_interval + tolerance
+        
         for i in range(1, len(source_candles)):
             time_diff = source_candles[i].ts - source_candles[i-1].ts
-            # Allow some tolerance (55-65 seconds for 1m candles)
-            if not (55 <= time_diff <= 65):
-                logger.warning(f"[CANDLE_AGG] Non-consecutive timestamps detected: {time_diff}s gap")
+            if not (min_acceptable <= time_diff <= max_acceptable):
+                logger.warning(f"[CANDLE_AGG] Non-consecutive timestamps: {time_diff}s gap "
+                             f"(expected {expected_interval}s ±{tolerance:.1f}s)")
                 # Still aggregate but log warning
         
         # Create aggregated candle

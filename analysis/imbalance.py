@@ -101,8 +101,8 @@ class ImbalanceAnalyzer:
             # Use multi-timeframe weighted imbalance if available
             if mtf_imbalance["timeframes_available"] >= 2:
                 # Blend orderbook imbalance with multi-timeframe imbalance
-                alpha_orderbook = 0.6
-                alpha_mtf = 0.4
+                alpha_orderbook = self.mtf_cfg.imbalance_orderbook_weight
+                alpha_mtf = self.mtf_cfg.imbalance_mtf_weight
                 blended_imbalance = (effective_imbalance * alpha_orderbook + 
                                    mtf_imbalance["weighted_imbalance"] * alpha_mtf)
                 imb_result["effective_imbalance"] = blended_imbalance
@@ -741,9 +741,10 @@ class ImbalanceAnalyzer:
         
         bullish_pct = bullish / total
         
-        if bullish_pct > 0.65:
+        # Use configurable thresholds
+        if bullish_pct > self.mtf_cfg.pressure_bullish_threshold:
             return "BUY"
-        elif bullish_pct < 0.35:
+        elif bullish_pct < self.mtf_cfg.pressure_bearish_threshold:
             return "SELL"
         else:
             return "NEUTRAL"

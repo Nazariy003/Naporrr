@@ -423,6 +423,24 @@ class MultiTimeframeSettings(BaseSettings):
     mtf_trend_weight: float = 0.12  # Weight of trend consensus factor
     mtf_consensus_weight: float = 0.13  # Weight of combined consensus factor
     
+    # MTF trend factor calculation
+    mtf_trend_max_factor: float = 0.3  # Maximum trend factor value
+    
+    # MTF consensus factor calculation
+    mtf_consensus_strong_factor: float = 0.25  # When pressure and trend align
+    mtf_consensus_weak_factor: float = 0.1   # When only one aligns
+    
+    # Candle aggregation timestamp validation
+    candle_timestamp_tolerance_pct: float = 0.08  # ±8% tolerance for timestamp continuity
+    
+    # Imbalance blending (orderbook vs multi-timeframe)
+    imbalance_orderbook_weight: float = 0.6  # Weight for orderbook imbalance
+    imbalance_mtf_weight: float = 0.4  # Weight for multi-timeframe imbalance
+    
+    # Pressure detection thresholds
+    pressure_bullish_threshold: float = 0.65  # >65% bullish candles = BUY pressure
+    pressure_bearish_threshold: float = 0.35  # <35% bullish candles = SELL pressure
+    
     # Consensus mechanism: require N timeframes to agree
     min_timeframes_agreement: int = 2  # At least 2 out of 3 must agree
     

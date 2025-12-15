@@ -507,13 +507,14 @@ class SignalGenerator:
         if not mtf_volatility or mtf_volatility.get("timeframes_available", 0) < 2:
             return 0.0
         
+        mtf_cfg = settings.multiframe
         trend_consensus = mtf_volatility.get("trend_consensus", "NEUTRAL")
         consensus_strength = mtf_volatility.get("consensus_strength", 0)
         
         if trend_consensus == "BULLISH":
-            return 0.3 * (consensus_strength / 3.0)  # Scale by max strength
+            return mtf_cfg.mtf_trend_max_factor * (consensus_strength / 3.0)  # Scale by max strength
         elif trend_consensus == "BEARISH":
-            return -0.3 * (consensus_strength / 3.0)
+            return -mtf_cfg.mtf_trend_max_factor * (consensus_strength / 3.0)
         else:
             return 0.0
     
@@ -525,19 +526,20 @@ class SignalGenerator:
         if mtf_imbalance.get("timeframes_available", 0) < 2 or mtf_volatility.get("timeframes_available", 0) < 2:
             return 0.0
         
+        mtf_cfg = settings.multiframe
         pressure_consensus = mtf_imbalance.get("pressure_consensus", "NEUTRAL")
         trend_consensus = mtf_volatility.get("trend_consensus", "NEUTRAL")
         
         # Strong signal if both agree
         if pressure_consensus == "BUY" and trend_consensus == "BULLISH":
-            return 0.25
+            return mtf_cfg.mtf_consensus_strong_factor
         elif pressure_consensus == "SELL" and trend_consensus == "BEARISH":
-            return -0.25
+            return -mtf_cfg.mtf_consensus_strong_factor
         # Weak signal if only one agrees
         elif pressure_consensus == "BUY" or trend_consensus == "BULLISH":
-            return 0.1
+            return mtf_cfg.mtf_consensus_weak_factor
         elif pressure_consensus == "SELL" or trend_consensus == "BEARISH":
-            return -0.1
+            return -mtf_cfg.mtf_consensus_weak_factor
         else:
             return 0.0
 
