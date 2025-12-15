@@ -14,6 +14,7 @@ class ImbalanceAnalyzer:
         self.adaptive_cfg = settings.adaptive
         self.pairs_cfg = settings.pairs
         self.ohara_cfg = settings.ohara
+        self.mtf_cfg = settings.multiframe
         self.symbol_stats = {}
         self.last_imbalance = {}
         self.historical_imbalance = {}
@@ -91,6 +92,24 @@ class ImbalanceAnalyzer:
             "weighted_imbalance": weighted_imbalance,
             "effective_imbalance": effective_imbalance
         })
+        
+        # 🆕 MULTI-TIMEFRAME: Compute multi-timeframe imbalance
+        if self.mtf_cfg.enable_multi_timeframe:
+            mtf_imbalance = self.compute_multi_timeframe_imbalance(symbol)
+            imb_result["multi_timeframe_imbalance"] = mtf_imbalance
+            
+            # Use multi-timeframe weighted imbalance if available
+            if mtf_imbalance["timeframes_available"] >= 2:
+                # Blend orderbook imbalance with multi-timeframe imbalance
+                alpha_orderbook = 0.6
+                alpha_mtf = 0.4
+                blended_imbalance = (effective_imbalance * alpha_orderbook + 
+                                   mtf_imbalance["weighted_imbalance"] * alpha_mtf)
+                imb_result["effective_imbalance"] = blended_imbalance
+                logger.debug(f"[MTF_IMB] {symbol}: Blended imbalance {blended_imbalance:.1f} "
+                           f"(OB: {effective_imbalance:.1f}, MTF: {mtf_imbalance['weighted_imbalance']:.1f})")
+        else:
+            imb_result["multi_timeframe_imbalance"] = self._empty_mtf_imbalance()
         
         logger.debug(f"[IMBALANCE] {symbol}: imb={imb_result['imbalance_score']:.1f}, "
                     f"hist={imb_result.get('historical_imbalance', 0):.1f}, "
@@ -598,4 +617,148 @@ class ImbalanceAnalyzer:
             "effective_ask_volume": 0.0,
             "spoof_filtered_volume": 0.0,
             "timestamp": timestamp
+        }
+    
+    def compute_multi_timeframe_imbalance(self, symbol: str) -> Dict[str, Any]:
+        """
+        🆕 MULTI-TIMEFRAME: Compute imbalance consensus across timeframes
+        Returns weighted imbalance and consensus direction
+        """
+        if not self.mtf_cfg.enable_multi_timeframe:
+            return self._empty_mtf_imbalance()
+        
+        candles = self.storage.get_multi_timeframe_data(symbol)
+        
+        # Calculate volume-based imbalance for each timeframe
+        imb_1m = self._calculate_candle_imbalance(candles["1m"], "1m")
+        imb_5m = self._calculate_candle_imbalance(candles["5m"], "5m")
+        imb_30m = self._calculate_candle_imbalance(candles["30m"], "30m")
+        
+        # Check if we have enough data
+        if imb_1m is None and imb_5m is None and imb_30m is None:
+            return self._empty_mtf_imbalance()
+        
+        # Detect buying/selling pressure for each timeframe
+        pressure_1m = self._detect_pressure_from_candles(candles["1m"])
+        pressure_5m = self._detect_pressure_from_candles(candles["5m"])
+        pressure_30m = self._detect_pressure_from_candles(candles["30m"])
+        
+        # Count agreements
+        pressures = [pressure_1m, pressure_5m, pressure_30m]
+        buy_pressure_count = sum(1 for p in pressures if p == "BUY")
+        sell_pressure_count = sum(1 for p in pressures if p == "SELL")
+        
+        # Determine consensus
+        if buy_pressure_count >= self.mtf_cfg.min_timeframes_agreement:
+            pressure_consensus = "BUY"
+            consensus_strength = buy_pressure_count
+        elif sell_pressure_count >= self.mtf_cfg.min_timeframes_agreement:
+            pressure_consensus = "SELL"
+            consensus_strength = sell_pressure_count
+        else:
+            pressure_consensus = "NEUTRAL"
+            consensus_strength = 0
+        
+        # Calculate weighted imbalance
+        weights = [self.mtf_cfg.weight_1m, self.mtf_cfg.weight_5m, self.mtf_cfg.weight_30m]
+        imbalances = [imb_1m, imb_5m, imb_30m]
+        
+        # Filter out None values
+        valid_data = [(imb, w) for imb, w in zip(imbalances, weights) if imb is not None]
+        
+        if not valid_data:
+            weighted_imbalance = 0.0
+        else:
+            total_weight = sum(w for _, w in valid_data)
+            weighted_imbalance = sum(imb * w for imb, w in valid_data) / total_weight
+        
+        return {
+            "imbalance_1m": imb_1m or 0.0,
+            "imbalance_5m": imb_5m or 0.0,
+            "imbalance_30m": imb_30m or 0.0,
+            "weighted_imbalance": weighted_imbalance,
+            "pressure_1m": pressure_1m,
+            "pressure_5m": pressure_5m,
+            "pressure_30m": pressure_30m,
+            "pressure_consensus": pressure_consensus,
+            "consensus_strength": consensus_strength,
+            "timeframes_available": len(valid_data)
+        }
+    
+    def _calculate_candle_imbalance(self, candles: List, timeframe: str) -> Optional[float]:
+        """Calculate buy/sell imbalance from candles"""
+        from data.storage import OHLCCandle
+        
+        min_candles = {
+            "1m": self.mtf_cfg.min_candles_1m,
+            "5m": self.mtf_cfg.min_candles_5m,
+            "30m": self.mtf_cfg.min_candles_30m
+        }.get(timeframe, 5)
+        
+        if len(candles) < min_candles:
+            return None
+        
+        # Calculate buying vs selling pressure from candles
+        # Using close relative to open and high/low
+        buy_pressure = 0.0
+        sell_pressure = 0.0
+        
+        for candle in candles[-min_candles:]:
+            range_size = candle.high - candle.low
+            if range_size == 0:
+                continue
+            
+            # If close > open, buying pressure
+            # If close < open, selling pressure
+            close_position = (candle.close - candle.low) / range_size
+            
+            if candle.close > candle.open:
+                buy_pressure += candle.volume * close_position
+            else:
+                sell_pressure += candle.volume * (1 - close_position)
+        
+        total = buy_pressure + sell_pressure
+        if total == 0:
+            return 0.0
+        
+        imbalance = (buy_pressure - sell_pressure) / total * 100.0
+        return imbalance
+    
+    def _detect_pressure_from_candles(self, candles: List) -> str:
+        """Detect buying/selling pressure from candles"""
+        from data.storage import OHLCCandle
+        
+        if len(candles) < 3:
+            return "NEUTRAL"
+        
+        # Count bullish vs bearish candles
+        bullish = sum(1 for c in candles[-10:] if c.close > c.open)
+        bearish = sum(1 for c in candles[-10:] if c.close < c.open)
+        
+        total = bullish + bearish
+        if total == 0:
+            return "NEUTRAL"
+        
+        bullish_pct = bullish / total
+        
+        if bullish_pct > 0.65:
+            return "BUY"
+        elif bullish_pct < 0.35:
+            return "SELL"
+        else:
+            return "NEUTRAL"
+    
+    def _empty_mtf_imbalance(self) -> Dict[str, Any]:
+        """Empty multi-timeframe imbalance data"""
+        return {
+            "imbalance_1m": 0.0,
+            "imbalance_5m": 0.0,
+            "imbalance_30m": 0.0,
+            "weighted_imbalance": 0.0,
+            "pressure_1m": "NEUTRAL",
+            "pressure_5m": "NEUTRAL",
+            "pressure_30m": "NEUTRAL",
+            "pressure_consensus": "NEUTRAL",
+            "consensus_strength": 0,
+            "timeframes_available": 0
         }

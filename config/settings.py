@@ -399,6 +399,52 @@ class OHaraSettings(BaseSettings):
     min_ohara_score_for_trade: int = 4
     strong_ohara_score_threshold: int = 8
 
+
+class MultiTimeframeSettings(BaseSettings):
+    """🆕 MULTI-TIMEFRAME ANALYSIS: Settings for multiple timeframe analysis"""
+    
+    # Enable/disable multi-timeframe analysis
+    enable_multi_timeframe: bool = True
+    
+    # Timeframes to use
+    timeframes: list = ["1m", "5m", "30m"]
+    
+    # Candle retention (how many candles to keep per timeframe)
+    candle_retention_1m: int = 60  # 1 hour of 1m candles
+    candle_retention_5m: int = 60  # 5 hours of 5m candles
+    candle_retention_30m: int = 48  # 24 hours of 30m candles
+    
+    # Timeframe weights for aggregation (must sum to 1.0)
+    weight_1m: float = 0.40  # 40% weight for micro-trends
+    weight_5m: float = 0.35  # 35% weight for mid-trends
+    weight_30m: float = 0.25  # 25% weight for macro-trends
+    
+    # Consensus mechanism: require N timeframes to agree
+    min_timeframes_agreement: int = 2  # At least 2 out of 3 must agree
+    
+    # Trend detection thresholds per timeframe
+    trend_threshold_1m: float = 0.3  # 0.3% price change for 1m trend
+    trend_threshold_5m: float = 0.5  # 0.5% price change for 5m trend
+    trend_threshold_30m: float = 1.0  # 1.0% price change for 30m trend
+    
+    # Volatility thresholds per timeframe
+    volatility_threshold_1m: float = 0.5
+    volatility_threshold_5m: float = 0.8
+    volatility_threshold_30m: float = 1.5
+    
+    # Volume confirmation across timeframes
+    volume_confirmation_threshold: float = 1.5  # 1.5x average volume
+    
+    # Print detection across timeframes
+    enable_multi_timeframe_prints: bool = True
+    print_size_threshold_multiplier: float = 2.0  # 2x normal size
+    
+    # Minimum candles required for analysis
+    min_candles_1m: int = 10
+    min_candles_5m: int = 5
+    min_candles_30m: int = 3
+
+
 class Settings(BaseSettings):
     """Головний клас налаштувань"""
     system: SystemSettings = SystemSettings()
@@ -416,5 +462,6 @@ class Settings(BaseSettings):
     signals: SignalSettings = SignalSettings()
     spread: SpreadSettings = SpreadSettings()
     ohara: OHaraSettings = OHaraSettings()
+    multiframe: MultiTimeframeSettings = MultiTimeframeSettings()
 
 settings = Settings()

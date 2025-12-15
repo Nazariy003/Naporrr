@@ -48,6 +48,20 @@ class SuspiciousOrder:
 
 
 @dataclass
+class OHLCCandle:
+    """OHLC candle for multi-timeframe analysis"""
+    symbol: str
+    timeframe: str  # "1m", "5m", "30m"
+    ts: float  # timestamp of candle start
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: float
+    trades_count: int = 0
+
+
+@dataclass
 class Position:
     symbol: str
     side: str
@@ -160,6 +174,12 @@ class DataStorage:
         
         # 🆕 O'HARA METHOD 7: Spread tracking
         self._current_spreads: Dict[str, float] = {}  # {symbol: spread_bps}
+        
+        # 🆕 MULTI-TIMEFRAME: Candle storage
+        self._candles_1m: Dict[str, Deque[OHLCCandle]] = {}  # {symbol: deque of 1m candles}
+        self._candles_5m: Dict[str, Deque[OHLCCandle]] = {}  # {symbol: deque of 5m candles}
+        self._candles_30m: Dict[str, Deque[OHLCCandle]] = {}  # {symbol: deque of 30m candles}
+        self._current_candle: Dict[str, Dict[str, OHLCCandle]] = {}  # {symbol: {timeframe: candle}}
 
     def init_symbol(self, symbol: str):
         if symbol not in self._trades:
@@ -170,6 +190,19 @@ class DataStorage:
             self._active_large_levels[symbol] = {"bid": {}, "ask": {}}
         if symbol not in self._book_maps:
             self._book_maps[symbol] = {"bids": {}, "asks": {}}
+        
+        # Initialize multi-timeframe candles
+        if symbol not in self._candles_1m:
+            retention_1m = getattr(settings.multiframe, 'candle_retention_1m', 60)
+            self._candles_1m[symbol] = deque(maxlen=retention_1m)
+        if symbol not in self._candles_5m:
+            retention_5m = getattr(settings.multiframe, 'candle_retention_5m', 60)
+            self._candles_5m[symbol] = deque(maxlen=retention_5m)
+        if symbol not in self._candles_30m:
+            retention_30m = getattr(settings.multiframe, 'candle_retention_30m', 48)
+            self._candles_30m[symbol] = deque(maxlen=retention_30m)
+        if symbol not in self._current_candle:
+            self._current_candle[symbol] = {}
 
     def add_position_callback(self, callback: Callable[[Position], Awaitable[None]]):
         self._position_callbacks.append(callback)
@@ -379,11 +412,15 @@ class DataStorage:
     def add_trade(self, symbol: str, price: float, size: float, side: str, is_aggressive: bool):
         self.init_symbol(symbol)
         now = time.time()
+        trade = TradeEntry(ts=now, price=price, size=size, side=side, is_aggressive=is_aggressive, symbol=symbol)
         dq = self._trades[symbol]
-        dq.append(TradeEntry(ts=now, price=price, size=size, side=side, is_aggressive=is_aggressive, symbol=symbol))
+        dq.append(trade)
         cutoff = now - self.retention_seconds
         while dq and dq[0].ts < cutoff:
             dq.popleft()
+        
+        # Update multi-timeframe candles
+        self.update_candle_from_trade(trade)
 
     def update_order_book(self, symbol: str, bids: List[List[str]], asks: List[List[str]]):
         self.init_symbol(symbol)
@@ -553,3 +590,115 @@ class DataStorage:
             for o in self._suspicious_orders.get(symbol, [])
             if (o.removed_ts or now) >= now - last_seconds
         ]
+    
+    # 🆕 MULTI-TIMEFRAME METHODS
+    
+    def update_candle_from_trade(self, trade: TradeEntry):
+        """Update candles from incoming trades"""
+        symbol = trade.symbol
+        self.init_symbol(symbol)
+        now = trade.ts
+        
+        # Update 1m, 5m, and 30m candles
+        for timeframe in ["1m", "5m", "30m"]:
+            self._update_candle_for_timeframe(symbol, timeframe, trade.price, trade.size, now)
+    
+    def _update_candle_for_timeframe(self, symbol: str, timeframe: str, price: float, volume: float, ts: float):
+        """Update or create candle for specific timeframe"""
+        # Determine candle interval in seconds
+        interval_map = {"1m": 60, "5m": 300, "30m": 1800}
+        interval = interval_map[timeframe]
+        
+        # Get candle start time (aligned to interval)
+        candle_start = int(ts // interval) * interval
+        
+        # Check if we have a current candle for this timeframe
+        current = self._current_candle[symbol].get(timeframe)
+        
+        if current is None or current.ts != candle_start:
+            # Close previous candle if exists
+            if current is not None:
+                self._close_candle(symbol, timeframe, current)
+            
+            # Create new candle
+            current = OHLCCandle(
+                symbol=symbol,
+                timeframe=timeframe,
+                ts=candle_start,
+                open=price,
+                high=price,
+                low=price,
+                close=price,
+                volume=volume,
+                trades_count=1
+            )
+            self._current_candle[symbol][timeframe] = current
+        else:
+            # Update existing candle
+            current.high = max(current.high, price)
+            current.low = min(current.low, price)
+            current.close = price
+            current.volume += volume
+            current.trades_count += 1
+    
+    def _close_candle(self, symbol: str, timeframe: str, candle: OHLCCandle):
+        """Close and store a completed candle"""
+        if timeframe == "1m":
+            self._candles_1m[symbol].append(candle)
+        elif timeframe == "5m":
+            self._candles_5m[symbol].append(candle)
+        elif timeframe == "30m":
+            self._candles_30m[symbol].append(candle)
+    
+    def get_candles(self, symbol: str, timeframe: str, count: int = None) -> List[OHLCCandle]:
+        """Get candles for a specific timeframe"""
+        self.init_symbol(symbol)
+        
+        if timeframe == "1m":
+            candles = list(self._candles_1m[symbol])
+        elif timeframe == "5m":
+            candles = list(self._candles_5m[symbol])
+        elif timeframe == "30m":
+            candles = list(self._candles_30m[symbol])
+        else:
+            return []
+        
+        if count is not None and count > 0:
+            return candles[-count:]
+        return candles
+    
+    def aggregate_candles(self, candles_1m: List[OHLCCandle], target_timeframe: str) -> Optional[OHLCCandle]:
+        """Aggregate 1m candles into higher timeframe candles"""
+        if not candles_1m:
+            return None
+        
+        # Determine how many 1m candles we need
+        multiplier_map = {"5m": 5, "30m": 30}
+        multiplier = multiplier_map.get(target_timeframe)
+        
+        if multiplier is None or len(candles_1m) < multiplier:
+            return None
+        
+        # Take the last N candles
+        source_candles = candles_1m[-multiplier:]
+        
+        # Create aggregated candle
+        return OHLCCandle(
+            symbol=source_candles[0].symbol,
+            timeframe=target_timeframe,
+            ts=source_candles[0].ts,
+            open=source_candles[0].open,
+            high=max(c.high for c in source_candles),
+            low=min(c.low for c in source_candles),
+            close=source_candles[-1].close,
+            volume=sum(c.volume for c in source_candles),
+            trades_count=sum(c.trades_count for c in source_candles)
+        )
+    
+    def get_multi_timeframe_data(self, symbol: str) -> Dict[str, List[OHLCCandle]]:
+        """Get candles for all timeframes"""
+        return {
+            "1m": self.get_candles(symbol, "1m"),
+            "5m": self.get_candles(symbol, "5m"),
+            "30m": self.get_candles(symbol, "30m")
+        }

@@ -449,6 +449,7 @@ class VolumeAnalyzer:
         self.cfg = settings.volume
         self.adaptive_cfg = settings.adaptive
         self.ohara_cfg = settings.ohara
+        self.mtf_cfg = settings.multiframe
         self.tape_analyzer = TapeAnalyzer(large_trade_threshold_usdt=5000)
         self._last_calculations = {}
         self._adaptive_windows_cache = {}
@@ -585,6 +586,18 @@ class VolumeAnalyzer:
         
         # Додаємо статистику адаптивного аналізу
         result["adaptive_statistics"] = self.adaptive_analyzer.get_statistics(symbol)
+        
+        # 🆕 MULTI-TIMEFRAME: Compute multi-timeframe analysis
+        if self.mtf_cfg.enable_multi_timeframe:
+            mtf_data = self.compute_multi_timeframe_volatility(symbol)
+            result["multi_timeframe"] = mtf_data
+            
+            # Use multi-timeframe volatility if available
+            if mtf_data["timeframes_available"] >= 2:
+                result["volatility"] = mtf_data["weighted_volatility"]
+                logger.debug(f"[MTF] {symbol}: Using weighted volatility {mtf_data['weighted_volatility']:.3f}% from {mtf_data['timeframes_available']} timeframes")
+        else:
+            result["multi_timeframe"] = self._empty_mtf_volatility()
         
         self._last_calculations[symbol] = result
         
@@ -940,4 +953,152 @@ class VolumeAnalyzer:
             },
             "adaptive_volume_analysis": {'classification': 'INSUFFICIENT_DATA', 'zscore': 0.0, 'percentile': 50.0, 'ema_ratio': 1.0},
             "adaptive_statistics": {}
+        }
+    
+    def compute_multi_timeframe_volatility(self, symbol: str) -> Dict[str, Any]:
+        """
+        🆕 MULTI-TIMEFRAME: Compute volatility across multiple timeframes
+        Returns volatility consensus and weighted average
+        """
+        if not self.mtf_cfg.enable_multi_timeframe:
+            return self._empty_mtf_volatility()
+        
+        candles = self.storage.get_multi_timeframe_data(symbol)
+        
+        # Calculate volatility for each timeframe
+        volatility_1m = self._calculate_candle_volatility(candles["1m"], "1m")
+        volatility_5m = self._calculate_candle_volatility(candles["5m"], "5m")
+        volatility_30m = self._calculate_candle_volatility(candles["30m"], "30m")
+        
+        # Check if we have enough data
+        if volatility_1m is None and volatility_5m is None and volatility_30m is None:
+            return self._empty_mtf_volatility()
+        
+        # Determine trend direction for each timeframe
+        trend_1m = self._detect_trend_from_candles(candles["1m"], "1m")
+        trend_5m = self._detect_trend_from_candles(candles["5m"], "5m")
+        trend_30m = self._detect_trend_from_candles(candles["30m"], "30m")
+        
+        # Count agreements
+        trends = [trend_1m, trend_5m, trend_30m]
+        bullish_count = sum(1 for t in trends if t == "BULLISH")
+        bearish_count = sum(1 for t in trends if t == "BEARISH")
+        
+        # Determine consensus
+        if bullish_count >= self.mtf_cfg.min_timeframes_agreement:
+            trend_consensus = "BULLISH"
+            consensus_strength = bullish_count
+        elif bearish_count >= self.mtf_cfg.min_timeframes_agreement:
+            trend_consensus = "BEARISH"
+            consensus_strength = bearish_count
+        else:
+            trend_consensus = "NEUTRAL"
+            consensus_strength = 0
+        
+        # Calculate weighted volatility
+        weights = [self.mtf_cfg.weight_1m, self.mtf_cfg.weight_5m, self.mtf_cfg.weight_30m]
+        volatilities = [volatility_1m, volatility_5m, volatility_30m]
+        
+        # Filter out None values
+        valid_data = [(v, w) for v, w in zip(volatilities, weights) if v is not None]
+        
+        if not valid_data:
+            weighted_volatility = 0.1
+        else:
+            total_weight = sum(w for _, w in valid_data)
+            weighted_volatility = sum(v * w for v, w in valid_data) / total_weight
+        
+        return {
+            "volatility_1m": volatility_1m or 0.0,
+            "volatility_5m": volatility_5m or 0.0,
+            "volatility_30m": volatility_30m or 0.0,
+            "weighted_volatility": weighted_volatility,
+            "trend_1m": trend_1m,
+            "trend_5m": trend_5m,
+            "trend_30m": trend_30m,
+            "trend_consensus": trend_consensus,
+            "consensus_strength": consensus_strength,
+            "timeframes_available": len(valid_data)
+        }
+    
+    def _calculate_candle_volatility(self, candles: List, timeframe: str) -> Optional[float]:
+        """Calculate volatility from candles"""
+        from data.storage import OHLCCandle
+        
+        min_candles = {
+            "1m": self.mtf_cfg.min_candles_1m,
+            "5m": self.mtf_cfg.min_candles_5m,
+            "30m": self.mtf_cfg.min_candles_30m
+        }.get(timeframe, 5)
+        
+        if len(candles) < min_candles:
+            return None
+        
+        # Calculate price changes
+        price_changes = []
+        for i in range(1, len(candles)):
+            prev_close = candles[i-1].close
+            curr_close = candles[i].close
+            if prev_close > 0:
+                change_pct = abs(curr_close - prev_close) / prev_close * 100
+                price_changes.append(change_pct)
+        
+        if not price_changes:
+            return None
+        
+        # Calculate average true range percentage
+        atr_pct = statistics.mean(price_changes)
+        return atr_pct
+    
+    def _detect_trend_from_candles(self, candles: List, timeframe: str) -> str:
+        """Detect trend direction from candles"""
+        from data.storage import OHLCCandle
+        
+        min_candles = {
+            "1m": self.mtf_cfg.min_candles_1m,
+            "5m": self.mtf_cfg.min_candles_5m,
+            "30m": self.mtf_cfg.min_candles_30m
+        }.get(timeframe, 5)
+        
+        if len(candles) < min_candles:
+            return "NEUTRAL"
+        
+        # Take recent candles
+        recent_candles = candles[-min_candles:]
+        
+        first_close = recent_candles[0].close
+        last_close = recent_candles[-1].close
+        
+        if first_close == 0:
+            return "NEUTRAL"
+        
+        price_change_pct = (last_close - first_close) / first_close * 100
+        
+        # Get threshold for this timeframe
+        threshold = {
+            "1m": self.mtf_cfg.trend_threshold_1m,
+            "5m": self.mtf_cfg.trend_threshold_5m,
+            "30m": self.mtf_cfg.trend_threshold_30m
+        }.get(timeframe, 0.5)
+        
+        if price_change_pct > threshold:
+            return "BULLISH"
+        elif price_change_pct < -threshold:
+            return "BEARISH"
+        else:
+            return "NEUTRAL"
+    
+    def _empty_mtf_volatility(self) -> Dict[str, Any]:
+        """Empty multi-timeframe volatility data"""
+        return {
+            "volatility_1m": 0.0,
+            "volatility_5m": 0.0,
+            "volatility_30m": 0.0,
+            "weighted_volatility": 0.1,
+            "trend_1m": "NEUTRAL",
+            "trend_5m": "NEUTRAL",
+            "trend_30m": "NEUTRAL",
+            "trend_consensus": "NEUTRAL",
+            "consensus_strength": 0,
+            "timeframes_available": 0
         }

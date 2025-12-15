@@ -209,18 +209,28 @@ class SignalGenerator:
         # ✅ АДАПТИВНІ ДАНІ
         adaptive_volume = volume_data.get("adaptive_volume_analysis", {})
         adaptive_stats = volume_data.get("adaptive_statistics", {})
+        
+        # 🆕 MULTI-TIMEFRAME DATA
+        mtf_volatility = volume_data.get("multi_timeframe", {})
+        mtf_imbalance = imbalance_data.get("multi_timeframe_imbalance", {})
 
         logger.debug(f"[SIGNAL_DEBUG] {symbol}: imb={imb_score}, mom={mom_score}, vol={volatility}")
         logger.debug(f"[SIGNAL_DEBUG_ADAPTIVE] {symbol}: "
                     f"vol_class={adaptive_volume.get('classification')}, "
                     f"vol_zscore={adaptive_volume.get('zscore', 0):.2f}, "
                     f"large_orders={large_order_data.get('informed_direction')}")
+        
+        if mtf_volatility.get("timeframes_available", 0) >= 2:
+            logger.debug(f"[SIGNAL_DEBUG_MTF] {symbol}: "
+                        f"trend_consensus={mtf_volatility.get('trend_consensus')}, "
+                        f"pressure_consensus={mtf_imbalance.get('pressure_consensus')}, "
+                        f"strength={mtf_volatility.get('consensus_strength')}")
 
         factors = self._calculate_all_factors(
             imb_score, mom_score, tape_analysis, depth_analysis,
             cluster_analysis, spread_bps, volatility,
             bayesian_data, trade_imbalance, frequency_data, 
-            volume_confirm, large_order_data
+            volume_confirm, large_order_data, mtf_volatility, mtf_imbalance
         )
 
         composite_score = self._calculate_composite_score(factors)
@@ -282,11 +292,15 @@ class SignalGenerator:
         volume_confirm = vol_data.get("volume_confirmation", {})
         large_order_data = vol_data.get("large_order_data", {})
         
+        # Multi-timeframe data
+        mtf_volatility = vol_data.get("multi_timeframe", {})
+        mtf_imbalance = imb_data.get("multi_timeframe_imbalance", {})
+        
         factors = self._calculate_all_factors(
             imb_score, mom_score, tape_analysis, depth_analysis,
             cluster_analysis, spread_bps, volatility,
             bayesian_data, trade_imbalance, frequency_data,
-            volume_confirm, large_order_data
+            volume_confirm, large_order_data, mtf_volatility, mtf_imbalance
         )
         
         composite_score = self._calculate_composite_score(factors)
@@ -309,7 +323,7 @@ class SignalGenerator:
     def _calculate_all_factors(self, imb_score, mom_score, tape_analysis, 
                              depth_analysis, cluster_analysis, spread_bps, volatility,
                              bayesian_data, trade_imbalance, frequency_data,
-                             volume_confirm, large_order_data):
+                             volume_confirm, large_order_data, mtf_volatility=None, mtf_imbalance=None):
         imb_norm = imb_score / 100.0
         mom_norm = mom_score / 100.0
         
@@ -324,6 +338,10 @@ class SignalGenerator:
         frequency_factor = self._calculate_frequency_factor(frequency_data)
         volume_confirm_factor = self._calculate_volume_confirm_factor(volume_confirm)
         
+        # 🆕 MULTI-TIMEFRAME factors
+        mtf_trend_factor = self._calculate_mtf_trend_factor(mtf_volatility)
+        mtf_consensus_factor = self._calculate_mtf_consensus_factor(mtf_imbalance, mtf_volatility)
+        
         return {
             "imbalance": imb_norm,
             "momentum": mom_norm,
@@ -336,6 +354,8 @@ class SignalGenerator:
             "ohara_large_orders": large_order_factor,
             "ohara_frequency": frequency_factor,
             "ohara_volume_confirm": volume_confirm_factor,
+            "mtf_trend": mtf_trend_factor,
+            "mtf_consensus": mtf_consensus_factor,
             "raw_values": {
                 "imbalance_score": imb_score,
                 "momentum_score": mom_score,
@@ -346,9 +366,12 @@ class SignalGenerator:
                 "bayesian_signal": bayesian_data.get("signal", "NEUTRAL"),
                 "informed_direction": large_order_data.get("informed_direction", "NEUTRAL"),
                 "activity_level": frequency_data.get("activity_level", "UNKNOWN"),
-                "vol_confirmation": volume_confirm.get("confirmation", "UNKNOWN")
+                "vol_confirmation": volume_confirm.get("confirmation", "UNKNOWN"),
+                "mtf_trend_consensus": mtf_volatility.get("trend_consensus", "NEUTRAL") if mtf_volatility else "NEUTRAL",
+                "mtf_pressure_consensus": mtf_imbalance.get("pressure_consensus", "NEUTRAL") if mtf_imbalance else "NEUTRAL"
             }
         }
+
 
     def _calculate_bayesian_factor(self, bayesian_data: Dict) -> float:
         """🆕 O'HARA METHOD 1: Bayesian factor"""
@@ -478,9 +501,50 @@ class SignalGenerator:
             return -0.1
         else:
             return 0.0
+    
+    def _calculate_mtf_trend_factor(self, mtf_volatility: Dict) -> float:
+        """🆕 MULTI-TIMEFRAME: Trend consensus factor"""
+        if not mtf_volatility or mtf_volatility.get("timeframes_available", 0) < 2:
+            return 0.0
+        
+        trend_consensus = mtf_volatility.get("trend_consensus", "NEUTRAL")
+        consensus_strength = mtf_volatility.get("consensus_strength", 0)
+        
+        if trend_consensus == "BULLISH":
+            return 0.3 * (consensus_strength / 3.0)  # Scale by max strength
+        elif trend_consensus == "BEARISH":
+            return -0.3 * (consensus_strength / 3.0)
+        else:
+            return 0.0
+    
+    def _calculate_mtf_consensus_factor(self, mtf_imbalance: Dict, mtf_volatility: Dict) -> float:
+        """🆕 MULTI-TIMEFRAME: Overall consensus factor"""
+        if not mtf_imbalance or not mtf_volatility:
+            return 0.0
+        
+        if mtf_imbalance.get("timeframes_available", 0) < 2 or mtf_volatility.get("timeframes_available", 0) < 2:
+            return 0.0
+        
+        pressure_consensus = mtf_imbalance.get("pressure_consensus", "NEUTRAL")
+        trend_consensus = mtf_volatility.get("trend_consensus", "NEUTRAL")
+        
+        # Strong signal if both agree
+        if pressure_consensus == "BUY" and trend_consensus == "BULLISH":
+            return 0.25
+        elif pressure_consensus == "SELL" and trend_consensus == "BEARISH":
+            return -0.25
+        # Weak signal if only one agrees
+        elif pressure_consensus == "BUY" or trend_consensus == "BULLISH":
+            return 0.1
+        elif pressure_consensus == "SELL" or trend_consensus == "BEARISH":
+            return -0.1
+        else:
+            return 0.0
 
     def _calculate_composite_score(self, factors: Dict) -> float:
-        """Розрахунок composite score з O'Hara факторами"""
+        """Розрахунок composite score з O'Hara факторами та multi-timeframe"""
+        mtf_cfg = settings.multiframe
+        
         score = (
             factors["imbalance"] * self.cfg.weight_imbalance +
             factors["momentum"] * self.cfg.weight_momentum +
@@ -494,6 +558,11 @@ class SignalGenerator:
             factors["spread"] * 0.075 +
             factors["volatility"] * 0.05
         )
+        
+        # Add multi-timeframe factors if enabled
+        if mtf_cfg.enable_multi_timeframe:
+            score += factors.get("mtf_trend", 0.0) * 0.12
+            score += factors.get("mtf_consensus", 0.0) * 0.13
         
         if factors["raw_values"]["volume_acceleration"] > 50:
             score += self.cfg.spike_bonus
