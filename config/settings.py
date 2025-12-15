@@ -280,6 +280,47 @@ class AdaptiveSettings(BaseSettings):
     
     max_window_expansion: float = 2.0
     min_window_reduction: float = 0.5
+    
+    # 🆕 МУЛЬТИ-ТАЙМФРЕЙМ АДАПТАЦІЯ
+    enable_multi_tf_adaptation: bool = True
+    tf_adaptation_volatility_threshold: float = 2.0  # % волатильності для адаптації
+    tf_adaptation_trend_strength_threshold: float = 0.3  # Сила тренду для адаптації
+    
+    # Динамічні ваги для факторів залежно від умов ринку
+    adaptive_weight_multipliers: Dict[str, Dict[str, float]] = {
+        "high_volatility": {
+            "imbalance": 1.2,  # Збільшити вагу імбалансу при високій волатильності
+            "momentum": 0.8,   # Зменшити вагу моментуму
+            "multi_tf_trend": 1.5,  # Збільшити тренд на вищих таймфреймах
+            "multi_tf_volatility": 1.3,
+            "multi_tf_prints": 0.7,
+            "multi_tf_imbalance": 1.4
+        },
+        "low_volatility": {
+            "imbalance": 0.8,
+            "momentum": 1.3,
+            "multi_tf_trend": 0.7,
+            "multi_tf_volatility": 0.5,
+            "multi_tf_prints": 1.2,
+            "multi_tf_imbalance": 0.9
+        },
+        "strong_trend": {
+            "imbalance": 1.1,
+            "momentum": 1.4,
+            "multi_tf_trend": 1.6,
+            "multi_tf_volatility": 0.8,
+            "multi_tf_prints": 1.0,
+            "multi_tf_imbalance": 1.2
+        },
+        "sideways": {
+            "imbalance": 1.5,
+            "momentum": 0.7,
+            "multi_tf_trend": 0.5,
+            "multi_tf_volatility": 1.2,
+            "multi_tf_prints": 1.3,
+            "multi_tf_imbalance": 1.5
+        }
+    }
 
 class SignalSettings(BaseSettings):
     """Налаштування генерації сигналів"""

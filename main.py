@@ -56,9 +56,68 @@ async def delayed_validation():
     await asyncio.sleep(1800)  # 30 хвилин
     await run_csv_validation()
 
+async def log_system_info():
+    """Логування інформації про систему та адаптацію"""
+    logger.info("=" * 60)
+    logger.info("🤖 MULTI-TIMEFRAME ADAPTIVE TRADING SYSTEM")
+    logger.info("=" * 60)
+    logger.info("📊 SYSTEM FEATURES:")
+    logger.info("   • Multi-Timeframe Analysis (1m, 5m, 30m)")
+    logger.info("   • Adaptive Weight System")
+    logger.info("   • Market Condition Detection")
+    logger.info("   • Dynamic Threshold Adjustment")
+    logger.info("   • O'Hara Methods Integration")
+    logger.info("   • Real-time Performance Monitoring")
+    logger.info("")
+    logger.info("🎯 ANALYSIS COMPONENTS:")
+    logger.info("   • Trend Analysis (SMA, Momentum)")
+    logger.info("   • Volatility Analysis (ATR, StdDev)")
+    logger.info("   • Order Book Imbalance (Adaptive)")
+    logger.info("   • Volume Analysis (Z-Score, EMA)")
+    logger.info("   • Print Analysis (Aggressive Trades)")
+    logger.info("   • Large Order Tracking")
+    logger.info("")
+    logger.info("🔧 ADAPTIVE FEATURES:")
+    logger.info("   • Market Mode Detection (High Vol, Low Vol, Trend, Sideways)")
+    logger.info("   • Dynamic Factor Weights")
+    logger.info("   • Multi-Timeframe Weight Balancing")
+    logger.info("   • Liquidity-based Adjustments")
+    logger.info("   • Spread Risk Assessment")
+    logger.info("=" * 60)
+
+async def periodic_system_report(orchestrator: TradingOrchestrator, executor: TradeExecutor):
+    """Періодичний звіт про стан системи"""
+    while True:
+        try:
+            await asyncio.sleep(300)  # Кожні 5 хвилин
+            
+            # Звіт про ринкові умови
+            logger.info("📈 [SYSTEM_REPORT] Market Conditions Update:")
+            for symbol in settings.pairs.trade_pairs[:3]:  # Перші 3 символи для прикладу
+                condition_report = orchestrator.get_market_condition_report(symbol)
+                logger.info(f"   {symbol}: mode={condition_report['market_mode']}, "
+                           f"vol_1m={condition_report['volatility_1m']:.2f}%, "
+                           f"trend_5m={condition_report['trend_5m']}")
+            
+            # Звіт про ефективність сигналів
+            quality_report = orchestrator.sig_gen.get_quality_report()
+            if quality_report['accuracy_percent'] > 0:
+                logger.info(f"🎯 [SIGNAL_QUALITY] Accuracy: {quality_report['accuracy_percent']:.1f}%, "
+                           f"Strong Signals: {quality_report['strong_signals_accuracy']:.1f}%")
+            
+            # Статистика трейдів
+            stats = executor.get_stats()
+            if stats['total_trades'] > 0:
+                logger.info(f"💰 [TRADING_STATS] Trades: {stats['total_trades']}, "
+                           f"PnL: {stats['realized_pnl']:.2f}, "
+                           f"Win Rate: {stats.get('win_rate', 0):.1f}%")
+                
+        except Exception as e:
+            logger.error(f"❌ [SYSTEM_REPORT] Error: {e}")
+
 async def main():
     logger.info("=" * 60)
-    logger.info("🚀 CRYPTO TRADING BOT - OPTIMIZED MONITORING SYSTEM")
+    logger.info("🚀 CRYPTO TRADING BOT - MULTI-TIMEFRAME ADAPTIVE SYSTEM")
     logger.info("=" * 60)
     
     # Показуємо інформацію про режим
@@ -70,6 +129,9 @@ async def main():
     logger.info(f"🌐 REST API:          {mode_info['rest_api']}")
     logger.info(f"💡 Note: {mode_info['note']}")
     logger.info("")
+
+    # Логуємо інформацію про систему
+    await log_system_info()
 
     # ШВИДКА перевірка CSV (не блокує запуск)
     asyncio.create_task(run_csv_validation())
@@ -102,26 +164,38 @@ async def main():
         await executor.start()
         await orchestrator.start()
 
+        # Запускаємо періодичний звіт про систему
+        asyncio.create_task(periodic_system_report(orchestrator, executor))
+
         try:
-            await notifier.send(f"🤖 Bot started in {mode_info['mode']} mode with Optimized Monitoring System")
+            await notifier.send(f"🤖 Multi-Timeframe Adaptive Bot started in {mode_info['mode']} mode")
         except Exception:
             logger.warning("Failed to send startup notification")
 
         logger.info("=" * 60)
-        logger.info("✅ BOT IS RUNNING WITH OPTIMIZED MONITORING SYSTEM")
+        logger.info("✅ BOT IS RUNNING WITH MULTI-TIMEFRAME ADAPTIVE SYSTEM")
         logger.info("=" * 60)
         logger.info("📊 Data Sources:")
         logger.info("   • Public WS:  Orderbook & Trades (real-time)")
         logger.info("   • Private WS: Positions & Executions (real-time)")
         logger.info("   • REST API:   Fallback & sync")
         logger.info("")
-        logger.info("🎯 Optimized Monitoring Features:")
+        logger.info("🎯 Multi-Timeframe Features:")
+        logger.info("   • 1m/5m/30m Trend Analysis")
+        logger.info("   • Multi-TF Volatility Tracking")
+        logger.info("   • Adaptive Order Book Imbalance")
+        logger.info("   • Market Condition Detection")
+        logger.info("   • Dynamic Weight Adjustment")
+        logger.info("   • Real-time Performance Adaptation")
+        logger.info("")
+        logger.info("📈 Monitoring Features:")
         logger.info("   • Fast position monitoring every 5s")
         logger.info("   • Adaptive symbol batching")
         logger.info("   • Cached API responses")
         logger.info("   • Ultra-fast close reason detection")
         logger.info("   • Reduced API calls by 60%")
         logger.info("   • Non-blocking CSV validation")
+        logger.info("   • Periodic system reports")
         logger.info("=" * 60)
 
         while True:
@@ -137,6 +211,17 @@ async def main():
 
 async def safe_shutdown(collector, orchestrator, executor, api_manager):
     logger.info("🛑 Starting safe shutdown...")
+    
+    # Зберігаємо фінальну статистику
+    try:
+        quality_report = orchestrator.sig_gen.get_quality_report()
+        logger.info("📊 [FINAL_STATS] Signal Quality Report:")
+        logger.info(f"   Total Signals: {quality_report['total_signals']}")
+        logger.info(f"   Accuracy: {quality_report['accuracy_percent']:.1f}%")
+        logger.info(f"   Strong Signals: {quality_report['strong_signals_accuracy']:.1f}%")
+    except Exception as e:
+        logger.warning(f"Failed to get final stats: {e}")
+    
     await collector.stop()
     await orchestrator.stop()
     await executor.stop()

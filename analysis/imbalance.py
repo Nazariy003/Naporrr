@@ -1,601 +1,495 @@
 # analysis/imbalance.py
 import time
+import math
 import statistics
+from typing import Dict, Any, List, Tuple
 from collections import deque
-from typing import Dict, Any, List
 from config.settings import settings
 from data.storage import DataStorage
 from utils.logger import logger
 
+
+class BayesianUpdater:
+    """Баєсівський оновлювач для передбачення напрямку"""
+    
+    def __init__(self):
+        self.prior_bullish = 0.5
+        self.prior_bearish = 0.5
+        self.confidence_threshold = 0.6
+        
+    def update_beliefs(self, signal: str, strength: float):
+        """Оновлення віри на основі сигналу"""
+        if signal == "BUY":
+            self.prior_bullish += strength * settings.ohara.bayesian_update_step
+            self.prior_bearish *= settings.ohara.bayesian_decay_factor
+        elif signal == "SELL":
+            self.prior_bearish += strength * settings.ohara.bayesian_update_step
+            self.prior_bullish *= settings.ohara.bayesian_decay_factor
+        
+        # Нормалізація
+        total = self.prior_bullish + self.prior_bearish
+        if total > 0:
+            self.prior_bullish /= total
+            self.prior_bearish /= total
+        
+        # Визначення сигналу
+        if self.prior_bullish >= settings.ohara.bayesian_bullish_threshold:
+            return "BULLISH", self.prior_bullish
+        elif self.prior_bearish >= settings.ohara.bayesian_bearish_threshold:
+            return "BEARISH", self.prior_bearish
+        else:
+            return "NEUTRAL", max(self.prior_bullish, self.prior_bearish)
+
+
+class ClusterAnalyzer:
+    """Аналіз кластерів ліквідності"""
+    
+    def analyze_clusters(self, bids: List[Tuple[float, float]], asks: List[Tuple[float, float]], 
+                        current_price: float) -> Dict[str, Any]:
+        """Аналіз кластерів на основі глибини"""
+        if not bids or not asks:
+            return {
+                "poc_price": current_price,
+                "poc_distance_pct": 0.0,
+                "support_cluster_strength": 0.0,
+                "resistance_cluster_strength": 0.0,
+                "cluster_imbalance": 0.0
+            }
+        
+        # Пошук POC (Point of Control) - рівень з найбільшою ліквідністю
+        all_levels = bids + asks
+        poc_level = max(all_levels, key=lambda x: x[1])
+        poc_price = poc_level[0]
+        poc_distance_pct = ((poc_price - current_price) / current_price) * 100
+        
+        # Аналіз кластерів підтримки/опору
+        bid_clusters = self._find_clusters(bids, threshold_pct=0.5)
+        ask_clusters = self._find_clusters(asks, threshold_pct=0.5)
+        
+        support_cluster = max(bid_clusters, key=lambda x: x['strength']) if bid_clusters else None
+        resistance_cluster = max(ask_clusters, key=lambda x: x['strength']) if ask_clusters else None
+        
+        return {
+            "poc_price": poc_price,
+            "poc_distance_pct": poc_distance_pct,
+            "support_cluster_strength": support_cluster['strength'] if support_cluster else 0.0,
+            "resistance_cluster_strength": resistance_cluster['strength'] if resistance_cluster else 0.0,
+            "cluster_imbalance": (support_cluster['strength'] if support_cluster else 0) - 
+                               (resistance_cluster['strength'] if resistance_cluster else 0)
+        }
+    
+    def _find_clusters(self, levels: List[Tuple[float, float]], threshold_pct: float) -> List[Dict]:
+        """Пошук кластерів ліквідності"""
+        if not levels:
+            return []
+        
+        clusters = []
+        current_cluster = {'prices': [levels[0][0]], 'sizes': [levels[0][1]]}
+        
+        for price, size in levels[1:]:
+            last_price = current_cluster['prices'][-1]
+            if abs(price - last_price) / last_price * 100 <= threshold_pct:
+                current_cluster['prices'].append(price)
+                current_cluster['sizes'].append(size)
+            else:
+                if len(current_cluster['prices']) > 1:
+                    clusters.append({
+                        'avg_price': sum(current_cluster['prices']) / len(current_cluster['prices']),
+                        'total_size': sum(current_cluster['sizes']),
+                        'strength': sum(current_cluster['sizes']) / len(current_cluster['prices'])
+                    })
+                current_cluster = {'prices': [price], 'sizes': [size]}
+        
+        if len(current_cluster['prices']) > 1:
+            clusters.append({
+                'avg_price': sum(current_cluster['prices']) / len(current_cluster['prices']),
+                'total_size': sum(current_cluster['sizes']),
+                'strength': sum(current_cluster['sizes']) / len(current_cluster['prices'])
+            })
+        
+        return clusters
+
+
+class DepthAnalyzer:
+    """Аналіз глибини ринку"""
+    
+    def analyze_depth(self, bids: List[Tuple[float, float]], asks: List[Tuple[float, float]], 
+                     current_price: float) -> Dict[str, Any]:
+        """Аналіз підтримки/опору на основі глибини"""
+        if not bids or not asks:
+            return {
+                "support_resistance_ratio": 0.5,
+                "liquidity_imbalance": 0.0,
+                "bid_ask_wall_ratio": 1.0,
+                "depth_distribution": {"bids": 0, "asks": 0}
+            }
+        
+        # Розрахунок загальної ліквідності
+        total_bid_liquidity = sum(size for _, size in bids)
+        total_ask_liquidity = sum(size for _, size in asks)
+        
+        # Співвідношення підтримки/опору
+        support_resistance_ratio = 0.5
+        if total_bid_liquidity + total_ask_liquidity > 0:
+            support_resistance_ratio = total_bid_liquidity / (total_bid_liquidity + total_ask_liquidity)
+        
+        # Імбаланс ліквідності
+        liquidity_imbalance = 0.0
+        if total_bid_liquidity > 0 and total_ask_liquidity > 0:
+            liquidity_imbalance = ((total_bid_liquidity - total_ask_liquidity) / 
+                                 (total_bid_liquidity + total_ask_liquidity)) * 100
+        
+        # Аналіз "стіни" bid/ask
+        best_bid_size = bids[0][1] if bids else 0
+        best_ask_size = asks[0][1] if asks else 0
+        bid_ask_wall_ratio = best_bid_size / best_ask_size if best_ask_size > 0 else 1.0
+        
+        return {
+            "support_resistance_ratio": support_resistance_ratio,
+            "liquidity_imbalance": liquidity_imbalance,
+            "bid_ask_wall_ratio": bid_ask_wall_ratio,
+            "depth_distribution": {
+                "bids": total_bid_liquidity,
+                "asks": total_ask_liquidity
+            }
+        }
+
+
+class TradeImbalanceAnalyzer:
+    """Аналіз імбалансу трейдів"""
+    
+    def __init__(self):
+        self.trade_history: Dict[str, deque] = {}
+        
+    def update_trade_imbalance(self, symbol: str, trade_price: float, trade_size: float, 
+                              trade_side: str, current_price: float) -> Dict[str, Any]:
+        """Оновлення імбалансу на основі останніх трейдів"""
+        if symbol not in self.trade_history:
+            self.trade_history[symbol] = deque(maxlen=100)
+        
+        self.trade_history[symbol].append({
+            'price': trade_price,
+            'size': trade_size,
+            'side': trade_side,
+            'timestamp': time.time()
+        })
+        
+        # Розрахунок імбалансу за останні N трейдів
+        recent_trades = list(self.trade_history[symbol])[-50:]  # останні 50 трейдів
+        
+        if len(recent_trades) < 10:
+            return {
+                "trade_imbalance_score": 0.0,
+                "buy_pressure": 0.0,
+                "sell_pressure": 0.0,
+                "aggression_imbalance": 0.0
+            }
+        
+        buy_volume = sum(t['size'] for t in recent_trades if t['side'].lower() == 'buy')
+        sell_volume = sum(t['size'] for t in recent_trades if t['side'].lower() == 'sell')
+        total_volume = buy_volume + sell_volume
+        
+        if total_volume == 0:
+            return {
+                "trade_imbalance_score": 0.0,
+                "buy_pressure": 0.0,
+                "sell_pressure": 0.0,
+                "aggression_imbalance": 0.0
+            }
+        
+        buy_ratio = buy_volume / total_volume
+        trade_imbalance_score = (buy_ratio - 0.5) * 200  # -100 to +100
+        
+        # Аналіз агресії (відстань від mid price)
+        aggressive_buys = sum(t['size'] for t in recent_trades 
+                            if t['side'].lower() == 'buy' and t['price'] > current_price)
+        aggressive_sells = sum(t['size'] for t in recent_trades 
+                             if t['side'].lower() == 'sell' and t['price'] < current_price)
+        
+        aggression_imbalance = aggressive_buys - aggressive_sells
+        
+        return {
+            "trade_imbalance_score": trade_imbalance_score,
+            "buy_pressure": buy_volume,
+            "sell_pressure": sell_volume,
+            "aggression_imbalance": aggression_imbalance
+        }
+
+
+class MultiTimeframeImbalanceAnalyzer:
+    """Мульти-таймфрейм аналіз імбалансу"""
+    
+    def __init__(self, storage: DataStorage):
+        self.storage = storage
+        self.timeframes = ['1m', '5m', '30m']
+        self.imbalance_cache: Dict[str, Dict[str, float]] = {}
+        
+    def compute_multi_tf_imbalance(self, symbol: str) -> Dict[str, float]:
+        """Розрахунок імбалансу для всіх таймфреймів"""
+        tf_imbalances = {}
+        
+        for tf in self.timeframes:
+            bars = self.storage.multi_tf.get_bars(symbol, tf, limit=20)
+            if not bars:
+                tf_imbalances[f"{tf}_imbalance"] = 0.0
+                continue
+            
+            # РОЗРАХОВУЄМО ІМБАЛАНС ДИНАМІЧНО ДЛЯ КОЖНОГО БАРУ
+            imbalances = []
+            for bar in bars[-10:]:  # останні 10 барів
+                total_vol = bar.buy_volume + bar.sell_volume
+                if total_vol > 0:
+                    imb = ((bar.buy_volume - bar.sell_volume) / total_vol) * 100
+                else:
+                    imb = 0.0
+                imbalances.append(imb)
+            
+            avg_imbalance = sum(imbalances) / len(imbalances) if imbalances else 0.0
+            tf_imbalances[f"{tf}_imbalance"] = avg_imbalance
+            
+            # Кешування для адаптації
+            self.imbalance_cache[f"{symbol}_{tf}"] = avg_imbalance
+        
+        return tf_imbalances
+    
+    def get_adaptive_imbalance_weights(self, symbol: str) -> Dict[str, float]:
+        """Адаптивні ваги імбалансу залежно від таймфреймів"""
+        weights = {}
+        base_weight = 1.0 / len(self.timeframes)
+        
+        for tf in self.timeframes:
+            cache_key = f"{symbol}_{tf}"
+            imbalance = self.imbalance_cache.get(cache_key, 0.0)
+            
+            # Збільшити вагу таймфрейму з сильнішим імбалансом
+            strength_multiplier = 1.0 + abs(imbalance) / 50.0  # max +1.0 при |imbalance|=50
+            weights[tf] = base_weight * strength_multiplier
+        
+        # Нормалізація
+        total = sum(weights.values())
+        if total > 0:
+            weights = {k: v/total for k, v in weights.items()}
+        
+        return weights
+
+
 class ImbalanceAnalyzer:
+    """Мульти-таймфрейм аналізатор імбалансу з адаптацією"""
+    
     def __init__(self, storage: DataStorage):
         self.storage = storage
         self.cfg = settings.imbalance
-        self.adaptive_cfg = settings.adaptive
-        self.pairs_cfg = settings.pairs
-        self.ohara_cfg = settings.ohara
-        self.symbol_stats = {}
-        self.last_imbalance = {}
-        self.historical_imbalance = {}
-        self.imbalance_history = {}
-        self._last_volatility_cache = {}
+        self.bayesian = BayesianUpdater()
+        self.cluster_analyzer = ClusterAnalyzer()
+        self.depth_analyzer = DepthAnalyzer()
+        self.trade_analyzer = TradeImbalanceAnalyzer()
+        self.multi_tf = MultiTimeframeImbalanceAnalyzer(storage)
         
-        # 🆕 O'HARA METHOD 1: Bayesian Price Updating
-        self._bayesian_priors = {}  # {symbol: prior_prob_high}
+        # Історичні дані для адаптивного аналізу
+        self.historical_imbalances: Dict[str, deque] = {}
+        self.volatility_cache: Dict[str, float] = {}
         
-        # 🆕 O'HARA METHOD 4: Buy/Sell Imbalance (Enhanced)
-        self._trade_imbalance_history = {}  # {symbol: deque of buy/sell counts}
-        
-        self._init_historical_settings()
-
-    def _init_historical_settings(self):
-        """Ініціалізація налаштувань для історичного аналізу"""
-        self.historical_enabled = getattr(self.cfg, 'enable_historical_imbalance', True)
-        self.historical_window_minutes = getattr(self.cfg, 'historical_window_minutes', 15)
-        self.historical_samples = getattr(self.cfg, 'historical_samples', 10)
-        self.long_term_smoothing = getattr(self.cfg, 'long_term_smoothing', 0.1)
-
+    def update_volatility_cache(self, symbol: str, volume_data: Dict):
+        """Оновлення кешу волатильності для адаптації"""
+        self.volatility_cache[symbol] = volume_data.get("volatility", 0.1)
+    
     def compute(self, symbol: str) -> Dict[str, Any]:
-        ob = self.storage.get_order_book(symbol)
-        if not ob:
-            return self._empty_result(symbol)
+        """Головний розрахунок імбалансу з мульти-таймфрейм підтримкою"""
+        order_book = self.storage.get_order_book(symbol)
+        if not order_book:
+            return self._get_empty_imbalance_data(symbol)
         
-        # Основний розрахунок імбалансу
-        imb_result = self.compute_imbalance(symbol, ob)
+        current_price = (order_book.best_bid + order_book.best_ask) / 2
         
-        # Історичний аналіз імбалансу
-        if self.historical_enabled:
-            historical_analysis = self.compute_historical_imbalance(symbol, imb_result['imbalance_score'])
-            imb_result.update({
-                "historical_imbalance": historical_analysis['historical_imb'],
-                "imbalance_trend": historical_analysis['trend'],
-                "imbalance_volatility": historical_analysis['volatility'],
-                "combined_imbalance": historical_analysis['combined_imb']
-            })
-        else:
-            imb_result.update({
-                "historical_imbalance": imb_result['imbalance_score'],
-                "imbalance_trend": 0,
-                "imbalance_volatility": 0,
-                "combined_imbalance": imb_result['imbalance_score']
-            })
+        # Базовий аналіз orderbook
+        bids = [(level.price, level.size) for level in order_book.bids[:self.cfg.depth_limit_for_calc]]
+        asks = [(level.price, level.size) for level in order_book.asks[:self.cfg.depth_limit_for_calc]]
         
-        # 🆕 O'HARA METHOD 1: Bayesian updating на основі трейдів
-        if self.ohara_cfg.enable_bayesian_updating:
-            bayesian_data = self._compute_bayesian_update(symbol)
-            imb_result['bayesian_data'] = bayesian_data
-        else:
-            imb_result['bayesian_data'] = self._empty_bayesian_data()
+        # Розрахунок базових метрик
+        effective_imbalance = self._calculate_effective_imbalance(bids, asks)
+        depth_analysis = self.depth_analyzer.analyze_depth(bids, asks, current_price)
+        cluster_analysis = self.cluster_analyzer.analyze_clusters(bids, asks, current_price)
         
-        # 🆕 O'HARA METHOD 4: Enhanced Buy/Sell imbalance
-        trade_imbalance = self._compute_trade_imbalance(symbol)
-        imb_result['trade_imbalance'] = trade_imbalance
-        
-        # Додаємо аналіз глибини
-        depth_analysis = self.analyze_orderbook_depth(ob)
-        
-        # Додаємо аналіз кластерів обсягів
-        cluster_analysis = self.volume_cluster_analysis(symbol, ob)
-        
-        # Додаємо ваги для різних рівнів стакану
-        weighted_imbalance = self.calculate_weighted_imbalance(ob)
-        
-        # Ефективний імбалланс
-        effective_imbalance = self.calculate_effective_imbalance_enhanced(
-            imb_result, depth_analysis, cluster_analysis
+        # Аналіз трейдів
+        trades = self.storage.get_trades(symbol)
+        trade_imbalance = self.trade_analyzer.update_trade_imbalance(
+            symbol, trades[-1].price if trades else current_price, 
+            trades[-1].size if trades else 0, 
+            trades[-1].side if trades else 'unknown', 
+            current_price
         )
         
-        imb_result.update({
+        # Баєсівський аналіз
+        bayesian_data = self._calculate_bayesian_data(symbol, effective_imbalance)
+        
+        # Мульти-таймфрейм імбаланс
+        multi_tf_imbalances = self.multi_tf.compute_multi_tf_imbalance(symbol)
+        
+        # Адаптивні ваги
+        adaptive_weights = self._calculate_adaptive_weights(symbol, effective_imbalance, depth_analysis)
+        
+        # Об'єднання результатів
+        result = {
+            "effective_imbalance": effective_imbalance,
+            "imbalance_score": effective_imbalance,
             "depth_analysis": depth_analysis,
             "cluster_analysis": cluster_analysis,
-            "weighted_imbalance": weighted_imbalance,
-            "effective_imbalance": effective_imbalance
-        })
-        
-        logger.debug(f"[IMBALANCE] {symbol}: imb={imb_result['imbalance_score']:.1f}, "
-                    f"hist={imb_result.get('historical_imbalance', 0):.1f}, "
-                    f"weighted={weighted_imbalance:.1f}, effective={effective_imbalance:.1f}, "
-                    f"bayesian={imb_result['bayesian_data']['signal']}, "
-                    f"trade_imb={trade_imbalance['imbalance_pct']:.1f}%")
-        
-        return imb_result
-
-    def _compute_bayesian_update(self, symbol: str) -> Dict[str, Any]:
-        """
-        🆕 O'HARA METHOD 1: Bayesian Price Updating
-        Оновлюємо ймовірність "висока ціна" на основі напрямку трейдів
-        """
-        # Ініціалізація prior для символу
-        if symbol not in self._bayesian_priors:
-            self._bayesian_priors[symbol] = 0.5  # Нейтральна початкова ймовірність
-        
-        # Отримуємо останні трейди
-        trades = self.storage.get_trades(symbol)
-        if not trades or len(trades) < 3:
-            return self._empty_bayesian_data()
-        
-        # Беремо останні N трейдів (останні 30 секунд)
-        now = time.time()
-        recent_trades = [t for t in trades if t.ts >= now - 30]
-        
-        if len(recent_trades) < 3:
-            return self._empty_bayesian_data()
-        
-        # Рахуємо покупки vs продажі
-        buy_count = sum(1 for t in recent_trades if t.side.lower() == 'buy')
-        sell_count = len(recent_trades) - buy_count
-        
-        # Оновлюємо prior на основі кожного трейду
-        prior = self._bayesian_priors[symbol]
-        update_step = self.ohara_cfg.bayesian_update_step
-        
-        # Простий байєсівський апдейт
-        for trade in recent_trades[-10:]:  # Останні 10 трейдів
-            if trade.side.lower() == 'buy':
-                prior += update_step
-            else:
-                prior -= update_step
-        
-        # Обмеження 0-1
-        prior = max(0.0, min(1.0, prior))
-        
-        # Природне згасання до 0.5 (нейтральності)
-        decay = self.ohara_cfg.bayesian_decay_factor
-        prior = prior * decay + 0.5 * (1 - decay)
-        
-        # Зберігаємо оновлений prior
-        self._bayesian_priors[symbol] = prior
-        
-        # Визначаємо сигнал
-        if prior > self.ohara_cfg.bayesian_bullish_threshold:
-            signal = "BULLISH"
-            confidence = (prior - 0.5) * 2  # 0-1 scale
-        elif prior < self.ohara_cfg.bayesian_bearish_threshold:
-            signal = "BEARISH"
-            confidence = (0.5 - prior) * 2  # 0-1 scale
-        else:
-            signal = "NEUTRAL"
-            confidence = 0.0
-        
-        return {
-            'prior_prob_high': round(prior, 3),
-            'signal': signal,
-            'confidence': round(confidence, 3),
-            'buy_count': buy_count,
-            'sell_count': sell_count,
-            'recent_trades': len(recent_trades)
+            "bayesian_data": bayesian_data,
+            "trade_imbalance": trade_imbalance,
+            "multi_tf_imbalances": multi_tf_imbalances,
+            "adaptive_weights": adaptive_weights,
+            "timestamp": time.time()
         }
-
-    def _compute_trade_imbalance(self, symbol: str) -> Dict[str, Any]:
-        """
-        🆕 O'HARA METHOD 4: Buy/Sell Trade Imbalance (Enhanced)
-        Рахуємо дисбаланс не тільки по orderbook, а й по фактичних трейдах
-        """
-        trades = self.storage.get_trades(symbol)
-        if not trades or len(trades) < 10:
-            return {'imbalance_pct': 0.0, 'signal': 'NEUTRAL', 'buy_count': 0, 'sell_count': 0}
         
-        # Беремо останні 50 трейдів
-        recent_trades = trades[-50:]
+        # Збереження в історію для адаптації
+        self._update_historical_data(symbol, effective_imbalance)
         
-        buy_count = sum(1 for t in recent_trades if t.side.lower() == 'buy')
-        sell_count = len(recent_trades) - buy_count
-        
-        # Дисбаланс у відсотках
-        total = buy_count + sell_count
-        if total == 0:
-            return {'imbalance_pct': 0.0, 'signal': 'NEUTRAL', 'buy_count': 0, 'sell_count': 0}
-        
-        imbalance_pct = (buy_count - sell_count) / total * 100.0
-        
-        # Визначаємо сигнал згідно таблиці O'Hara
-        if imbalance_pct > 40:
-            signal = "STRONG_BUY"
-        elif imbalance_pct > 20:
-            signal = "MEDIUM_BUY"
-        elif imbalance_pct < -40:
-            signal = "STRONG_SELL"
-        elif imbalance_pct < -20:
-            signal = "MEDIUM_SELL"
-        else:
-            signal = "NEUTRAL"
-        
-        return {
-            'imbalance_pct': round(imbalance_pct, 1),
-            'signal': signal,
-            'buy_count': buy_count,
-            'sell_count': sell_count,
-            'total_trades': total
-        }
-
-    def _empty_bayesian_data(self) -> Dict[str, Any]:
-        """Порожні дані для байєсівського аналізу"""
-        return {
-            'prior_prob_high': 0.5,
-            'signal': 'NEUTRAL',
-            'confidence': 0.0,
-            'buy_count': 0,
-            'sell_count': 0,
-            'recent_trades': 0
-        }
-
-    def compute_historical_imbalance(self, symbol: str, current_imb: float) -> Dict[str, Any]:
-        """Адаптивний історичний аналіз імбалансу"""
-        now = time.time()
-        
-        # Отримуємо поточну волатильність з кешу
-        current_volatility = self._last_volatility_cache.get(symbol, 0.1)
-        
-        # Адаптивна кількість семплів на основі волатильності
-        base_samples = self.cfg.historical_samples
-        if current_volatility <= self.adaptive_cfg.base_volatility_threshold * 0.7:
-            adaptive_samples = int(base_samples * 1.5)
-        elif current_volatility >= self.adaptive_cfg.base_volatility_threshold * 2.0:
-            adaptive_samples = int(base_samples * 0.7)
-        else:
-            adaptive_samples = base_samples
-            
-        adaptive_samples = max(5, min(adaptive_samples, 50))
-        
-        if symbol not in self.imbalance_history:
-            self.imbalance_history[symbol] = deque(maxlen=adaptive_samples)
-        else:
-            if self.imbalance_history[symbol].maxlen != adaptive_samples:
-                old_data = list(self.imbalance_history[symbol])
-                self.imbalance_history[symbol] = deque(old_data, maxlen=adaptive_samples)
-        
-        self.imbalance_history[symbol].append({
-            'timestamp': now,
-            'imbalance': current_imb
-        })
-        
-        history = list(self.imbalance_history[symbol])
-        
-        if len(history) < 3:
-            return {
-                'historical_imb': current_imb,
-                'trend': 0,
-                'volatility': 0,
-                'combined_imb': current_imb
-            }
-        
-        historical_values = [item['imbalance'] for item in history]
-        historical_avg = statistics.mean(historical_values)
-        
-        if len(history) >= 2:
-            oldest = history[0]['imbalance']
-            newest = history[-1]['imbalance']
-            trend = newest - oldest
-        else:
-            trend = 0
-        
-        volatility = statistics.stdev(historical_values) if len(historical_values) > 1 else 0
-        
-        alpha_current = 0.7
-        alpha_historical = 0.3
-        
-        combined_imb = (current_imb * alpha_current + 
-                       historical_avg * alpha_historical)
-        
-        if abs(trend) > 10:
-            trend_factor = min(abs(trend) / 50.0, 0.2)
-            combined_imb += trend * trend_factor
-        
-        combined_imb = max(-self.cfg.universal_imbalance_cap, 
-                          min(self.cfg.universal_imbalance_cap, combined_imb))
-        
-        return {
-            'historical_imb': round(historical_avg, 2),
-            'trend': round(trend, 2),
-            'volatility': round(volatility, 2),
-            'combined_imb': round(combined_imb, 2)
-        }
-
-    def compute_imbalance(self, symbol: str, ob) -> Dict[str, Any]:
-        """Основний розрахунок імбалансу"""
-        if not ob or not ob.bids or not ob.asks:
-            return self._empty_imbalance_data(symbol, ob.ts if ob else time.time())
-
-        depth = self.cfg.depth_limit_for_calc
-        bids = ob.bids[:depth] if ob.bids else []
-        asks = ob.asks[:depth] if ob.asks else []
-
-        if not bids or not asks:
-            logger.warning(f"[IMBALANCE] {symbol}: Empty bids or asks after slicing")
-            return self._empty_imbalance_data(symbol, ob.ts)
-
-        try:
-            raw_bid_volume = sum(l.size * l.price for l in bids)
-            raw_ask_volume = sum(l.size * l.price for l in asks)
-        except (TypeError, AttributeError) as e:
-            logger.error(f"[IMBALANCE] {symbol}: Error calculating volumes: {e}")
-            return self._empty_imbalance_data(symbol, ob.ts)
-
-        logger.info(f"[IMBALANCE_CALC] {symbol}: {len(bids)} bids, {len(asks)} asks, "
-                f"bid_volume=${raw_bid_volume:.2f}, ask_volume=${raw_ask_volume:.2f}")
-
-        eff_bid = raw_bid_volume
-        eff_ask = raw_ask_volume
-        spoof_filtered = 0.0
-
-        if self.cfg.enable_spoof_filter:
-            eff_bid, eff_ask, spoof_filtered = self.apply_spoof_filtering(symbol, bids, asks, eff_bid, eff_ask)
-
-        denom = eff_bid + eff_ask
-        if denom < self.cfg.min_volume_epsilon:
-            imbalance_score = 0.0
-        else:
-            imbalance_score = (eff_bid - eff_ask) / denom * 100.0
-
-        imbalance_score = self.apply_imbalance_constraints(symbol, imbalance_score)
-
-        return {
-            "symbol": symbol,
-            "bid_volume": raw_bid_volume,
-            "ask_volume": raw_ask_volume,
-            "effective_bid_volume": eff_bid,
-            "effective_ask_volume": eff_ask,
-            "imbalance_score": round(imbalance_score, 2),
-            "spoof_filtered_volume": round(spoof_filtered, 6),
-            "timestamp": ob.ts
-        }
-
-    def calculate_weighted_imbalance(self, ob) -> float:
-        """Розрахунок імбалансу з вагами для різних рівнів"""
-        bids = ob.bids[:5] if ob.bids else []
-        asks = ob.asks[:5] if ob.asks else []
-        
-        if not bids or not asks:
-            return 0.0
-        
-        weights = [1.0, 0.8, 0.6, 0.4, 0.2]
-        
-        weighted_bid = sum(b.size * weights[i] for i, b in enumerate(bids[:5]))
-        weighted_ask = sum(a.size * weights[i] for i, a in enumerate(asks[:5]))
-        
-        total_weighted = weighted_bid + weighted_ask
-        if total_weighted < self.cfg.min_volume_epsilon:
-            return 0.0
-        
-        return (weighted_bid - weighted_ask) / total_weighted * 100.0
-
-    def analyze_orderbook_depth(self, ob) -> Dict[str, Any]:
-        """Аналіз глибини стакану"""
-        bids = ob.bids[:10] if ob.bids else []
-        asks = ob.asks[:10] if ob.asks else []
-        
-        if not bids or not asks:
-            return {}
-        
-        bid_liquidity = sum(b.size * b.price for b in bids)
-        ask_liquidity = sum(a.size * a.price for a in asks)
-        
-        total_liquidity = bid_liquidity + ask_liquidity
-        if total_liquidity == 0:
-            return {
-                "bid_liquidity": 0,
-                "ask_liquidity": 0,
-                "support_resistance_ratio": 0.5,
-                "liquidity_imbalance": 0.0
-            }
-        
-        support_resistance_ratio = bid_liquidity / total_liquidity
-        liquidity_imbalance = (bid_liquidity - ask_liquidity) / total_liquidity * 100.0
-        
-        return {
-            "bid_liquidity": bid_liquidity,
-            "ask_liquidity": ask_liquidity,
-            "support_resistance_ratio": support_resistance_ratio,
-            "liquidity_imbalance": liquidity_imbalance,
-            "best_bid_size": bids[0].size if bids else 0,
-            "best_ask_size": asks[0].size if asks else 0
-        }
-
-    def volume_cluster_analysis(self, symbol: str, ob, lookback_minutes: int = 15) -> Dict[str, Any]:
-        """Кластерний аналіз з адаптивними вікнами"""
-        current_volatility = self._last_volatility_cache.get(symbol, 0.1)
-        
-        base_lookback = lookback_minutes
-        if current_volatility <= self.adaptive_cfg.base_volatility_threshold * 0.7:
-            adaptive_lookback = int(base_lookback * 1.5)
-        elif current_volatility >= self.adaptive_cfg.base_volatility_threshold * 2.0:
-            adaptive_lookback = int(base_lookback * 0.7)
-        else:
-            adaptive_lookback = base_lookback
-            
-        adaptive_lookback = max(5, min(adaptive_lookback, 60))
-
-        trades = self.storage.get_trades(symbol)
-        if not trades or len(trades) < 20:
-            return {}
-        
-        now = time.time()
-        window_start = now - (adaptive_lookback * 60)
-        recent_trades = [t for t in trades if t.ts >= window_start]
-        
-        if len(recent_trades) < 10:
-            return {}
-        
-        price_levels = {}
-        current_price = (ob.best_bid + ob.best_ask) / 2
-        
-        for trade in recent_trades:
-            if current_price > 100:
-                bin_size = 0.01
-            elif current_price > 10:
-                bin_size = 0.001
-            else:
-                bin_size = 0.0001
-                
-            level = round(trade.price / bin_size) * bin_size
-            price_levels[level] = price_levels.get(level, 0) + trade.size * trade.price
-        
-        if not price_levels:
-            return {}
-        
-        poc_level = max(price_levels, key=price_levels.get)
-        poc_volume = price_levels[poc_level]
-        
-        poc_distance_pct = (poc_level - current_price) / current_price * 100 if current_price > 0 else 0
-        
-        avg_volume = sum(price_levels.values()) / len(price_levels)
-        hvn_levels = {level: vol for level, vol in price_levels.items() if vol > avg_volume * 2}
-        
-        cluster_strength = self.analyze_cluster_strength(price_levels, current_price)
-        support_resistance = self.identify_support_resistance(price_levels, current_price)
-        
-        result = {
-            "poc_level": poc_level,
-            "poc_volume": poc_volume,
-            "poc_distance_pct": poc_distance_pct,
-            "current_price": current_price,
-            "hvn_count": len(hvn_levels),
-            "total_volume_clusters": len(price_levels),
-            "cluster_strength": cluster_strength,
-            "support_levels": support_resistance['support'],
-            "resistance_levels": support_resistance['resistance'],
-            "time_window_minutes": adaptive_lookback,
-            "trades_analyzed": len(recent_trades),
-            "volume_clusters": dict(sorted(price_levels.items(), key=lambda x: x[1], reverse=True)[:8])
-        }
-
-        if cluster_strength > 0.3 or abs(poc_distance_pct) > 1.0:
-            logger.info(f"[ADAPTIVE_CLUSTER] {symbol}: {adaptive_lookback}min - "
-                       f"POC={poc_level:4f} (dist={poc_distance_pct:.2f}%), "
-                       f"strength={cluster_strength:.2f}, "
-                       f"supports={len(support_resistance['support'])}, "
-                       f"resistances={len(support_resistance['resistance'])}")
-
         return result
-
-    def analyze_cluster_strength(self, price_levels: Dict[float, float], current_price: float) -> float:
-        """Аналіз сили кластерів"""
-        if not price_levels or current_price <= 0:
+    
+    def _calculate_effective_imbalance(self, bids: List[Tuple[float, float]], 
+                                     asks: List[Tuple[float, float]]) -> float:
+        """Розрахунок ефективного імбалансу з адаптивними порогами"""
+        if not bids or not asks:
             return 0.0
         
-        nearby_volume = 0
-        total_volume = sum(price_levels.values())
+        # Розрахунок сирих обсягів
+        bid_volumes = [size for _, size in bids]
+        ask_volumes = [size for _, size in asks]
         
-        for level, volume in price_levels.items():
-            distance_pct = abs(level - current_price) / current_price * 100
-            if distance_pct <= 2.0:
-                nearby_volume += volume
+        # Адаптивні пороги великих ордерів
+        if self.cfg.enable_adaptive_large_orders:
+            large_bid_threshold = self._calculate_adaptive_threshold(bid_volumes)
+            large_ask_threshold = self._calculate_adaptive_threshold(ask_volumes)
+        else:
+            total_bid = sum(bid_volumes)
+            total_ask = sum(ask_volumes)
+            large_bid_threshold = max(self.cfg.large_order_side_percent * total_bid, self.cfg.large_order_min_notional_abs)
+            large_ask_threshold = max(self.cfg.large_order_side_percent * total_ask, self.cfg.large_order_min_notional_abs)
         
-        if total_volume == 0:
+        # Розрахунок імбалансу з великих ордерів
+        large_bids = sum(size for size in bid_volumes if size >= large_bid_threshold)
+        large_asks = sum(size for size in ask_volumes if size >= large_ask_threshold)
+        
+        total_large = large_bids + large_asks
+        if total_large == 0:
             return 0.0
         
-        return nearby_volume / total_volume
-
-    def identify_support_resistance(self, price_levels: Dict[float, float], current_price: float) -> Dict[str, List]:
-        """Ідентифікація рівнів підтримки та опору"""
-        if not price_levels:
-            return {'support': [], 'resistance': []}
+        imbalance = ((large_bids - large_asks) / total_large) * 100
         
-        sorted_levels = sorted(price_levels.items(), key=lambda x: x[1], reverse=True)
+        # Капування імбалансу
+        imbalance = max(-self.cfg.universal_imbalance_cap, min(self.cfg.universal_imbalance_cap, imbalance))
         
-        support = []
-        resistance = []
+        return imbalance
+    
+    def _calculate_adaptive_threshold(self, volumes: List[float]) -> float:
+        """Адаптивний розрахунок порогу великих ордерів (Z-Score)"""
+        if len(volumes) < self.cfg.large_order_min_samples:
+            return self.cfg.large_order_min_notional_abs
         
-        for level, volume in sorted_levels[:10]:
-            if level < current_price:
-                support.append({'level': level, 'volume': volume})
-            else:
-                resistance.append({'level': level, 'volume': volume})
+        mean_vol = sum(volumes) / len(volumes)
+        std_vol = math.sqrt(sum((v - mean_vol) ** 2 for v in volumes) / len(volumes))
         
-        support.sort(key=lambda x: x['level'])
-        resistance.sort(key=lambda x: x['level'], reverse=True)
+        if std_vol == 0:
+            return mean_vol
+        
+        threshold = mean_vol + (std_vol * self.cfg.large_order_zscore_threshold)
+        return max(threshold, self.cfg.large_order_min_notional_abs)
+    
+    def _calculate_bayesian_data(self, symbol: str, current_imbalance: float) -> Dict[str, Any]:
+        """Баєсівський аналіз імбалансу"""
+        signal = "NEUTRAL"
+        confidence = 0.5
+        
+        if current_imbalance > 10:
+            signal, confidence = self.bayesian.update_beliefs("BUY", abs(current_imbalance) / 100)
+        elif current_imbalance < -10:
+            signal, confidence = self.bayesian.update_beliefs("SELL", abs(current_imbalance) / 100)
+        else:
+            signal, confidence = "NEUTRAL", 0.5
         
         return {
-            'support': support[:3],
-            'resistance': resistance[:3]
+            "signal": signal,
+            "confidence": confidence,
+            "prior_bullish": self.bayesian.prior_bullish,
+            "prior_bearish": self.bayesian.prior_bearish
         }
-
-    def calculate_effective_imbalance_enhanced(self, imb_data: Dict, depth_data: Dict, 
-                                             cluster_data: Dict) -> float:
-        """Покращена формула ефективного імбалансу"""
-        base_imb = imb_data.get('imbalance_score', 0)
-        historical_imb = imb_data.get('historical_imbalance', base_imb)
-        combined_imb = imb_data.get('combined_imbalance', base_imb)
-        weighted_imb = imb_data.get('weighted_imbalance', 0)
-        depth_ratio = depth_data.get('support_resistance_ratio', 0.5)
+    
+    def _calculate_adaptive_weights(self, symbol: str, imbalance: float, 
+                                  depth_analysis: Dict) -> Dict[str, Any]:
+        """Розрахунок адаптивних ваг залежно від ринкових умов"""
+        volatility = self.volatility_cache.get(symbol, 1.0)
         
-        depth_imb = (depth_ratio - 0.5) * 200
+        # Визначення режиму ринку
+        if volatility > settings.adaptive.tf_adaptation_volatility_threshold:
+            market_mode = "high_volatility"
+        elif volatility < 0.5:
+            market_mode = "low_volatility"
+        elif abs(imbalance) > 30:
+            market_mode = "strong_trend"
+        else:
+            market_mode = "sideways"
         
-        effective_imb = (
-            combined_imb * 0.4 +
-            historical_imb * 0.3 +
-            weighted_imb * 0.2 +
-            depth_imb * 0.1
-        )
+        # Отримання множників з налаштувань
+        multipliers = settings.adaptive.adaptive_weight_multipliers.get(market_mode, {})
         
-        return round(effective_imb, 2)
-
-    def apply_spoof_filtering(self, symbol: str, bids, asks, eff_bid, eff_ask):
-        """Фільтрація спуфінгу"""
-        spoof_filtered = 0.0
-        suspicious = self.storage.get_suspicious_orders(symbol, last_seconds=settings.websocket.data_retention_seconds)
+        # Мульти-таймфрейм ваги імбалансу
+        tf_weights = self.multi_tf.get_adaptive_imbalance_weights(symbol)
         
-        bid_price_map = {l.price: l.size for l in bids}
-        ask_price_map = {l.price: l.size for l in asks}
-        
-        for s in suspicious:
-            if s.side == "bid" and s.price in bid_price_map:
-                to_sub = min(bid_price_map[s.price], s.size)
-                eff_bid -= to_sub
-                spoof_filtered += to_sub
-            elif s.side == "ask" and s.price in ask_price_map:
-                to_sub = min(ask_price_map[s.price], s.size)
-                eff_ask -= to_sub
-                spoof_filtered += to_sub
-        
-        return max(eff_bid, 0.0), max(eff_ask, 0.0), spoof_filtered
-
-    def apply_imbalance_constraints(self, symbol: str, imbalance_score: float) -> float:
-        """Обмеження та згладжування імбалансу"""
-        if imbalance_score > self.cfg.universal_imbalance_cap:
-            imbalance_score = self.cfg.universal_imbalance_cap
-        elif imbalance_score < -self.cfg.universal_imbalance_cap:
-            imbalance_score = -self.cfg.universal_imbalance_cap
-        
-        if symbol in self.last_imbalance:
-            last_imb = self.last_imbalance[symbol]
-            imbalance_score = (last_imb * (1 - self.cfg.smoothing_factor) + 
-                             imbalance_score * self.cfg.smoothing_factor)
-        
-        self.last_imbalance[symbol] = imbalance_score
-        return imbalance_score
-
-    def update_volatility_cache(self, symbol: str, volatility_data: Dict[str, Any]):
-        """Оновлення кешу волатильності для адаптивних вікон"""
-        if volatility_data:
-            current_volatility = volatility_data.get("recent_volatility", 0.1)
-            self._last_volatility_cache[symbol] = current_volatility
-
-    def _empty_result(self, symbol: str) -> Dict[str, Any]:
-        now = time.time()
-        empty_data = self._empty_imbalance_data(symbol, now)
-        empty_data.update({
-            "depth_analysis": {},
-            "cluster_analysis": {},
-            "weighted_imbalance": 0.0,
-            "effective_imbalance": 0.0,
-            "historical_imbalance": 0.0,
-            "imbalance_trend": 0.0,
-            "imbalance_volatility": 0.0,
-            "combined_imbalance": 0.0,
-            "bayesian_data": self._empty_bayesian_data(),
-            "trade_imbalance": {'imbalance_pct': 0.0, 'signal': 'NEUTRAL', 'buy_count': 0, 'sell_count': 0}
-        })
-        return empty_data
-
-    def _empty_imbalance_data(self, symbol: str, timestamp: float) -> Dict[str, Any]:
         return {
-            "symbol": symbol,
+            "market_mode": market_mode,
+            "volatility": volatility,
+            "imbalance_strength": abs(imbalance),
+            "weight_multipliers": multipliers,
+            "tf_weights": tf_weights
+        }
+    
+    def _update_historical_data(self, symbol: str, imbalance: float):
+        """Оновлення історичних даних для адаптації"""
+        if symbol not in self.historical_imbalances:
+            self.historical_imbalances[symbol] = deque(maxlen=1000)
+        
+        self.historical_imbalances[symbol].append({
+            'imbalance': imbalance,
+            'timestamp': time.time()
+        })
+    
+    def _get_empty_imbalance_data(self, symbol: str) -> Dict[str, Any]:
+        """Повернення порожніх даних імбалансу"""
+        return {
+            "effective_imbalance": 0.0,
             "imbalance_score": 0.0,
-            "bid_volume": 0.0,
-            "ask_volume": 0.0,
-            "effective_bid_volume": 0.0,
-            "effective_ask_volume": 0.0,
-            "spoof_filtered_volume": 0.0,
-            "timestamp": timestamp
+            "depth_analysis": {
+                "support_resistance_ratio": 0.5,
+                "liquidity_imbalance": 0.0,
+                "bid_ask_wall_ratio": 1.0,
+                "depth_distribution": {"bids": 0, "asks": 0}
+            },
+            "cluster_analysis": {
+                "poc_price": 0.0,
+                "poc_distance_pct": 0.0,
+                "support_cluster_strength": 0.0,
+                "resistance_cluster_strength": 0.0,
+                "cluster_imbalance": 0.0
+            },
+            "bayesian_data": {
+                "signal": "NEUTRAL",
+                "confidence": 0.5,
+                "prior_bullish": 0.5,
+                "prior_bearish": 0.5
+            },
+            "trade_imbalance": {
+                "trade_imbalance_score": 0.0,
+                "buy_pressure": 0.0,
+                "sell_pressure": 0.0,
+                "aggression_imbalance": 0.0
+            },
+            "multi_tf_imbalances": {f"{tf}_imbalance": 0.0 for tf in ['1m', '5m', '30m']},
+            "adaptive_weights": {
+                "market_mode": "unknown",
+                "volatility": 0.0,
+                "imbalance_strength": 0.0,
+                "weight_multipliers": {},
+                "tf_weights": {}
+            },
+            "timestamp": time.time()
         }

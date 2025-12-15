@@ -85,8 +85,158 @@ class Position:
     max_lifetime_sec: float = 0.0
 
 
+@dataclass
+class TimeframeBar:
+    symbol: str
+    timeframe: str  # '1m', '5m', '30m'
+    timestamp: float  # start of bar
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: float
+    buy_volume: float
+    sell_volume: float
+    trades_count: int
+    aggressive_buys: int
+    aggressive_sells: int
+
+
+class MultiTimeframeAggregator:
+    """Агрегатор даних для мультичасового аналізу"""
+
+    def __init__(self):
+        self.timeframes = {
+            '1m': 60,
+            '5m': 300,
+            '30m': 1800
+        }
+        self.bars: Dict[str, Dict[str, Deque[TimeframeBar]]] = {}
+        self.last_bar_ts: Dict[str, Dict[str, float]] = {}
+
+    def init_symbol(self, symbol: str):
+        if symbol not in self.bars:
+            self.bars[symbol] = {}
+            self.last_bar_ts[symbol] = {}
+            for tf, _ in self.timeframes.items():
+                self.bars[symbol][tf] = deque(maxlen=200)  # keep last 200 bars
+                self.last_bar_ts[symbol][tf] = 0
+
+    def add_trade(self, symbol: str, trade: TradeEntry):
+        self.init_symbol(symbol)
+        now = time.time()
+
+        for tf, interval in self.timeframes.items():
+            bar_ts = int(now // interval) * interval
+
+            if bar_ts != self.last_bar_ts[symbol][tf]:
+                # new bar
+                if self.last_bar_ts[symbol][tf] > 0:
+                    # finalize previous bar
+                    self._finalize_bar(symbol, tf)
+                # start new bar
+                new_bar = TimeframeBar(
+                    symbol=symbol,
+                    timeframe=tf,
+                    timestamp=bar_ts,
+                    open=trade.price,
+                    high=trade.price,
+                    low=trade.price,
+                    close=trade.price,
+                    volume=trade.size * trade.price,
+                    buy_volume=trade.size * trade.price if trade.side.lower() == 'buy' else 0,
+                    sell_volume=trade.size * trade.price if trade.side.lower() == 'sell' else 0,
+                    trades_count=1,
+                    aggressive_buys=1 if trade.is_aggressive and trade.side.lower() == 'buy' else 0,
+                    aggressive_sells=1 if trade.is_aggressive and trade.side.lower() == 'sell' else 0
+                )
+                self.bars[symbol][tf].append(new_bar)
+                self.last_bar_ts[symbol][tf] = bar_ts
+            else:
+                # update current bar
+                if self.bars[symbol][tf]:
+                    bar = self.bars[symbol][tf][-1]
+                    bar.high = max(bar.high, trade.price)
+                    bar.low = min(bar.low, trade.price)
+                    bar.close = trade.price
+                    bar.volume += trade.size * trade.price
+                    if trade.side.lower() == 'buy':
+                        bar.buy_volume += trade.size * trade.price
+                    else:
+                        bar.sell_volume += trade.size * trade.price
+                    bar.trades_count += 1
+                    if trade.is_aggressive:
+                        if trade.side.lower() == 'buy':
+                            bar.aggressive_buys += 1
+                        else:
+                            bar.aggressive_sells += 1
+
+    def _finalize_bar(self, symbol: str, tf: str):
+        # already finalized in add_trade
+        pass
+
+    def get_bars(self, symbol: str, timeframe: str, limit: int = 50) -> List[TimeframeBar]:
+        if symbol not in self.bars or timeframe not in self.bars[symbol]:
+            return []
+        return list(self.bars[symbol][timeframe])[-limit:]
+
+    def get_multi_timeframe_data(self, symbol: str) -> Dict[str, Dict]:
+        """Отримати агреговані мультичасові дані"""
+        data = {}
+        for tf in self.timeframes.keys():
+            bars = self.get_bars(symbol, tf, limit=20)
+            if not bars:
+                data[tf] = {}
+                continue
+
+            recent_bar = bars[-1]
+            prev_bars = bars[:-1]
+
+            # Trend: SMA 5 and 10
+            closes = [b.close for b in bars]
+            sma5 = sum(closes[-5:]) / min(5, len(closes)) if closes else 0
+            sma10 = sum(closes[-10:]) / min(10, len(closes)) if closes else 0
+            trend = 'UP' if sma5 > sma10 else 'DOWN' if sma5 < sma10 else 'SIDEWAYS'
+
+            # Volatility: ATR approximation
+            if len(bars) >= 2:
+                trs = []
+                for i in range(1, len(bars)):
+                    tr = max(
+                        bars[i].high - bars[i].low,
+                        abs(bars[i].high - bars[i-1].close),
+                        abs(bars[i].low - bars[i-1].close)
+                    )
+                    trs.append(tr)
+                atr = sum(trs) / len(trs) if trs else 0
+                volatility = (atr / bars[-1].close) * 100 if bars[-1].close > 0 else 0
+            else:
+                volatility = 0
+
+            # Prints: aggressive trades ratio
+            total_aggressive = recent_bar.aggressive_buys + recent_bar.aggressive_sells
+            aggressive_ratio = total_aggressive / recent_bar.trades_count if recent_bar.trades_count > 0 else 0
+
+            # Imbalance: volume imbalance - РОЗРАХОВУЄМО ДИНАМІЧНО
+            total_vol = recent_bar.buy_volume + recent_bar.sell_volume
+            imbalance = ((recent_bar.buy_volume - recent_bar.sell_volume) / total_vol * 100) if total_vol > 0 else 0
+
+            data[tf] = {
+                'trend': trend,
+                'sma5': sma5,
+                'sma10': sma10,
+                'volatility': volatility,
+                'aggressive_ratio': aggressive_ratio,
+                'imbalance': imbalance,
+                'volume': recent_bar.volume,
+                'trades_count': recent_bar.trades_count,
+                'bars_count': len(bars)
+            }
+        return data
+
+
 class DataStorage:
-    """Оновлене сховище з spread tracking для O'Hara Method 7"""
+    """Оновлене сховище з multi-timeframe підтримкою для O'Hara Method 7"""
 
     async def init_orderbook_rest(self, symbol: str):
         """REST ініціалізація orderbook"""
@@ -108,7 +258,7 @@ class DataStorage:
             try:
                 timeout = aiohttp.ClientTimeout(total=5)
                 async with aiohttp.ClientSession(timeout=timeout) as session:
-                    async with session.get(url, params=params) as response:
+                    async with session.post(url, params=params) as response:
                         if response.status != 200:
                             continue
                         raw = await response.text()
@@ -161,6 +311,9 @@ class DataStorage:
         # 🆕 O'HARA METHOD 7: Spread tracking
         self._current_spreads: Dict[str, float] = {}  # {symbol: spread_bps}
 
+        # 🆕 Multi-timeframe aggregator
+        self.multi_tf = MultiTimeframeAggregator()
+
     def init_symbol(self, symbol: str):
         if symbol not in self._trades:
             self._trades[symbol] = deque()
@@ -170,6 +323,7 @@ class DataStorage:
             self._active_large_levels[symbol] = {"bid": {}, "ask": {}}
         if symbol not in self._book_maps:
             self._book_maps[symbol] = {"bids": {}, "asks": {}}
+        self.multi_tf.init_symbol(symbol)
 
     def add_position_callback(self, callback: Callable[[Position], Awaitable[None]]):
         self._position_callbacks.append(callback)
@@ -380,10 +534,14 @@ class DataStorage:
         self.init_symbol(symbol)
         now = time.time()
         dq = self._trades[symbol]
-        dq.append(TradeEntry(ts=now, price=price, size=size, side=side, is_aggressive=is_aggressive, symbol=symbol))
+        trade = TradeEntry(ts=now, price=price, size=size, side=side, is_aggressive=is_aggressive, symbol=symbol)
+        dq.append(trade)
         cutoff = now - self.retention_seconds
         while dq and dq[0].ts < cutoff:
             dq.popleft()
+
+        # Update multi-timeframe aggregator
+        self.multi_tf.add_trade(symbol, trade)
 
     def update_order_book(self, symbol: str, bids: List[List[str]], asks: List[List[str]]):
         self.init_symbol(symbol)
@@ -545,6 +703,10 @@ class DataStorage:
     def get_current_spread_bps(self, symbol: str) -> Optional[float]:
         """🆕 O'HARA METHOD 7: Get current spread in basis points"""
         return self._current_spreads.get(symbol)
+
+    def get_multi_timeframe_data(self, symbol: str) -> Dict[str, Dict]:
+        """Отримати агреговані мультичасові дані"""
+        return self.multi_tf.get_multi_timeframe_data(symbol)
 
     def get_suspicious_orders(self, symbol: str, last_seconds: int = 60):
         now = time.time()

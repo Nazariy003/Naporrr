@@ -237,8 +237,8 @@ class AdaptiveVolumeAnalyzer:
         
         if is_large:
             logger.info(f"[LARGE_ORDER_ADAPTIVE] {symbol}: size={order_size:.0f} USD, "
-                       f"mean={mean_size:.0f}, std={std_size:.0f}, zscore={zscore:.2f}, "
-                       f"class={classification}, side={side}")
+                        f"mean={mean_size:.0f}, std={std_size:.0f}, zscore={zscore:.2f}, "
+                        f"class={classification}, side={side}")
         
         return {
             'is_large': is_large,
@@ -320,7 +320,7 @@ class AdaptiveVolumeAnalyzer:
             direction = "STRONG_SELL"
         
         logger.info(f"[LARGE_ORDER_FLOW_ADAPTIVE] {symbol}: {direction} "
-                   f"(buy={buy_volume:.0f}, sell={sell_volume:.0f}, count={len(large_orders)})")
+                    f"(buy={buy_volume:.0f}, sell={sell_volume:.0f}, count={len(large_orders)})")
         
         return {
             'direction': direction,
@@ -586,6 +586,9 @@ class VolumeAnalyzer:
         # Додаємо статистику адаптивного аналізу
         result["adaptive_statistics"] = self.adaptive_analyzer.get_statistics(symbol)
         
+        # 🆕 Multi-timeframe data
+        result["multi_timeframe_data"] = self.storage.get_multi_timeframe_data(symbol)
+        
         self._last_calculations[symbol] = result
         
         return result
@@ -787,7 +790,7 @@ class VolumeAnalyzer:
         combined_volatility = max(0.1, (price_range_pct + atr_pct + volatility_std) / 3)
         
         logger.info(f"[VOLATILITY_REAL] {symbol}: {len(recent_trades)} trades, "
-                   f"range={price_range_pct:.3f}%, atr={atr_pct:.3f}%, std={volatility_std:.3f}%")
+                    f"range={price_range_pct:.3f}%, atr={atr_pct:.3f}%, std={volatility_std:.3f}%")
         
         return {
             "range_position_lifetime": round(price_range_pct, 3),
@@ -804,8 +807,8 @@ class VolumeAnalyzer:
         return round(score, 1)
     
     def _calculate_adaptive_volume_metrics(self, symbol: str, trades: List[TradeEntry], now: float, 
-                                         short_window: int, long_window: int) -> Dict[str, Any]:
-        """Розрахунок метрик об'єму з адаптивними вікнами"""
+                                          short_window: int, long_window: int) -> Dict[str, Any]:
+        """Розрахунок метрик обсягу з адаптивними вікнами"""
         short_from = now - short_window
         long_from = now - long_window
         
@@ -847,7 +850,7 @@ class VolumeAnalyzer:
         }
 
     def calculate_adaptive_multi_timeframe_momentum(self, symbol: str, trades: List[TradeEntry], 
-                                                  now: float, current_volatility: float) -> Dict[str, Any]:
+                                                   now: float, current_volatility: float) -> Dict[str, Any]:
         """Адаптивний багаточасовий моментум"""
         result = {}
         base_windows = self.cfg.momentum_windows
@@ -882,7 +885,7 @@ class VolumeAnalyzer:
         
         if abs(combined_momentum) > 30:
             logger.info(f"[ADAPTIVE_MOMENTUM] {symbol}: combined={combined_momentum:.1f}% "
-                       f"windows={adaptive_windows}")
+                        f"windows={adaptive_windows}")
         
         return result
 
@@ -939,5 +942,6 @@ class VolumeAnalyzer:
                 'informed_direction': 'NEUTRAL', 'large_buy_volume': 0.0, 'large_sell_volume': 0.0
             },
             "adaptive_volume_analysis": {'classification': 'INSUFFICIENT_DATA', 'zscore': 0.0, 'percentile': 50.0, 'ema_ratio': 1.0},
-            "adaptive_statistics": {}
+            "adaptive_statistics": {},
+            "multi_timeframe_data": {}
         }

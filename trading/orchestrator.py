@@ -2,7 +2,7 @@
 import asyncio
 import time
 import json
-from typing import Optional, Dict
+from typing import Optional, Dict, Any  # Додано Any
 from utils.logger import logger
 from config.settings import settings
 from data.storage import DataStorage, Position
@@ -12,8 +12,8 @@ from analysis.signals import SignalGenerator
 from trading.executor import TradeExecutor
 
 class TradingOrchestrator:
-    """Оновлений Orchestrator з O'Hara методами"""
-    
+    """Оновлений Orchestrator з мульти-таймфрейм підтримкою та адаптацією"""
+
     def __init__(self, storage: DataStorage, imbalance_analyzer: ImbalanceAnalyzer,
                  volume_analyzer: VolumeAnalyzer, signal_generator: SignalGenerator, executor: TradeExecutor):
         self.storage = storage
@@ -31,89 +31,112 @@ class TradingOrchestrator:
         
         self._position_status_cache: Dict[str, Dict] = {}
         self._cache_ttl = 3.0
-
-    async def _fast_check_exchange_position_status(self, symbol: str) -> bool:
-        """ШВИДКА перевірка статусу"""
-        current_time = time.time()
         
-        if symbol in self._position_status_cache:
-            cached = self._position_status_cache[symbol]
-            if current_time - cached['timestamp'] < self._cache_ttl:
-                return cached['is_open']
-        
-        try:
-            async with asyncio.timeout(5):
-                pos = self.storage.get_position(symbol)
-                if not pos:
-                    result = True
-                else:
-                    result = pos.status != "OPEN"
-                
-                self._position_status_cache[symbol] = {
-                    'is_open': result,
-                    'timestamp': current_time
-                }
-                return result
-                
-        except asyncio.TimeoutError:
-            logger.error(f"❌ [FAST_STATUS_CHECK] Timeout for {symbol}")
-            return True
-        except Exception as e:
-            logger.error(f"❌ [FAST_STATUS_CHECK] Error for {symbol}: {e}")
-            return True
+        # Мульти-таймфрейм адаптація
+        self._market_condition_cache: Dict[str, Dict] = {}
+        self._adaptation_cycle = 0
 
     async def start(self):
-        if self._task:
+        """Запуск оркестратора з мульти-таймфрейм моніторингом"""
+        if self._running:
             return
+            
         self._running = True
-        self._task = asyncio.create_task(self._optimized_loop())
-        logger.info("✅ [ORCH] Trading orchestrator started")
+        logger.info("🎼 [ORCHESTRATOR] Starting Multi-Timeframe Trading Orchestrator...")
+        
+        self._task = asyncio.create_task(self._main_loop())
+        logger.info("✅ [ORCHESTRATOR] Multi-Timeframe Orchestrator started successfully")
 
     async def stop(self):
+        """Зупинка оркестратора"""
+        if not self._running:
+            return
+            
         self._running = False
         if self._task:
             self._task.cancel()
             try:
                 await self._task
             except asyncio.CancelledError:
-                logger.info("✅ [ORCH] Trading orchestrator cancelled")
-            except Exception as e:
-                logger.error(f"❌ [ORCH] error during stop: {e}")
-            self._task = None
-        logger.info("✅ [ORCH] Trading orchestrator stopped")
+                pass
+        
+        logger.info("🛑 [ORCHESTRATOR] Multi-Timeframe Orchestrator stopped")
 
-    async def _optimized_loop(self):
-        """Оптимізований головний цикл"""
-        interval = settings.trading.decision_interval_sec
-        symbol_batches = self._create_symbol_batches(settings.pairs.trade_pairs, batch_size=3)
-        batch_index = 0
+    async def _main_loop(self):
+        """Головна петля з адаптивним батчингом"""
+        batch_size = 5  # Початковий розмір батчу
+        batch_interval = 2.0  # Інтервал між батчами
         
         while self._running:
-            start_iter = time.time()
             try:
-                current_batch = symbol_batches[batch_index]
-                await self._process_symbol_batch(current_batch)
-                batch_index = (batch_index + 1) % len(symbol_batches)
+                await self._adaptive_batch_processing(batch_size)
+                await asyncio.sleep(batch_interval)
+                
+                # Адаптація розміру батчу на основі продуктивності
+                batch_size = self._adapt_batch_size(batch_size)
+                self._adaptation_cycle += 1
+                
             except Exception as e:
-                logger.error(f"❌ [ORCH] iteration error: {e}", exc_info=True)
+                logger.error(f"❌ [ORCH] Main loop error: {e}")
+                await asyncio.sleep(5)
+
+    async def _adaptive_batch_processing(self, batch_size: int):
+        """Адаптивна обробка символів батчами"""
+        symbols = settings.pairs.trade_pairs
+        
+        # Розділення на батчі
+        for i in range(0, len(symbols), batch_size):
+            batch = symbols[i:i + batch_size]
             
-            elapsed = time.time() - start_iter
-            await asyncio.sleep(max(0.0, interval - elapsed))
+            # Паралельна обробка батчу
+            tasks = [self._process_single_symbol(symbol) for symbol in batch]
+            await asyncio.gather(*tasks, return_exceptions=True)
+            
+            # Коротка пауза між батчами для зниження навантаження
+            await asyncio.sleep(0.1)
 
-    def _create_symbol_batches(self, symbols: list, batch_size: int = 3) -> list:
-        """Розділення символів на батчі"""
-        return [symbols[i:i + batch_size] for i in range(0, len(symbols), batch_size)]
+    def _adapt_batch_size(self, current_batch_size: int) -> int:
+        """Адаптація розміру батчу на основі продуктивності"""
+        # Збільшення батчу кожні 10 циклів якщо немає помилок
+        if self._adaptation_cycle % 10 == 0:
+            if current_batch_size < len(settings.pairs.trade_pairs):
+                new_size = min(current_batch_size + 1, 10)
+                logger.debug(f"[ORCH] Adapting batch size: {current_batch_size} -> {new_size}")
+                return new_size
+        
+        return current_batch_size
 
-    async def _process_symbol_batch(self, symbols: list):
-        """Обробка батчу символів"""
-        tasks = []
-        for symbol in symbols:
-            task = asyncio.create_task(self._process_single_symbol(symbol))
-            tasks.append(task)
-        await asyncio.gather(*tasks, return_exceptions=True)
+    async def _fast_check_exchange_position_status(self, symbol: str) -> bool:
+        """Швидка перевірка статусу позиції з кешуванням"""
+        now = time.time()
+        
+        # Перевірка кешу
+        if symbol in self._position_status_cache:
+            cached = self._position_status_cache[symbol]
+            if now - cached['timestamp'] < self._cache_ttl:
+                return cached['can_process']
+        
+        try:
+            # Синхронізація з біржею
+            await self.storage.force_sync_positions(self.executor.api)
+            
+            position = self.storage.get_position(symbol)
+            can_process = not (position and position.status == "OPEN")
+            
+            # Кешування результату
+            self._position_status_cache[symbol] = {
+                'can_process': can_process,
+                'timestamp': now
+            }
+            
+            return can_process
+            
+        except Exception as e:
+            logger.warning(f"⚠️ [ORCH] Position check failed for {symbol}: {e}")
+            return False
 
     async def _process_single_symbol(self, symbol: str):
-        """Обробка одного символу з O'Hara методами"""
+        """Обробка одного символу з мульти-таймфрейм аналізом"""
         try:
             can_process = await self._fast_check_exchange_position_status(symbol)
             if not can_process:
@@ -123,11 +146,11 @@ class TradingOrchestrator:
             if not ob:
                 return
 
-            # Обчислення сигналів
+            # Обчислення сигналів з мульти-таймфрейм даними
             vol_data = self.vol.compute(symbol)
             imb_data = self.imb.compute(symbol)
             
-            # Оновлюємо кеш волатильності
+            # Оновлюємо кеш волатильності для імбалансу
             self.imb.update_volatility_cache(symbol, vol_data)
             
             # 🆕 O'HARA METHOD 7: Spread calculation
@@ -141,8 +164,13 @@ class TradingOrchestrator:
             if spread_bps is not None and ob and ob.best_bid and ob.best_ask:
                 self.sig_gen.spread_monitor.update(symbol, ob.best_bid, ob.best_ask)
 
+            # Генерація сигналу з мульти-таймфрейм даними
             sig = self.sig_gen.generate(symbol, imb_data, vol_data, spread_bps)
             self._last_signal[symbol] = sig
+            
+            # Логування мульти-таймфрейм умов ринку
+            if self._adaptation_cycle % 20 == 0:  # Кожні 20 циклів
+                self._log_market_conditions(symbol, vol_data, imb_data)
             
             # Паралельна обробка
             await asyncio.gather(
@@ -154,8 +182,18 @@ class TradingOrchestrator:
         except Exception as e:
             logger.error(f"❌ [ORCH] Error processing {symbol}: {e}")
 
+    def _log_market_conditions(self, symbol: str, vol_data: Dict, imb_data: Dict):
+        """Логування поточних ринкових умов для адаптації"""
+        multi_tf = vol_data.get("multi_timeframe_data", {})
+        market_mode = imb_data.get("adaptive_weights", {}).get("market_mode", "unknown")
+        
+        logger.info(f"📊 [MARKET_CONDITIONS] {symbol}: mode={market_mode}, "
+                   f"vol_1m={multi_tf.get('1m').volatility if multi_tf.get('1m') else 0:.2f}%, "
+                   f"trend_5m={multi_tf.get('5m').trend if multi_tf.get('5m') else 'N/A'}, "
+                   f"imb_30m={multi_tf.get('30m').imbalance if multi_tf.get('30m') else 0:.1f}")
+
     async def _optimized_maybe_open(self, symbol: str, sig: Dict, ob, vol_data: Dict):
-        """Оновлена логіка відкриття з O'Hara фільтрами"""
+        """Оновлена логіка відкриття з мульти-таймфрейм фільтрами"""
         can_open = await self._fast_check_exchange_position_status(symbol)
         if not can_open:
             return
@@ -168,6 +206,29 @@ class TradingOrchestrator:
         
         if action == "HOLD" or strength < self.executor.tcfg.entry_signal_min_strength:
             return
+        
+        # 🆕 МУЛЬТИ-ТАЙМФРЕЙМ ФІЛЬТРИ
+        multi_tf_data = vol_data.get("multi_timeframe_data", {})
+        
+        # Перевірка консистентності тренду на різних таймфреймах
+        tf_1m = multi_tf_data.get('1m')
+        tf_5m = multi_tf_data.get('5m')
+        trend_1m = tf_1m.trend if tf_1m else 'SIDEWAYS'
+        trend_5m = tf_5m.trend if tf_5m else 'SIDEWAYS'
+        
+        if action == "BUY" and (trend_1m == "DOWN" or trend_5m == "DOWN"):
+            logger.debug(f"[MTF_FILTER] {symbol}: BUY rejected - conflicting trends 1m:{trend_1m}, 5m:{trend_5m}")
+            return
+        elif action == "SELL" and (trend_1m == "UP" or trend_5m == "UP"):
+            logger.debug(f"[MTF_FILTER] {symbol}: SELL rejected - conflicting trends 1m:{trend_1m}, 5m:{trend_5m}")
+            return
+        
+        # Перевірка імбалансу на вищих таймфреймах
+        tf_30m = multi_tf_data.get('30m')
+        imb_30m = tf_30m.imbalance if tf_30m else 0
+        if abs(imb_30m) < 10:  # Занадто слабкий імбаланс на 30m
+            logger.debug(f"[MTF_FILTER] {symbol}: Weak 30m imbalance ({imb_30m:.1f}) - reducing position size")
+            # Зменшити розмір позиції замість відмови
         
         # 🆕 O'HARA FILTER: Check spread risk
         factors = sig.get("factors", {})
@@ -217,7 +278,7 @@ class TradingOrchestrator:
             self._last_trade_time[symbol] = time.time()
 
     def _quick_open_checks(self, symbol: str, sig: Dict) -> bool:
-        """ШВИДКІ перевірки з O'Hara фільтрами"""
+        """ШВИДКІ перевірки з мульти-таймфрейм фільтрами"""
         current_time = time.time()
         
         last_trade_time = self._last_trade_time.get(symbol, 0)
@@ -227,6 +288,18 @@ class TradingOrchestrator:
         last_close = self._last_close_ts.get(symbol, 0)
         if current_time - last_close < self.executor.tcfg.reopen_cooldown_sec:
             return False
+
+        # 🆕 МУЛЬТИ-ТАЙМФРЕЙМ ФІЛЬТР: Перевірка волатильності на різних таймфреймах
+        factors = sig.get("factors", {})
+        if factors:
+            vol_1m = factors.get("multi_tf_volatility_1m", 0)
+            vol_5m = factors.get("multi_tf_volatility_5m", 0)
+            vol_30m = factors.get("multi_tf_volatility_30m", 0)
+            
+            # Якщо волатильність занадто висока на всіх таймфреймах - уникати
+            if vol_1m > 5 and vol_5m > 4 and vol_30m > 3:
+                logger.debug(f"[MTF_VOL_FILTER] {symbol}: Extreme volatility across timeframes")
+                return False
 
         # 🆕 O'HARA FILTER: Check O'Hara score
         ohara_score = sig.get("ohara_score", 0)
@@ -259,14 +332,14 @@ class TradingOrchestrator:
         return is_reverse, double_size
 
     async def _fast_create_signal_info(self, symbol: str, action: str, 
-                                      strength: int, sig: Dict, is_reverse: bool) -> str:
-        """Швидке створення інформації про сигнал з O'Hara даними"""
+                                     strength: int, sig: Dict, is_reverse: bool) -> str:
+        """Швидке створення інформації про сигнал з мульти-таймфрейм деталями"""
         try:
             signal_parts = []
             if is_reverse:
                 signal_parts.append("REVERSE")
             display_action = "SELL" if action == "BUY" else "BUY" if action == "SELL" else action
-            if self.executor.tcfg. reverse_signals:
+            if self.executor.tcfg.reverse_signals:
                 signal_parts.append(f"{display_action.upper()}{strength}")
             else:
                 signal_parts.append(f"{action.upper()}{strength}")
@@ -277,7 +350,13 @@ class TradingOrchestrator:
                 imb_score = raw_values.get('imbalance_score', 0)
                 mom_score = raw_values.get('momentum_score', 0)
                 ohara_score = sig.get('ohara_score', 0)
-                signal_parts.append(f"(imb:{imb_score:.0f},mom:{mom_score:.0f},oh:{ohara_score})")
+                
+                # Додавання мульти-таймфрейм інформації
+                multi_tf_data = factors.get('multi_timeframe_data', {})
+                trend_5m = multi_tf_data.get('5m', {}).get('trend', 'N/A')
+                vol_30m = multi_tf_data.get('30m', {}).get('volatility', 0)
+                
+                signal_parts.append(f"(imb:{imb_score:.0f},mom:{mom_score:.0f},oh:{ohara_score},trend:{trend_5m},vol:{vol_30m:.1f})")
 
             return " ".join(signal_parts)
 
@@ -286,77 +365,130 @@ class TradingOrchestrator:
             return f"{action.upper()}{strength}" + (" (reverse)" if is_reverse else "")
 
     async def _optimized_maybe_close(self, symbol: str, sig: Dict, ob, vol_data: Dict):
-        """Оновлена логіка закриття з адаптивним lifetime"""
-        can_process = await self._fast_check_exchange_position_status(symbol)
-        if not can_process:
-            return
-            
-        pos = self.storage.get_position(symbol)
-        if not pos or pos.status != "OPEN":
+        """Оптимізована логіка закриття з мульти-таймфрейм умовами"""
+        position = self.storage.get_position(symbol)
+        if not position or position.status != "OPEN":
             return
 
-        if not self._quick_close_checks(symbol, pos):
-            return
-
-        current_time = time.time()
-        
-        # Адаптивний lifetime
-        if hasattr(pos, 'max_lifetime_sec') and pos.max_lifetime_sec > 0:
-            max_life = pos.max_lifetime_sec
-        else:
-            current_volatility = vol_data.get('recent_volatility', 0.1)
-            max_life = self.executor.risk.get_adaptive_lifetime_seconds(symbol, current_volatility)
-        
-        # Пріоритетна перевірка TIME_EXIT
-        if current_time - pos.timestamp > max_life:
-            lifetime_min = (current_time - pos.timestamp) / 60.0
-            logger.info(f"[ORCH] ⏰ Closing {symbol} {pos.side} due to TIME_EXIT "
-                       f"({lifetime_min:.1f}min > {max_life/60:.1f}min)")
-            await self.executor.close_position(symbol, reason="TIME_EXIT")
-            self._last_close_ts[symbol] = current_time
-            return
-
-        # Перевірка реверсу
-        if symbol in self._reverse_pending and self._reverse_pending[symbol]:
-            logger.info(f"[ORCH] 🔄 Closing {symbol} {pos.side} for REVERSE")
-            await self.executor.close_position(symbol, reason="REVERSE")
-            self._reverse_pending.pop(symbol, None)
-            self._last_close_ts[symbol] = current_time
-            return
-
-        # Перевірка протилежного сигналу
         action = sig.get("action", "HOLD")
         strength = sig.get("strength", 0)
-        opposite_strength_req = self.executor.tcfg.close_on_opposite_strength
 
-        if (pos.side == "LONG" and action == "SELL" and strength >= opposite_strength_req) or \
-           (pos.side == "SHORT" and action == "BUY" and strength >= opposite_strength_req):
-            logger.info(f"[ORCH] 🔒 Closing {symbol} {pos.side} due to opposite signal")
-            await self.executor.close_position(symbol, reason="opp_signal")
-            self._last_close_ts[symbol] = current_time
+        # Базові перевірки
+        if action == "HOLD":
             return
 
-    def _quick_close_checks(self, symbol: str, pos: Position) -> bool:
-        """ШВИДКІ перевірки для закриття"""
+        # Перевірка на реверс
+        is_reverse_signal = ((position.side == "LONG" and action == "SELL") or 
+                           (position.side == "SHORT" and action == "BUY"))
+
+        if not is_reverse_signal:
+            # Закриття за умовчанням
+            close_reason = self._determine_close_reason(position, sig, vol_data)
+            if close_reason:
+                await self._execute_close(symbol, close_reason, sig)
+        else:
+            # Реверс буде оброблено в _maybe_open
+            pass
+
+    def _determine_close_reason(self, position: Position, sig: Dict, vol_data: Dict) -> Optional[str]:
+        """Визначення причини закриття з мульти-таймфрейм аналізом"""
+        factors = sig.get('factors', {})
+        raw_values = factors.get('raw_values', {})
+        
+        # Перевірка часу життя позиції
         current_time = time.time()
+        position_age = current_time - position.timestamp
         
-        if current_time - pos.timestamp < self.executor.tcfg.min_position_hold_time_sec:
-            return False
+        if position_age > position.max_lifetime_sec:
+            return "MAX_LIFETIME"
+        
+        # Мульти-таймфрейм перевірка тренду
+        multi_tf_data = vol_data.get("multi_timeframe_data", {})
+        tf_5m = multi_tf_data.get('5m')
+        tf_30m = multi_tf_data.get('30m')
+        trend_5m = tf_5m.trend if tf_5m else 'SIDEWAYS'
+        trend_30m = tf_30m.trend if tf_30m else 'SIDEWAYS'
+        
+        # Закриття LONG якщо тренд змінився на DOWN
+        if position.side == "LONG" and (trend_5m == "DOWN" or trend_30m == "DOWN"):
+            if sig.get('strength', 0) >= 2:  # Досить сильний сигнал проти
+                return "MTF_TREND_CHANGE_DOWN"
+        
+        # Закриття SHORT якщо тренд змінився на UP
+        if position.side == "SHORT" and (trend_5m == "UP" or trend_30m == "UP"):
+            if sig.get('strength', 0) >= 2:
+                return "MTF_TREND_CHANGE_UP"
+        
+        # Перевірка імбалансу на вищих таймфреймах
+        imb_30m = tf_30m.imbalance if tf_30m else 0
+        if position.side == "LONG" and imb_30m < -30:  # Сильний імбаланс проти
+            return "MTF_IMBALANCE_AGAINST"
+        if position.side == "SHORT" and imb_30m > 30:
+            return "MTF_IMBALANCE_AGAINST"
+        
+        # Перевірка волатильності
+        vol_1m = tf_1m.volatility if (tf_1m := multi_tf_data.get('1m')) else 0
+        vol_5m = tf_5m.volatility if tf_5m else 0
+        
+        if vol_1m > 8 or vol_5m > 6:  # Екстремальна волатильність
+            return "MTF_EXTREME_VOLATILITY"
+        
+        # Перевірка стоп-лосс/тейк-профіт
+        if hasattr(position, 'stop_loss') and position.stop_loss:
+            current_price = (sig.get('best_bid', 0) + sig.get('best_ask', 0)) / 2
+            if position.side == "LONG" and current_price <= position.stop_loss:
+                return "STOP_LOSS"
+            if position.side == "SHORT" and current_price >= position.stop_loss:
+                return "STOP_LOSS"
+        
+        if hasattr(position, 'take_profit') and position.take_profit:
+            if position.side == "LONG" and current_price >= position.take_profit:
+                return "TAKE_PROFIT"
+            if position.side == "SHORT" and current_price <= position.take_profit:
+                return "TAKE_PROFIT"
+        
+        return None
+
+    async def _execute_close(self, symbol: str, reason: str, sig: Dict):
+        """Виконання закриття позиції"""
+        try:
+            logger.info(f"[CLOSE] 🔒 {symbol}: {reason}")
             
-        return True
+            # Отримання поточних цін
+            ob = self.storage.get_order_book(symbol)
+            if ob:
+                best_bid = ob.best_bid
+                best_ask = ob.best_ask
+                mid_price = (best_bid + best_ask) / 2
+            else:
+                mid_price = 0
+            
+            # Закриття через executor
+            await self.executor.close_position_market(
+                symbol=symbol,
+                close_reason=reason,
+                current_price=mid_price
+            )
+            
+            self._last_close_ts[symbol] = time.time()
+            
+        except Exception as e:
+            logger.error(f"❌ [CLOSE_ERROR] {symbol}: {e}")
 
-    def get_last_signal(self, symbol: str) -> Optional[Dict]:
-        return self._last_signal.get(symbol)
-
-    async def close_all(self, reason: str = "force_close"):
-        """Закрити всі позиції"""
-        symbols = list(self.storage.positions.keys())
-        close_tasks = []
-        for sym in symbols:
-            pos = self.storage.positions[sym]
-            if pos.status == "OPEN":
-                task = asyncio.create_task(self.executor.close_position(sym, reason=reason))
-                close_tasks.append(task)
+    def get_market_condition_report(self, symbol: str) -> Dict[str, Any]:
+        """Отримання звіту про ринкові умови для символу"""
+        vol_data = self.vol.compute(symbol)
+        imb_data = self.imb.compute(symbol)
         
-        await asyncio.gather(*close_tasks, return_exceptions=True)
-        logger.info(f"[ORCH] 🔒 Force closed {len(close_tasks)} positions")
+        multi_tf = vol_data.get("multi_timeframe_data", {})
+        adaptive_weights = imb_data.get("adaptive_weights", {})
+        
+        return {
+            "symbol": symbol,
+            "market_mode": adaptive_weights.get("market_mode", "unknown"),
+            "volatility_1m": multi_tf.get('1m').volatility if multi_tf.get('1m') else 0,
+            "trend_5m": multi_tf.get('5m').trend if multi_tf.get('5m') else 'SIDEWAYS',
+            "imbalance_30m": multi_tf.get('30m').imbalance if multi_tf.get('30m') else 0,
+            "adaptation_weights": adaptive_weights.get("weight_multipliers", {}),
+            "timestamp": time.time()
+        }
