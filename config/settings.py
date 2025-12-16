@@ -379,7 +379,7 @@ class SignalSettings(BaseSettings):
     # 🆕 MULTI-TIMEFRAME SETTINGS (MTF)
     # =====================================================
     enable_mtf_filter: bool = True
-    mtf_convergence_threshold: float = 0.7
+    mtf_convergence_threshold: float = 0.3
     min_mtf_timeframes_confirmed: int = 2
     mtf_confirmation_boost: float = 1.2
     mtf_weight_1min: float = 0.4
@@ -456,7 +456,7 @@ class MultiTimeframeSettings(BaseSettings):
     timeframe_weights: list = [0.4, 0.35, 0.25]  # Ваги для комбінації
     
     # Конвергенція
-    convergence_threshold: float = 0.7
+    convergence_threshold: float = 0.3
     min_confirmed_timeframes: int = 2
     
     # Фільтри

@@ -309,7 +309,7 @@ class SignalGenerator:
         if not hasattr(self.cfg, 'enable_mtf_filter'):
             self.cfg.enable_mtf_filter = True
         if not hasattr(self.cfg, 'mtf_convergence_threshold'):
-            self.cfg.mtf_convergence_threshold = 0.7
+            self.cfg.mtf_convergence_threshold = 0.3
         if not hasattr(self.cfg, 'min_mtf_timeframes_confirmed'):
             self.cfg.min_mtf_timeframes_confirmed = 2
         if not hasattr(self.cfg, 'mtf_require_confirmation_for_entry'):
