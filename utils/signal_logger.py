@@ -34,6 +34,8 @@ class SignalLogger:
                     "frequency",
                     "vol_confirm",
                     "ohara_score",
+                    "mtf_convergence",  # 🆕 Додано нове поле
+                    "mtf_score",        # 🆕 Додано нове поле
                     "reason",
                     "accepted"
                 ])
@@ -52,7 +54,9 @@ class SignalLogger:
         frequency: str,
         vol_confirm: str,
         ohara_score: int,
-        reason: str,
+        mtf_convergence: float = 0.0,  # 🆕 Додано параметр
+        mtf_score: float = 0.0,        # 🆕 Додано параметр
+        reason: str = "",
         accepted: bool = False
     ):
         """Логує один сигнал в CSV файл"""
@@ -73,6 +77,8 @@ class SignalLogger:
                     frequency,
                     vol_confirm,
                     ohara_score,
+                    f"{mtf_convergence:.2f}",  # 🆕 Додано значення
+                    f"{mtf_score:.3f}",        # 🆕 Додано значення
                     reason,
                     "YES" if accepted else "NO"
                 ])

@@ -1,11 +1,146 @@
 # analysis/signals.py
 import time
 import math
-from typing import Dict, Any, Tuple
-from collections import deque
+import numpy as np
+from typing import Dict, Any, Tuple, List
+from collections import deque, defaultdict
 from config.settings import settings
 from utils.logger import logger
 from utils.signal_logger import signal_logger
+
+class MultiTimeframeAnalyzer:
+    """Багатотаймфреймовий аналізатор для конвергенції сигналів"""
+    
+    def __init__(self):
+        self.timeframes = [60, 300, 1800]  # 1, 5, 30 хвилин
+        self.timeframe_weights = [0.4, 0.35, 0.25]  # Ваги для комбінації
+        self.historical_data = defaultdict(lambda: defaultdict(deque))
+        
+    def add_data_point(self, symbol: str, data_type: str, value: float, timestamp: float):
+        """Додавання точки даних для всіх таймфреймів"""
+        for tf in self.timeframes:
+            key = f"{data_type}_{tf}"
+            if symbol not in self.historical_data:
+                self.historical_data[symbol] = defaultdict(lambda: deque(maxlen=1000))
+            
+            self.historical_data[symbol][key].append({
+                'timestamp': timestamp,
+                'value': value
+            })
+    
+    def get_timeframe_data(self, symbol: str, data_type: str, timeframe: int, 
+                          lookback_points: int = None) -> List[float]:
+        """Отримання даних для конкретного таймфрейму"""
+        key = f"{data_type}_{timeframe}"
+        if symbol not in self.historical_data or key not in self.historical_data[symbol]:
+            return []
+        
+        data = self.historical_data[symbol][key]
+        current_time = time.time()
+        
+        if lookback_points:
+            return [d['value'] for d in list(data)[-lookback_points:]]
+        
+        # Автоматичний відбір за часом
+        timeframe_data = []
+        cutoff = current_time - timeframe
+        for item in reversed(data):
+            if item['timestamp'] >= cutoff:
+                timeframe_data.append(item['value'])
+            else:
+                break
+                
+        return list(reversed(timeframe_data))
+    
+    def calculate_convergence(self, symbol: str, data_type: str) -> Dict[str, Any]:
+        """Розрахунок конвергенції між таймфреймами"""
+        results = {}
+        all_values = []
+        
+        for tf, weight in zip(self.timeframes, self.timeframe_weights):
+            tf_data = self.get_timeframe_data(symbol, data_type, tf)
+            if not tf_data:
+                continue
+                
+            tf_key = f"tf_{tf}"
+            results[tf_key] = {
+                'value': np.mean(tf_data[-20:]) if len(tf_data) >= 20 else np.mean(tf_data),
+                'trend': self._calculate_trend(tf_data),
+                'volatility': np.std(tf_data) if len(tf_data) > 1 else 0,
+                'weight': weight
+            }
+            all_values.extend(tf_data[-5:])  # Беремо останні 5 точок
+        
+        if not results:
+            return {'convergence_score': 0, 'confirmed': False, 'details': {}}
+        
+        # Перевірка конвергенції
+        convergence_score = self._calculate_convergence_score(results)
+        confirmed = self._check_signal_confirmation(results)
+        
+        return {
+            'convergence_score': convergence_score,
+            'confirmed': confirmed,
+            'details': results,
+            'composite_value': np.mean(all_values) if all_values else 0
+        }
+    
+    def _calculate_trend(self, data: List[float]) -> float:
+        """Розрахунок тренду лінійної регресії"""
+        if len(data) < 5:
+            return 0.0
+        
+        x = np.arange(len(data))
+        y = np.array(data)
+        
+        try:
+            slope = np.polyfit(x, y, 1)[0]
+            return slope / np.mean(y) * 100 if np.mean(y) != 0 else 0
+        except:
+            return 0.0
+    
+    def _calculate_convergence_score(self, results: Dict) -> float:
+        """Розрахунок оцінки конвергенції"""
+        if len(results) < 2:
+            return 0.0
+        
+        # Перевіряємо напрямок на всіх таймфреймах
+        directions = []
+        for tf_data in results.values():
+            direction = 1 if tf_data['trend'] > 0.1 else (-1 if tf_data['trend'] < -0.1 else 0)
+            directions.append(direction)
+        
+        # Якщо всі таймфрейми в одному напрямку - сильна конвергенція
+        if all(d == 1 for d in directions):
+            return 1.0
+        elif all(d == -1 for d in directions):
+            return 1.0
+        elif sum(directions) >= 2:  # Більшість в одному напрямку
+            return 0.7
+        else:
+            return 0.3
+    
+    def _check_signal_confirmation(self, results: Dict) -> bool:
+        """Перевірка підтвердження сигналу на всіх таймфреймах"""
+        if len(results) < 2:
+            return False
+        
+        # Логіка: якщо короткий та середній таймфрейми підтверджують довгий
+        tf_keys = list(results.keys())
+        if len(tf_keys) >= 3:
+            short = results[tf_keys[0]]['trend']
+            medium = results[tf_keys[1]]['trend']
+            long = results[tf_keys[2]]['trend']
+            
+            # Конвергенція: всі тренди в одному напрямку
+            if (short > 0 and medium > 0 and long > 0) or (short < 0 and medium < 0 and long < 0):
+                return True
+            
+            # Алігмент: короткий і середній підтверджують довгий
+            if abs(long) > 0.2 and ((short > 0 and medium > 0) or (short < 0 and medium < 0)):
+                return True
+        
+        return False
 
 class SignalQualityMonitor:
     def __init__(self):
@@ -50,16 +185,16 @@ class SignalQualityMonitor:
         """Логування статистики ефективності сигналів"""
         if self.performance_metrics["total_signals"] > 0:
             accuracy = (self.performance_metrics["correct_predictions"] / 
-                        self.performance_metrics["total_signals"]) * 100
+                       self.performance_metrics["total_signals"]) * 100
             
             strong_accuracy = 0
             if self.performance_metrics["total_strong"] > 0:
                 strong_accuracy = (self.performance_metrics["strong_correct"] / 
-                                  self.performance_metrics["total_strong"]) * 100
+                                 self.performance_metrics["total_strong"]) * 100
             
             logger.info(f"[QUALITY] Signal Accuracy: {accuracy:.1f}% "
-                        f"({self.performance_metrics['correct_predictions']}/{self.performance_metrics['total_signals']}) | "
-                        f"Strong Signals: {strong_accuracy:.1f}%")
+                       f"({self.performance_metrics['correct_predictions']}/{self.performance_metrics['total_signals']}) | "
+                       f"Strong Signals: {strong_accuracy:.1f}%")
     
     def get_performance_report(self) -> Dict[str, Any]:
         """Отримання звіту про ефективність"""
@@ -67,12 +202,12 @@ class SignalQualityMonitor:
             return {"accuracy": 0, "strong_accuracy": 0}
         
         accuracy = (self.performance_metrics["correct_predictions"] / 
-                    self.performance_metrics["total_signals"]) * 100
+                   self.performance_metrics["total_signals"]) * 100
         
         strong_accuracy = 0
         if self.performance_metrics["total_strong"] > 0:
             strong_accuracy = (self.performance_metrics["strong_correct"] / 
-                              self.performance_metrics["total_strong"]) * 100
+                             self.performance_metrics["total_strong"]) * 100
         
         return {
             "total_signals": self.performance_metrics["total_signals"],
@@ -82,7 +217,7 @@ class SignalQualityMonitor:
         }
 
 class SpreadMonitor:
-    """🆕 O'HARA METHOD 7: Spread as Risk Measure"""
+    """O'HARA METHOD 7: Spread as Risk Measure"""
     
     def __init__(self):
         self.cfg = settings.spread
@@ -110,7 +245,7 @@ class SpreadMonitor:
             self._spread_baseline[symbol] = avg_spread
     
     def get_risk_level(self, symbol: str, current_spread_bps: float) -> Dict[str, Any]:
-        """Визначення рівня ризику на основі spread згідно O'Hara"""
+        """Визначення рівня ризику на основі spread"""
         if symbol not in self._spread_baseline or len(self._spread_history.get(symbol, [])) < 10:
             return {
                 'risk_level': 'UNKNOWN',
@@ -159,13 +294,40 @@ class SignalGenerator:
     def __init__(self):
         self.cfg = settings.signals
         self.ohara_cfg = settings.ohara
+        
+        # 🆕 Додаємо відсутні атрибути для сумісності
+        self._ensure_mtf_attributes()
+        
         self._state = {}
         self.quality_monitor = SignalQualityMonitor()
         self.spread_monitor = SpreadMonitor()
-        
-        # Адаптивні кеші для мульти-таймфрейм
-        self._market_adaptation_cache = {}
-        self._last_adaptation_update = 0
+        self.mtf_analyzer = MultiTimeframeAnalyzer()  # 🆕 Багатотаймфреймовий аналізатор
+
+    def _ensure_mtf_attributes(self):
+        """Забезпечуємо наявність необхідних MTF атрибутів"""
+        # MTF фільтри
+        if not hasattr(self.cfg, 'enable_mtf_filter'):
+            self.cfg.enable_mtf_filter = True
+        if not hasattr(self.cfg, 'mtf_convergence_threshold'):
+            self.cfg.mtf_convergence_threshold = 0.7
+        if not hasattr(self.cfg, 'min_mtf_timeframes_confirmed'):
+            self.cfg.min_mtf_timeframes_confirmed = 2
+        if not hasattr(self.cfg, 'mtf_require_confirmation_for_entry'):
+            self.cfg.mtf_require_confirmation_for_entry = True
+        if not hasattr(self.cfg, 'mtf_allow_override_on_strong_signal'):
+            self.cfg.mtf_allow_override_on_strong_signal = True
+        if not hasattr(self.cfg, 'mtf_override_strength_threshold'):
+            self.cfg.mtf_override_strength_threshold = 4
+        if not hasattr(self.cfg, 'enable_multi_timeframe_analysis'):
+            self.cfg.enable_multi_timeframe_analysis = True
+        if not hasattr(self.cfg, 'mtf_confirmation_boost'):
+            self.cfg.mtf_confirmation_boost = 1.2
+        if not hasattr(self.cfg, 'mtf_weight_1min'):
+            self.cfg.mtf_weight_1min = 0.4
+        if not hasattr(self.cfg, 'mtf_weight_5min'):
+            self.cfg.mtf_weight_5min = 0.35
+        if not hasattr(self.cfg, 'mtf_weight_30min'):
+            self.cfg.mtf_weight_30min = 0.25
 
     def _init_symbol(self, symbol: str):
         if symbol not in self._state:
@@ -174,86 +336,99 @@ class SignalGenerator:
                 "last_action": "HOLD",
                 "last_strength": 0,
                 "cooldown_until": 0.0,
-                "last_update": 0.0
+                "last_update": 0.0,
+                "mtf_scores": {60: 0.0, 300: 0.0, 1800: 0.0},  # 🆕 MTF scores
+                "mtf_confirmation": False
             }
 
     def generate(self, symbol: str, imbalance_data: Dict, volume_data: Dict, spread_bps: float = None) -> Dict[str, Any]:
         self._init_symbol(symbol)
-
-        # Адаптація до ринкових умов кожні 30 секунд
-        current_time = time.time()
-        if current_time - self._last_adaptation_update > 30:
-            self._update_market_adaptation(symbol, volume_data, imbalance_data)
-            self._last_adaptation_update = current_time
-
-        # ✅ АДАПТИВНІ ДАНІ ВЖЕ В volume_data (з analysis/volume.py)
-        # adaptive_volume_analysis - містить zscore, percentile, ema_ratio, classification
-        # large_order_data - містить адаптивні великі ордери (informed_direction)
-        
-        mom_score = volume_data.get("momentum_score", 0)
-        if abs(mom_score) > 50:
-            self.debug_signal_calculation(symbol, imbalance_data, volume_data, spread_bps)
-
         st = self._state[symbol]
 
-        volatility = volume_data.get("volatility", 0)
-        trades_count = volume_data.get("short_trades_count", 0)
-        if volatility == 0.1 and trades_count < 10:
-            logger.warning(f"⚠️ [DATA_QUALITY] {symbol}: Suspected fake volatility data")
-            return self._create_hold_signal(symbol, "suspicious_volatility_data")
-
+        # 🆕 Збір даних для мультитаймфреймового аналізу
+        current_time = time.time()
+        
+        # Імбаланс на різних таймфреймах
         imb_score = imbalance_data.get("effective_imbalance", imbalance_data.get("imbalance_score", 0))
+        self.mtf_analyzer.add_data_point(symbol, "imbalance", imb_score, current_time)
+        
+        # Моментум на різних таймфреймах
         mom_score = volume_data.get("momentum_score", 0)
+        self.mtf_analyzer.add_data_point(symbol, "momentum", mom_score, current_time)
+        
+        # Волатильність на різних таймфреймах
         volatility = volume_data.get("volatility", 0)
-
+        self.mtf_analyzer.add_data_point(symbol, "volatility", volatility, current_time)
+        
+        # 🆕 Отримання конвергенції сигналів
+        imb_convergence = self.mtf_analyzer.calculate_convergence(symbol, "imbalance")
+        mom_convergence = self.mtf_analyzer.calculate_convergence(symbol, "momentum")
+        
+        # Логування MTF інформації
+        logger.debug(f"[MTF_ANALYSIS] {symbol}: "
+                    f"Imbalance Conv={imb_convergence['convergence_score']:.2f}, "
+                    f"Momentum Conv={mom_convergence['convergence_score']:.2f}")
+        
+        # Розрахунок MTF-зваженого сигналу
+        mtf_imbalance = self._calculate_mtf_weighted_imbalance(symbol, imb_convergence)
+        mtf_momentum = self._calculate_mtf_weighted_momentum(symbol, mom_convergence)
+        
+        # Оригінальні розрахунки
         tape_analysis = volume_data.get("tape_analysis", {})
         depth_analysis = imbalance_data.get("depth_analysis", {})
         cluster_analysis = imbalance_data.get("cluster_analysis", {})
-
+        
         bayesian_data = imbalance_data.get("bayesian_data", {})
         trade_imbalance = imbalance_data.get("trade_imbalance", {})
         frequency_data = volume_data.get("frequency_data", {})
         volume_confirm = volume_data.get("volume_confirmation", {})
         large_order_data = volume_data.get("large_order_data", {})
         
-        # ✅ АДАПТИВНІ ДАНІ
         adaptive_volume = volume_data.get("adaptive_volume_analysis", {})
         adaptive_stats = volume_data.get("adaptive_statistics", {})
-
-        # 🆕 Multi-timeframe data
-        multi_tf_data = volume_data.get("multi_timeframe_data", {})
-
-        logger.debug(f"[SIGNAL_DEBUG] {symbol}: imb={imb_score}, mom={mom_score}, vol={volatility}")
-        logger.debug(f"[SIGNAL_DEBUG_ADAPTIVE] {symbol}: "
-                    f"vol_class={adaptive_volume.get('classification')}, "
-                    f"vol_zscore={adaptive_volume.get('zscore', 0):.2f}, "
-                    f"large_orders={large_order_data.get('informed_direction')}")
-
+        
+        # 🆕 Заміна оригінальних значень на MTF-зважені
         factors = self._calculate_all_factors(
-            symbol, imb_score, mom_score, tape_analysis, depth_analysis,
-            cluster_analysis, spread_bps, volatility,
+            mtf_imbalance,  # Використовуємо MTF імбаланс
+            mtf_momentum,   # Використовуємо MTF моментум
+            tape_analysis, depth_analysis, cluster_analysis, 
+            spread_bps, volatility,
             bayesian_data, trade_imbalance, frequency_data, 
-            volume_confirm, large_order_data, multi_tf_data
+            volume_confirm, large_order_data
         )
-
+        
+        # 🆕 Додаємо MTF конвергенцію як додатковий фактор
+        factors["mtf_convergence"] = (imb_convergence['convergence_score'] + 
+                                     mom_convergence['convergence_score']) / 2
+        
         composite_score = self._calculate_composite_score(factors)
-        ema_score = self._apply_smoothing(symbol, composite_score)
+        
+        # 🆕 Застосування MTF-згладжування
+        ema_score = self._apply_mtf_smoothing(symbol, composite_score, imb_convergence, mom_convergence)
+        
         action, strength, reason = self._generate_action_strength(symbol, ema_score, volume_data, factors)
-
+        
         if self._is_in_cooldown(symbol, action, strength):
             return self._create_cooldown_response(symbol, action, strength, ema_score, factors)
-
+        
         self._update_state(symbol, action, strength)
-
+        
         result = self._create_signal_response(
             symbol, action, strength, ema_score, composite_score, factors, reason
         )
         
-        # Додаємо адаптивну статистику до результату
+        # 🆕 Додаємо MTF дані до результату
+        result["mtf_data"] = {
+            "imbalance_convergence": imb_convergence,
+            "momentum_convergence": mom_convergence,
+            "mtf_imbalance": mtf_imbalance,
+            "mtf_momentum": mtf_momentum,
+            "confirmed": imb_convergence['confirmed'] and mom_convergence['confirmed']
+        }
+        
         result["adaptive_volume"] = adaptive_volume
         result["adaptive_stats"] = adaptive_stats
         
-        # Логуємо сигнал в CSV
         try:
             raw_values = factors.get("raw_values", {})
             signal_logger.log_signal(
@@ -269,6 +444,7 @@ class SignalGenerator:
                 frequency=raw_values.get("activity_level", "UNKNOWN"),
                 vol_confirm=raw_values.get("vol_confirmation", "UNKNOWN"),
                 ohara_score=result.get("ohara_score", 0),
+                mtf_convergence=factors.get("mtf_convergence", 0),  # 🆕
                 reason=result.get("reason", "ok"),
                 accepted=(result["strength"] >= self.cfg.min_strength_for_action)
             )
@@ -277,23 +453,6 @@ class SignalGenerator:
         
         self._log_signal_generation(symbol, result, factors)
         return result
-
-    def _update_market_adaptation(self, symbol: str, volume_data: Dict, imbalance_data: Dict):
-        """Оновлення адаптації до ринкових умов"""
-        multi_tf = volume_data.get("multi_timeframe_data", {})
-        adaptive_weights = imbalance_data.get("adaptive_weights", {})
-        
-        market_mode = adaptive_weights.get("market_mode", "sideways")
-        vol_30m = multi_tf.get('30m', {}).get('volatility', 0)
-        trend_5m = multi_tf.get('5m', {}).get('trend', 'SIDEWAYS')
-        
-        # Зберігаємо адаптацію для символу
-        self._market_adaptation_cache[symbol] = {
-            "market_mode": market_mode,
-            "volatility_30m": vol_30m,
-            "trend_5m": trend_5m,
-            "last_update": time.time()
-        }
 
     def debug_signal_calculation(self, symbol: str, imb_data: Dict, vol_data: Dict, spread_bps: float = None):
         self._init_symbol(symbol)
@@ -312,13 +471,11 @@ class SignalGenerator:
         volume_confirm = vol_data.get("volume_confirmation", {})
         large_order_data = vol_data.get("large_order_data", {})
         
-        multi_tf_data = vol_data.get("multi_timeframe_data", {})
-        
         factors = self._calculate_all_factors(
-            symbol, imb_score, mom_score, tape_analysis, depth_analysis,
+            imb_score, mom_score, tape_analysis, depth_analysis,
             cluster_analysis, spread_bps, volatility,
             bayesian_data, trade_imbalance, frequency_data,
-            volume_confirm, large_order_data, multi_tf_data
+            volume_confirm, large_order_data
         )
         
         composite_score = self._calculate_composite_score(factors)
@@ -331,8 +488,6 @@ class SignalGenerator:
         logger.info(f"   - Large Orders: {large_order_data.get('informed_direction')} -> factor: {factors['ohara_large_orders']:.3f}")
         logger.info(f"   - Frequency: {frequency_data.get('activity_level')} -> factor: {factors['ohara_frequency']:.3f}")
         logger.info(f"   - Vol Confirm: {volume_confirm.get('confirmation')} -> factor: {factors['ohara_volume_confirm']:.3f}")
-        logger.info(f"   - Multi-TF Trend 5m: {multi_tf_data.get('5m', {}).get('trend', 'N/A')}")
-        logger.info(f"   - Multi-TF Vol 30m: {multi_tf_data.get('30m', {}).get('volatility', 0):.2f}%")
         logger.info(f"   - Composite: {composite_score:.3f}, EMA: {ema_score:.3f}")
         
         action, strength, reason = self._generate_action_strength(symbol, ema_score, vol_data, factors)
@@ -340,10 +495,106 @@ class SignalGenerator:
         
         return action, strength
 
-    def _calculate_all_factors(self, symbol: str, imb_score, mom_score, tape_analysis, 
-                              depth_analysis, cluster_analysis, spread_bps, volatility,
-                              bayesian_data, trade_imbalance, frequency_data,
-                              volume_confirm, large_order_data, multi_tf_data):
+    def _calculate_mtf_weighted_imbalance(self, symbol: str, convergence_data: Dict) -> float:
+        """Розрахунок MTF-зваженого імбалансу"""
+        details = convergence_data.get('details', {})
+        if not details:
+            return 0.0
+        
+        weighted_sum = 0.0
+        total_weight = 0.0
+        
+        for tf_key, tf_data in details.items():
+            weight = tf_data.get('weight', self.cfg.mtf_weight_1min)
+            value = tf_data.get('value', 0.0)
+            trend = tf_data.get('trend', 0.0)
+            
+            # Вага збільшується, якщо висока конвергенція
+            convergence_bonus = 1.0 + (convergence_data['convergence_score'] * 0.5)
+            adjusted_weight = weight * convergence_bonus
+            
+            # Комбінуємо значення та тренд
+            combined_value = value * 0.7 + trend * 0.3
+            
+            weighted_sum += combined_value * adjusted_weight
+            total_weight += adjusted_weight
+        
+        return weighted_sum / total_weight if total_weight > 0 else 0.0
+
+    def _calculate_mtf_weighted_momentum(self, symbol: str, convergence_data: Dict) -> float:
+        """Розрахунок MTF-зваженого моментуму"""
+        details = convergence_data.get('details', {})
+        if not details:
+            return 0.0
+        
+        weighted_sum = 0.0
+        total_weight = 0.0
+        
+        for tf_key, tf_data in details.items():
+            weight = tf_data.get('weight', self.cfg.mtf_weight_1min)
+            value = tf_data.get('value', 0.0)
+            trend = tf_data.get('trend', 0.0)
+            volatility = tf_data.get('volatility', 1.0)
+            
+            # Корекція на волатильність
+            volatility_factor = 1.0 / (1.0 + volatility * 0.1)
+            adjusted_weight = weight * volatility_factor
+            
+            # Комбінуємо значення з трендом
+            combined_value = value * 0.6 + trend * 0.4
+            
+            weighted_sum += combined_value * adjusted_weight
+            total_weight += adjusted_weight
+        
+        return weighted_sum / total_weight if total_weight > 0 else 0.0
+
+    def _apply_mtf_smoothing(self, symbol: str, current_score: float, 
+                           imb_convergence: Dict, mom_convergence: Dict) -> float:
+        """MTF-згладжування з урахуванням конвергенції"""
+        st = self._state[symbol]
+        
+        # Базова EMA
+        ema_prev = st.get("ema_score", 0.0)
+        base_alpha = self.cfg.smoothing_alpha
+        
+        # Корекція альфи на основі конвергенції
+        convergence_score = (imb_convergence['convergence_score'] + 
+                           mom_convergence['convergence_score']) / 2
+        
+        if convergence_score > 0.8:
+            # Висока конвергенція - швидше оновлення
+            adaptive_alpha = min(base_alpha * 1.5, 0.9)
+        elif convergence_score > 0.5:
+            adaptive_alpha = base_alpha
+        else:
+            # Низька конвергенція - повільніше оновлення
+            adaptive_alpha = max(base_alpha * 0.5, 0.1)
+        
+        ema_new = ema_prev * (1 - adaptive_alpha) + current_score * adaptive_alpha
+        st["ema_score"] = ema_new
+        
+        # Оновлюємо MTF scores
+        for tf in [60, 300, 1800]:
+            mtf_key = f"mtf_score_{tf}"
+            if mtf_key not in st:
+                st[mtf_key] = 0.0
+            st[mtf_key] = st[mtf_key] * 0.9 + current_score * 0.1
+        
+        return ema_new
+
+    def _apply_smoothing(self, symbol: str, current_score: float) -> float:
+        """Зворотна сумісність оригінального методу"""
+        st = self._state[symbol]
+        ema_prev = st.get("ema_score", 0.0)
+        ema_new = ema_prev * (1 - self.cfg.smoothing_alpha) + current_score * self.cfg.smoothing_alpha
+        st["ema_score"] = ema_new
+        return ema_new
+
+    def _calculate_all_factors(self, imb_score, mom_score, tape_analysis, 
+                             depth_analysis, cluster_analysis, spread_bps, volatility,
+                             bayesian_data, trade_imbalance, frequency_data,
+                             volume_confirm, large_order_data):
+        # Нормалізація
         imb_norm = imb_score / 100.0
         mom_norm = mom_score / 100.0
         
@@ -358,9 +609,6 @@ class SignalGenerator:
         frequency_factor = self._calculate_frequency_factor(frequency_data)
         volume_confirm_factor = self._calculate_volume_confirm_factor(volume_confirm)
         
-        # Multi-timeframe factors з адаптацією
-        multi_tf_factors = self._calculate_multi_timeframe_factors_adaptive(symbol, multi_tf_data)
-        
         return {
             "imbalance": imb_norm,
             "momentum": mom_norm,
@@ -373,18 +621,7 @@ class SignalGenerator:
             "ohara_large_orders": large_order_factor,
             "ohara_frequency": frequency_factor,
             "ohara_volume_confirm": volume_confirm_factor,
-            "multi_tf_trend_1m": multi_tf_factors.get("trend_1m", 0),
-            "multi_tf_trend_5m": multi_tf_factors.get("trend_5m", 0),
-            "multi_tf_trend_30m": multi_tf_factors.get("trend_30m", 0),
-            "multi_tf_volatility_1m": multi_tf_factors.get("volatility_1m", 0),
-            "multi_tf_volatility_5m": multi_tf_factors.get("volatility_5m", 0),
-            "multi_tf_volatility_30m": multi_tf_factors.get("volatility_30m", 0),
-            "multi_tf_prints_1m": multi_tf_factors.get("prints_1m", 0),
-            "multi_tf_prints_5m": multi_tf_factors.get("prints_5m", 0),
-            "multi_tf_prints_30m": multi_tf_factors.get("prints_30m", 0),
-            "multi_tf_imbalance_1m": multi_tf_factors.get("imbalance_1m", 0),
-            "multi_tf_imbalance_5m": multi_tf_factors.get("imbalance_5m", 0),
-            "multi_tf_imbalance_30m": multi_tf_factors.get("imbalance_30m", 0),
+            "large_orders": large_order_data,
             "raw_values": {
                 "imbalance_score": imb_score,
                 "momentum_score": mom_score,
@@ -395,57 +632,12 @@ class SignalGenerator:
                 "bayesian_signal": bayesian_data.get("signal", "NEUTRAL"),
                 "informed_direction": large_order_data.get("informed_direction", "NEUTRAL"),
                 "activity_level": frequency_data.get("activity_level", "UNKNOWN"),
-                "vol_confirmation": volume_confirm.get("confirmation", "UNKNOWN"),
-                "multi_tf_trend_5m": multi_tf_data.get("5m", {}).get("trend", "SIDEWAYS"),
-                "multi_tf_vol_30m": multi_tf_data.get("30m", {}).get("volatility", 0),
-                "multi_tf_prints_5m": multi_tf_data.get("5m", {}).get("aggressive_ratio", 0),
-                "multi_tf_imbalance_30m": multi_tf_data.get("30m", {}).get("imbalance", 0)
+                "vol_confirmation": volume_confirm.get("confirmation", "UNKNOWN")
             }
         }
 
-    def _calculate_multi_timeframe_factors_adaptive(self, symbol: str, multi_tf_data: Dict) -> Dict[str, float]:
-        """Розрахунок факторів мульти-таймфрейм з адаптацією до ринкових умов"""
-        factors = {}
-        adaptation = self._market_adaptation_cache.get(symbol, {})
-        market_mode = adaptation.get("market_mode", "sideways")
-        
-        for tf in ['1m', '5m', '30m']:
-            tf_data = multi_tf_data.get(tf, {})
-            
-            # Trend factor з адаптацією
-            trend = tf_data.get("trend", "SIDEWAYS")
-            base_trend_factor = 0
-            if trend == "UP":
-                base_trend_factor = 0.5
-            elif trend == "DOWN":
-                base_trend_factor = -0.5
-            
-            # Адаптація тренду залежно від режиму ринку
-            trend_multiplier = settings.adaptive.adaptive_weight_multipliers.get(market_mode, {}).get("multi_tf_trend", 1.0)
-            factors[f"trend_{tf}"] = base_trend_factor * trend_multiplier
-            
-            # Volatility factor з адаптацією
-            vol = tf_data.get("volatility", 0)
-            base_vol_factor = min(vol / 5.0, 1.0)  # cap at 5%
-            vol_multiplier = settings.adaptive.adaptive_weight_multipliers.get(market_mode, {}).get("multi_tf_volatility", 1.0)
-            factors[f"volatility_{tf}"] = base_vol_factor * vol_multiplier
-            
-            # Prints factor з адаптацією
-            prints = tf_data.get("aggressive_ratio", 0)
-            base_prints_factor = min(prints * 2, 1.0)
-            prints_multiplier = settings.adaptive.adaptive_weight_multipliers.get(market_mode, {}).get("multi_tf_prints", 1.0)
-            factors[f"prints_{tf}"] = base_prints_factor * prints_multiplier
-            
-            # Imbalance factor з адаптацією
-            imb = tf_data.get("imbalance", 0)
-            base_imb_factor = imb / 100.0
-            imb_multiplier = settings.adaptive.adaptive_weight_multipliers.get(market_mode, {}).get("multi_tf_imbalance", 1.0)
-            factors[f"imbalance_{tf}"] = base_imb_factor * imb_multiplier
-        
-        return factors
-
     def _calculate_bayesian_factor(self, bayesian_data: Dict) -> float:
-        """🆕 O'HARA METHOD 1: Bayesian factor"""
+        """O'HARA METHOD 1: Bayesian factor"""
         signal = bayesian_data.get("signal", "NEUTRAL")
         confidence = bayesian_data.get("confidence", 0)
         
@@ -457,15 +649,13 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_large_order_factor(self, large_order_data: Dict) -> float:
-        """O'HARA METHOD 2: Large orders factor (ADAPTIVE) - OPTIMIZED"""
+        """O'HARA METHOD 2: Large orders factor"""
         direction = large_order_data.get("informed_direction", "NEUTRAL")
         count = large_order_data.get("count", 0)
         
-        # Base values (reduced from 0.8/0.4 to 0.5/0.25)
         base_strong = 0.5
         base_medium = 0.25
         
-        # Additional bonus for multiple large orders
         count_bonus = 0
         if count > self.cfg.large_order_count_bonus_threshold:
             count_bonus = min(
@@ -485,7 +675,7 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_frequency_factor(self, frequency_data: Dict) -> float:
-        """🆕 O'HARA METHOD 3: Trade frequency factor"""
+        """O'HARA METHOD 3: Trade frequency factor"""
         activity_level = frequency_data.get("activity_level", "UNKNOWN")
         risk_signal = frequency_data.get("risk_signal", "OK")
         
@@ -499,7 +689,7 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_volume_confirm_factor(self, volume_confirm: Dict) -> float:
-        """🆕 O'HARA METHOD 5: Volume confirmation factor (АДАПТИВНИЙ)"""
+        """O'HARA METHOD 5: Volume confirmation factor"""
         confirmation = volume_confirm.get("confirmation", "UNKNOWN")
         strength = volume_confirm.get("strength", "WEAK")
         
@@ -553,7 +743,7 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_spread_factor(self, spread_bps: float) -> float:
-        """🆕 O'HARA METHOD 7: Spread factor"""
+        """O'HARA METHOD 7: Spread factor"""
         if spread_bps is None:
             return 0.0
         
@@ -574,15 +764,10 @@ class SignalGenerator:
             return 0.0
 
     def _calculate_composite_score(self, factors: Dict) -> float:
-        """Розрахунок composite score з мульти-таймфрейм та адаптивними вагами"""
-        # Отримання адаптивних множників
-        market_mode = self._market_adaptation_cache.get(factors.get("symbol", ""), {}).get("market_mode", "sideways")
-        weight_multipliers = settings.adaptive.adaptive_weight_multipliers.get(market_mode, {})
-        
-        # Базові ваги з множниками
+        """Розрахунок composite score з O'Hara факторами"""
         score = (
-            factors["imbalance"] * self.cfg.weight_imbalance * weight_multipliers.get("imbalance", 1.0) +
-            factors["momentum"] * self.cfg.weight_momentum * weight_multipliers.get("momentum", 1.0) +
+            factors["imbalance"] * self.cfg.weight_imbalance +
+            factors["momentum"] * self.cfg.weight_momentum +
             factors["ohara_bayesian"] * self.cfg.weight_ohara_bayesian +
             factors["ohara_large_orders"] * self.cfg.weight_ohara_large_orders +
             factors["ohara_frequency"] * self.cfg.weight_ohara_frequency +
@@ -591,33 +776,18 @@ class SignalGenerator:
             factors["depth"] * 0.1 +
             factors["cluster"] * 0.05 +
             factors["spread"] * 0.075 +
-            factors["volatility"] * 0.05 +
-            # Multi-timeframe з адаптивними вагами
-            factors["multi_tf_trend_1m"] * 0.05 * weight_multipliers.get("multi_tf_trend", 1.0) +
-            factors["multi_tf_trend_5m"] * 0.08 * weight_multipliers.get("multi_tf_trend", 1.0) +
-            factors["multi_tf_trend_30m"] * 0.12 * weight_multipliers.get("multi_tf_trend", 1.0) +
-            factors["multi_tf_volatility_1m"] * -0.03 * weight_multipliers.get("multi_tf_volatility", 1.0) +
-            factors["multi_tf_volatility_5m"] * -0.05 * weight_multipliers.get("multi_tf_volatility", 1.0) +
-            factors["multi_tf_volatility_30m"] * -0.08 * weight_multipliers.get("multi_tf_volatility", 1.0) +
-            factors["multi_tf_prints_1m"] * 0.04 * weight_multipliers.get("multi_tf_prints", 1.0) +
-            factors["multi_tf_prints_5m"] * 0.06 * weight_multipliers.get("multi_tf_prints", 1.0) +
-            factors["multi_tf_prints_30m"] * 0.08 * weight_multipliers.get("multi_tf_prints", 1.0) +
-            factors["multi_tf_imbalance_1m"] * 0.03 * weight_multipliers.get("multi_tf_imbalance", 1.0) +
-            factors["multi_tf_imbalance_5m"] * 0.05 * weight_multipliers.get("multi_tf_imbalance", 1.0) +
-            factors["multi_tf_imbalance_30m"] * 0.07 * weight_multipliers.get("multi_tf_imbalance", 1.0)
+            factors["volatility"] * 0.05
         )
+        
+        # 🆕 Додаємо MTF конвергенцію до score
+        if "mtf_convergence" in factors:
+            mtf_bonus = factors["mtf_convergence"] * 0.1
+            score += mtf_bonus
         
         if factors["raw_values"]["volume_acceleration"] > 50:
             score += self.cfg.spike_bonus
         
         return max(-1.0, min(1.0, score))
-
-    def _apply_smoothing(self, symbol: str, current_score: float) -> float:
-        st = self._state[symbol]
-        ema_prev = st.get("ema_score", 0.0)
-        ema_new = ema_prev * (1 - self.cfg.smoothing_alpha) + current_score * self.cfg.smoothing_alpha
-        st["ema_score"] = ema_new
-        return ema_new
 
     def _get_adaptive_threshold(self, symbol: str, volume_data: Dict, factors: Dict) -> float:
         """Calculate adaptive threshold based on market conditions"""
@@ -627,105 +797,122 @@ class SignalGenerator:
         base = self.cfg.base_threshold
         adjustment = 0.0
         
-        # Adjust based on volatility
         volatility = volume_data.get("volatility", 1.0)
         if volatility >= self.cfg.volatility_high_level:
             adjustment -= self.cfg.high_volatility_threshold_reduction
-            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: High volatility ({volatility:.2f}) → threshold -{self.cfg.high_volatility_threshold_reduction:.2f}")
         elif volatility <= self.cfg.volatility_low_level:
             adjustment += self.cfg.low_volatility_threshold_increase
-            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Low volatility ({volatility:.2f}) → threshold +{self.cfg.low_volatility_threshold_increase:.2f}")
         
-        # Adjust based on volume (liquidity)
         adaptive_volume = volume_data.get("adaptive_volume_analysis", {})
         vol_zscore = adaptive_volume.get("zscore", 0)
         
-        if vol_zscore > 1.0:  # High liquidity
+        if vol_zscore > 1.0:
             adjustment -= self.cfg.high_liquidity_threshold_reduction
-            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: High liquidity (zscore={vol_zscore:.2f}) → threshold -{self.cfg.high_liquidity_threshold_reduction:.2f}")
-        elif vol_zscore < -0.5:  # Low liquidity
+        elif vol_zscore < -0.5:
             adjustment += self.cfg.low_liquidity_threshold_increase
-            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Low liquidity (zscore={vol_zscore:.2f}) → threshold +{self.cfg.low_volatility_threshold_increase:.2f}")
         
-        # O'Hara score bonus
         ohara_score = self._calculate_ohara_score(factors)
         if ohara_score >= self.cfg.ohara_strong_score_threshold:
             adjustment -= self.cfg.ohara_threshold_reduction
-            logger.debug(f"[ADAPTIVE_THRESHOLD] {symbol}: Strong O'Hara ({ohara_score}/10) → threshold -{self.cfg.ohara_threshold_reduction:.2f}")
         
-        # Мульти-таймфрейм адаптація
-        multi_tf = volume_data.get("multi_timeframe_data", {})
-        trend_5m = multi_tf.get('5m', {}).get('trend', 'SIDEWAYS')
-        vol_30m = multi_tf.get('30m', {}).get('volatility', 0)
-        
-        if trend_5m in ['UP', 'DOWN'] and vol_30m < 3:  # Strong trend on 5m, low vol on 30m
-            adjustment -= 0.05  # Lower threshold for stronger signals
-        elif vol_30m > 5:  # High vol on 30m
-            adjustment += 0.03  # Raise threshold to be more selective
+        # 🆕 MTF корекція порогу
+        mtf_convergence = factors.get("mtf_convergence", 0)
+        if mtf_convergence > 0.7:
+            adjustment -= 0.05  # Знижуємо поріг при високій конвергенції
+        elif mtf_convergence < 0.3:
+            adjustment += 0.03  # Підвищуємо поріг при низькій конвергенції
         
         final_threshold = max(self.cfg.min_threshold, min(self.cfg.max_threshold, base + adjustment))
         
-        if adjustment != 0:
-            logger.info(f"[ADAPTIVE_THRESHOLD] {symbol}: base={base:.2f} + adjustment={adjustment:.2f} = {final_threshold:.2f}")
-        
         return final_threshold
 
+    def _check_whale_entry_conditions(
+        self, 
+        symbol: str, 
+        direction: str,
+        momentum_pct: float,
+        imbalance_pct: float,
+        ohara_score: int,
+        large_order_data: Dict
+    ) -> Tuple[bool, str]:
+        """
+        🐋 Перевірка умов входу - ПОМ'ЯКШЕНА ВЕРСІЯ
+        """
+        
+        # 1.Momentum перевірка
+        min_mom = getattr(self.cfg, 'min_momentum_for_entry', 45.0)  # було 60
+        max_mom = getattr(self.cfg, 'max_momentum_for_entry', 92.0)  # було 88
+        
+        if abs(momentum_pct) < min_mom:
+            return False, f"momentum_too_low ({abs(momentum_pct):.0f}% < {min_mom}%)"
+        
+        if abs(momentum_pct) > max_mom:
+            return False, f"momentum_too_high ({abs(momentum_pct):.0f}% > {max_mom}%)"
+        
+        # 2.Imbalance перевірка
+        min_imb = getattr(self.cfg, 'min_imbalance_for_entry', 8.0)  # було 18! 
+        if abs(imbalance_pct) < min_imb:
+            return False, f"imbalance_too_low ({abs(imbalance_pct):.0f}% < {min_imb}%)"
+        
+        # 3.O'Hara score перевірка
+        min_ohara = getattr(self.cfg, 'min_ohara_for_entry', 4)  # було 5
+        if ohara_score < min_ohara:
+            return False, f"ohara_too_low ({ohara_score} < {min_ohara})"
+        
+        # 4.Large Orders - тільки перевірка напрямку (кількість опціонально)
+        lo_direction = large_order_data.get("informed_direction", "NEUTRAL")
+        
+        # НЕ йдемо проти великих ордерів
+        if direction in ["BUY", "LONG"]:
+            if lo_direction in ["STRONG_SELL"]:  # тільки STRONG, не MEDIUM
+                return False, f"large_orders_against_buy ({lo_direction})"
+        else:
+            if lo_direction in ["STRONG_BUY"]:
+                return False, f"large_orders_against_sell ({lo_direction})"
+        
+        # ✅ Пройшли всі перевірки
+        logger.info(
+            f"🐋 [WHALE_OK] {symbol} {direction}: "
+            f"mom={momentum_pct:.0f}%, imb={imbalance_pct:.0f}%, ohara={ohara_score}"
+        )
+        return True, "whale_confirmed"
+
     def _generate_action_strength(
-    self, 
-    symbol: str, 
-    ema_score: float, 
-    volume_data: Dict, 
-    factors: Dict
-) -> Tuple[str, int, str]:
+        self, 
+        symbol: str, 
+        ema_score: float, 
+        volume_data: Dict, 
+        factors: Dict
+    ) -> Tuple[str, int, str]:
         abs_score = abs(ema_score)
         direction = "BUY" if ema_score > 0 else "SELL"
         raw_values = factors.get("raw_values", {})
         
-        early_entry_mode = False
-        early_entry_min_threshold = self.cfg.composite_thresholds["strength_3"]
+        # 🆕 MTF ФІЛЬТРАЦІЯ
+        mtf_convergence = factors.get("mtf_convergence", 0)
+        mtf_confirmed = factors.get("mtf_data", {}).get("confirmed", False)
         
-        if self.cfg.early_entry_enabled:
-            momentum_score = abs(raw_values.get("momentum_score", 0))
-            volatility = volume_data.get("volatility", 0)
-            ohara_score = factors.get("ohara_score", 0)
-            informed_direction = raw_values.get("informed_direction", "NEUTRAL")
-            bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
-            imbalance_score = abs(raw_values.get("imbalance_score", 0))
-            
-            large_orders_confirm = False
-            bayesian_confirm = False
-            
-            if direction == "BUY":
-                large_orders_confirm = informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]
-                bayesian_confirm = bayesian_signal == "BULLISH"
-            else:
-                large_orders_confirm = informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]
-                bayesian_confirm = bayesian_signal == "BEARISH"
-            
-            if (momentum_score < self.cfg.early_entry_momentum_threshold and 
-                volatility >= self.cfg.early_entry_volatility_threshold and 
-                ohara_score >= self.cfg.early_entry_ohara_threshold and 
-                large_orders_confirm and
-                bayesian_confirm and
-                imbalance_score > self.cfg.early_entry_imbalance_threshold):
-                
-                early_entry_mode = True
-                early_entry_min_threshold = (
-                    self.cfg.composite_thresholds["strength_3"] * 
-                    self.cfg.early_entry_threshold_multiplier
+        # Перевірка MTG фільтру
+        if self.cfg.enable_mtf_filter and not mtf_confirmed:
+            # Перевіряємо чи достатньо сильний сигнал для override
+            if abs_score < self.cfg.composite_thresholds["strength_4"]:
+                logger.debug(
+                    f"[MTF_FILTER] {symbol}: No MTF confirmation, "
+                    f"signal too weak (score={abs_score:.3f})"
                 )
-                
+                return "HOLD", 0, "no_mtf_confirmation"
+            elif not self.cfg.mtf_allow_override_on_strong_signal:
+                logger.debug(
+                    f"[MTF_FILTER] {symbol}: No MTF confirmation, "
+                    f"override not allowed"
+                )
+                return "HOLD", 0, "no_mtf_confirmation"
+            elif self.cfg.mtf_allow_override_on_strong_signal and abs_score >= self.cfg.composite_thresholds["strength_5"]:
                 logger.info(
-                    f"[EARLY_ENTRY] {symbol}: Ideal conditions detected - "
-                    f"lowering threshold from {self.cfg.composite_thresholds['strength_3']:.3f} "
-                    f"to {early_entry_min_threshold:.3f}\n"
-                    f"  ├─ momentum={momentum_score:.1f} (< {self.cfg.early_entry_momentum_threshold})\n"
-                    f"  ├─ volatility={volatility:.2f} (>= {self.cfg.early_entry_volatility_threshold})\n"
-                    f"  ├─ ohara_score={ohara_score} (>= {self.cfg.early_entry_ohara_threshold})\n"
-                    f"  ├─ imbalance={imbalance_score:.1f}% (> {self.cfg.early_entry_imbalance_threshold})\n"
-                    f"  ├─ large_orders={informed_direction} ✅\n"
-                    f"  └─ bayesian={bayesian_signal} ✅"
+                    f"[MTF_OVERRIDE] {symbol}: Very strong signal ({abs_score:.3f}), "
+                    f"overriding MTF filter"
                 )
+                # Дозволяємо вхід при дуже сильному сигналі
         
         if self.cfg.enable_volume_validation:
             activity_level = raw_values.get("activity_level", "UNKNOWN")
@@ -754,11 +941,7 @@ class SignalGenerator:
         strength = 0
         reason = "weak_signal"
         
-        # Use adaptive threshold
-        if early_entry_mode:
-            min_threshold = early_entry_min_threshold
-        else:
-            min_threshold = self._get_adaptive_threshold(symbol, volume_data, factors)
+        min_threshold = self._get_adaptive_threshold(symbol, volume_data, factors)
         
         if abs_score >= self.cfg.composite_thresholds["strength_5"]:
             strength = 5
@@ -771,45 +954,57 @@ class SignalGenerator:
         elif abs_score >= self.cfg.composite_thresholds["strength_1"]:
             strength = 1
         
+        # 🆕 MTF підвищення сили при конвергенції
+        if mtf_confirmed and mtf_convergence > 0.7:
+            strength = min(5, strength + 1)  # +1 до сили
+            logger.debug(f"[MTF_BOOST] {symbol}: Strength boosted to {strength} due to MTF convergence")
+        
         if abs_score >= min_threshold and strength >= self.cfg.min_strength_for_action:
-            action = direction
-            reason = "ok"
+            # =====================================================
+            # 🐋 WHALE STRATEGY: Перевірка перед входом
+            # =====================================================
+            momentum_pct = raw_values.get("momentum_score", 0)
+            imbalance_pct = raw_values.get("imbalance_score", 0)
+            ohara_score = self._calculate_ohara_score(factors)
+            large_order_data = factors.get("large_orders", {})
             
-            if early_entry_mode:
+            can_enter, whale_reason = self._check_whale_entry_conditions(
+                symbol=symbol,
+                direction=direction,
+                momentum_pct=momentum_pct,
+                imbalance_pct=imbalance_pct,
+                ohara_score=ohara_score,
+                large_order_data=large_order_data
+            )
+            
+            if can_enter:
+                action = direction
+                reason = whale_reason
                 logger.info(
-                    f"[EARLY_ENTRY_SIGNAL] {symbol} {action}{strength}: "
-                    f"composite_score={abs_score:.3f} >= threshold={min_threshold:.3f} ✅"
+                    f"🐋 [WHALE_SIGNAL] {symbol} {action}{strength}: "
+                    f"composite={abs_score:.3f}, MTF={mtf_convergence:.2f}, {whale_reason}"
                 )
             else:
-                logger.debug(
-                    f"[SIGNAL] {symbol} {action}{strength}: "
-                    f"composite_score={abs_score:.3f} >= threshold={min_threshold:.3f}"
+                # Блокуємо вхід - не пройшли whale перевірку
+                action = "HOLD"
+                strength = 0
+                reason = whale_reason
+                logger.info(
+                    f"🚫 [WHALE_BLOCKED] {symbol}: {whale_reason} "
+                    f"(composite={abs_score:.3f} passed, but whale check failed)"
                 )
         else:
             if abs_score < min_threshold:
                 reason = "below_threshold"
-                logger.debug(
-                    f"[REJECT] {symbol}: Score {abs_score:.3f} below threshold {min_threshold:.3f}"
-                )
-                # Log near-miss signals
-                if abs_score >= min_threshold * 0.9:
-                    logger.info(
-                        f"[NEAR_MISS] {symbol}: Score {abs_score:.3f} close to threshold {min_threshold:.3f} "
-                        f"(diff={min_threshold - abs_score:.3f})"
-                    )
             elif strength < self.cfg.min_strength_for_action:
                 reason = "weak_signal"
-                logger.debug(
-                    f"[REJECT] {symbol}: Strength {strength} < minimum {self.cfg.min_strength_for_action}"
-                )
         
-        # Late entry check with improved logic
+        # Late entry check
         if action != "HOLD":
             momentum_pct = abs(raw_values.get("momentum_score", 0))
             ohara_score = self._calculate_ohara_score(factors)
             
             if momentum_pct > self.cfg.late_entry_momentum_threshold:
-                # Full block only for very extreme cases
                 logger.warning(
                     f"[LATE_ENTRY] {symbol}: Extreme momentum {momentum_pct:.1f}% - rejecting signal"
                 )
@@ -817,13 +1012,11 @@ class SignalGenerator:
                 strength = 0
                 reason = "late_entry"
             elif momentum_pct > self.cfg.late_entry_high_momentum_threshold:
-                # Allow with position reduction if O'Hara is strong
                 if self.cfg.late_entry_allow_strong_trend and ohara_score >= self.cfg.late_entry_min_ohara_for_override:
                     logger.info(
                         f"[LATE_ENTRY_ALLOWED] {symbol}: momentum={momentum_pct:.1f}% but O'Hara={ohara_score}/10 - "
                         f"allowing with {self.cfg.late_entry_position_size_reduction*100:.0f}% position size"
                     )
-                    # Add flag for position reduction
                     reason = "late_entry_reduced"
                 else:
                     logger.warning(
@@ -836,7 +1029,7 @@ class SignalGenerator:
         if action != "HOLD":
             logger.info(
                 f"[ACTION] {symbol} → {action}{strength} "
-                f"(composite={abs_score:.3f}, reason={reason})"
+                f"(composite={abs_score:.3f}, MTF={mtf_convergence:.2f}, reason={reason})"
             )
         
         return action, strength, reason
@@ -859,7 +1052,6 @@ class SignalGenerator:
         
         volatility = volume_data.get("volatility", 0)
         if volatility < self.cfg.volatility_filter_threshold:
-            logger.debug(f"[QUALITY] {symbol}: Low volatility {volatility:.3f}")
             return "low_volatility"
         
         if not self.cfg.allow_override_contradictory_orders:
@@ -868,45 +1060,10 @@ class SignalGenerator:
                 return "contradictory_large_orders"
             if action == "SELL" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
                 return "contradictory_large_orders"
-        else:
-            informed_direction = raw_values.get("informed_direction", "NEUTRAL")
-            imbalance_score = abs(raw_values.get("imbalance_score", 0))
-            momentum_score = raw_values.get("momentum_score", 0)
-            
-            if action == "BUY" and informed_direction in ["STRONG_SELL", "MEDIUM_SELL"]:
-                bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
-                
-                if (imbalance_score > self.cfg.override_imbalance_threshold and 
-                    abs(momentum_score) < self.cfg.override_momentum_threshold and 
-                    bayesian_signal == "BULLISH"):
-                    logger.info(f"[OVERRIDE] {symbol} BUY: Very strong early signal overrides contradictory large_orders "
-                            f"(imb={imbalance_score:.1f}%, mom={momentum_score:.1f}, bayesian={bayesian_signal})")
-                    return "ok"
-                
-                logger.debug(f"[QUALITY] {symbol}: Large orders contradictory (BUY vs {informed_direction})")
-                return "contradictory_large_orders"
-            
-            if action == "SELL" and informed_direction in ["STRONG_BUY", "MEDIUM_BUY"]:
-                bayesian_signal = raw_values.get("bayesian_signal", "NEUTRAL")
-                
-                if (imbalance_score > self.cfg.override_imbalance_threshold and 
-                    abs(momentum_score) < self.cfg.override_momentum_threshold and 
-                    bayesian_signal == "BEARISH"):
-                    logger.info(f"[OVERRIDE] {symbol} SELL: Very strong early signal overrides contradictory large_orders "
-                            f"(imb={imbalance_score:.1f}%, mom={momentum_score:.1f}, bayesian={bayesian_signal})")
-                    return "ok"
-                
-                logger.debug(f"[QUALITY] {symbol}: Large orders contradictory (SELL vs {informed_direction})")
-                return "contradictory_large_orders"
         
         vol_confirmation = raw_values.get("vol_confirmation", "UNKNOWN")
         if vol_confirmation == "CONTRADICTORY":
-            logger.debug(f"[QUALITY] {symbol}: Volume contradictory")
             return "contradictory_volume"
-        
-        if factors.get("spike", False):
-            logger.debug(f"[QUALITY] {symbol}: Spike detected")
-            return "spike_detected"
         
         return "ok"
 
@@ -944,7 +1101,8 @@ class SignalGenerator:
             "cooldown_active": now < st.get("cooldown_until", 0.0),
             "reason": reason,
             "factors": {},
-            "ohara_score": 0
+            "ohara_score": 0,
+            "mtf_data": {}  # 🆕 Додаємо пусті MTF дані
         }
         
         try:
@@ -990,7 +1148,8 @@ class SignalGenerator:
             "cooldown_active": True,
             "reason": "cooldown",
             "factors": factors,
-            "ohara_score": self._calculate_ohara_score(factors)
+            "ohara_score": self._calculate_ohara_score(factors),
+            "mtf_data": factors.get("mtf_data", {})  # 🆕 Додаємо MTF дані
         }
 
     def _update_state(self, symbol: str, action: str, strength: int):
@@ -1030,11 +1189,12 @@ class SignalGenerator:
             "cooldown_active": now < st["cooldown_until"],
             "reason": reason,
             "factors": factors,
-            "ohara_score": ohara_score
+            "ohara_score": ohara_score,
+            "mtf_data": factors.get("mtf_data", {})  # 🆕 Додаємо MTF дані
         }
 
     def _calculate_ohara_score(self, factors: Dict) -> int:
-        """🆕 Розрахунок комбінованого O'Hara score (0-10 балів) з мульти-таймфрейм"""
+        """Розрахунок комбінованого O'Hara score (0-10 балів)"""
         score = 0
         raw_values = factors.get("raw_values", {})
         
@@ -1062,13 +1222,11 @@ class SignalGenerator:
         elif vol_conf == "MODERATE":
             score += 1
         
-        # Мульти-таймфрейм бонуси
-        trend_5m = raw_values.get("multi_tf_trend_5m", "SIDEWAYS")
-        if trend_5m in ["UP", "DOWN"]:
-            score += 1
-        
-        vol_30m = raw_values.get("multi_tf_vol_30m", 0)
-        if vol_30m < 3:  # Low vol on 30m = good for signals
+        # 🆕 Додаємо бонус за MTF конвергенцію
+        mtf_convergence = factors.get("mtf_convergence", 0)
+        if mtf_convergence > 0.8:
+            score += 2
+        elif mtf_convergence > 0.6:
             score += 1
         
         return min(10, score)
@@ -1078,19 +1236,18 @@ class SignalGenerator:
         
         if signal["strength"] >= 3:
             ohara_score = signal.get("ohara_score", 0)
+            mtf_convergence = factors.get("mtf_convergence", 0)
+            
             logger.info(
                 f"🎯 [STRONG_SIGNAL] {symbol}: {signal['action']}{signal['strength']} "
                 f"score={signal['score_smoothed']:.3f} "
                 f"ohara={ohara_score}/10 "
+                f"MTF={mtf_convergence:.2f} "
                 f"imb={raw_values['imbalance_score']:.0f}, "
                 f"mom={raw_values['momentum_score']:.0f}, "
                 f"bayesian={raw_values.get('bayesian_signal', 'N/A')}, "
                 f"large_orders={raw_values.get('informed_direction', 'N/A')}, "
                 f"vol_conf={raw_values.get('vol_confirmation', 'N/A')}, "
-                f"multi_tf_trend_5m={raw_values.get('multi_tf_trend_5m', 'N/A')}, "
-                f"multi_tf_vol_30m={raw_values.get('multi_tf_vol_30m', 0):.1f}%, "
-                f"multi_tf_prints_5m={raw_values.get('multi_tf_prints_5m', 0):.2f}, "
-                f"multi_tf_imbalance_30m={raw_values.get('multi_tf_imbalance_30m', 0):.1f}, "
                 f"reason={signal.get('reason', 'ok')}"
             )
             
@@ -1098,9 +1255,11 @@ class SignalGenerator:
                 logger.warning(f"⚠️ [EXTREME_MOMENTUM] {symbol}: momentum={raw_values['momentum_score']:.0f}")
                 
         elif signal["strength"] >= 1:
+            mtf_convergence = factors.get("mtf_convergence", 0)
             logger.debug(
                 f"[SIGNAL_DEBUG] {symbol}: {signal['action']}{signal['strength']} "
-                f"score={signal['score_smoothed']:.3f}, reason={signal.get('reason', '')}"
+                f"score={signal['score_smoothed']:.3f}, MTF={mtf_convergence:.2f}, "
+                f"reason={signal.get('reason', '')}"
             )
 
     def get_signal_state(self, symbol: str) -> Dict[str, Any]:

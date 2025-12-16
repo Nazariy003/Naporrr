@@ -64,7 +64,6 @@ class PairsSettings(BaseSettings):
         "AAVEUSDT", "STRKUSDT"
     ]
     
-    # Pairs with special handling (HFTUSDT removed due to consistently low liquidity)
     low_liquidity_pairs: list = ["HFTUSDT", "TRXUSDT"]
     excluded_pairs: list = ["HFTUSDT"]
 
@@ -96,6 +95,11 @@ class TradingSettings(BaseSettings):
     reverse_double_size: bool = False
     
     enable_aggressive_filtering: bool = True
+    
+    # 🆕 MTF налаштування для оркестратора
+    enable_mtf_filter: bool = True
+    mtf_convergence_threshold: float = 0.3
+    min_mtf_timeframes_confirmed: int = 2
 
 class RiskSettings(BaseSettings):
     """Налаштування ризик-менеджменту"""
@@ -112,28 +116,30 @@ class RiskSettings(BaseSettings):
     volatility_threshold_low: float = 0.5
     volatility_threshold_high: float = 2.0
     
-    # Динамічне TP/SL
+    # =====================================================
+    # 🐋 WHALE STRATEGY: Динамічне TP/SL (ОНОВЛЕНО)
+    # =====================================================
     enable_dynamic_tpsl: bool = True
     
-    min_sl_pct: float = 0.005
-    min_tp_pct: float = 0.01
-    max_sl_pct: float = 0.03
-    max_tp_pct: float = 0.06
+    min_sl_pct: float = 0.003       # 0.3% - тайтіший SL (було 0.5%)
+    min_tp_pct: float = 0.004       # 0.4% - досяжний TP (було 1%)
+    max_sl_pct: float = 0.008       # 0.8% - макс SL (було 3%)
+    max_tp_pct: float = 0.012       # 1.2% - макс TP (було 6%)
     
-    sl_vol_multiplier: float = 1.5
-    tp_vol_multiplier: float = 3.0
+    sl_vol_multiplier: float = 1.2  # зменшено з 1.5
+    tp_vol_multiplier: float = 2.0  # зменшено з 3.0
     max_vol_used_pct: float = 5.0
     
     # Динамічне співвідношення TP/SL
     enable_dynamic_tpsl_ratio: bool = True
-    tpsl_ratio_high_winrate: float = 2.0
-    tpsl_ratio_medium_winrate: float = 2.5
-    tpsl_ratio_low_winrate: float = 3.0
+    tpsl_ratio_high_winrate: float = 1.5    # було 2.0 - менший, досяжніший TP
+    tpsl_ratio_medium_winrate: float = 1.8  # було 2.5
+    tpsl_ratio_low_winrate: float = 2.0     # було 3.0
     
     # Trailing stop
     enable_trailing_stop: bool = True
-    trailing_stop_activation_pct: float = 0.01
-    trailing_stop_distance_pct: float = 0.005
+    trailing_stop_activation_pct: float = 0.005  # 0.5% - раніше активуємо (було 1%)
+    trailing_stop_distance_pct: float = 0.003    # 0.3% - тайтіший трейл (було 0.5%)
     
     position_history_size: int = 100
     min_history_for_adaptation: int = 20
@@ -200,14 +206,12 @@ class ImbalanceSettings(BaseSettings):
     min_volume_epsilon: float = 1e-9
     large_order_side_percent: float = 0.05
     
-    # ✅ АДАПТИВНЕ ВИЗНАЧЕННЯ ВЕЛИКИХ ОРДЕРІВ (Z-Score метод)
     enable_adaptive_large_orders: bool = True
-    large_order_zscore_threshold: float = 2.0  # >2.0 стандартних відхилень = великий ордер
-    large_order_lookback_periods: int = 100  # Кількість періодів для розрахунку статистики
-    large_order_min_samples: int = 20  # Мінімум семплів для початку аналізу
+    large_order_zscore_threshold: float = 2.0
+    large_order_lookback_periods: int = 100
+    large_order_min_samples: int = 20
     
-    # Fallback якщо адаптивний метод вимкнено (для зворотної сумісності)
-    large_order_min_notional_abs: float = 500.0  # Використовується тільки якщо enable_adaptive_large_orders = False
+    large_order_min_notional_abs: float = 500.0
     
     spoof_lifetime_ms: int = 3000
     
@@ -219,6 +223,9 @@ class ImbalanceSettings(BaseSettings):
     historical_window_minutes: int = 15
     historical_samples: int = 10
     long_term_smoothing: float = 0.1
+    
+    # 🆕 MTF налаштування
+    enable_multi_timeframe_analysis: bool = True
 
 class VolumeSettings(BaseSettings):
     """Налаштування аналізу обсягів"""
@@ -231,44 +238,41 @@ class VolumeSettings(BaseSettings):
     momentum_windows: list = [15, 30, 60, 120]
     momentum_weights: list = [0.4, 0.3, 0.2, 0.1]
     
-    # ✅ АДАПТИВНИЙ АНАЛІЗ ОБСЯГІВ (Z-Score + Percentile + EMA)
     enable_adaptive_volume_analysis: bool = True
-    volume_zscore_threshold_high: float = 2.0  # >2.0σ = високий обсяг
-    volume_zscore_threshold_very_high: float = 3.0  # >3.0σ = дуже високий
-    volume_zscore_threshold_low: float = -1.0  # <-1.0σ = низький обсяг
-    volume_lookback_periods: int = 96  # 24 години при 15-хв свічках
-    volume_min_samples: int = 20  # Мінімум для розрахунку
+    volume_zscore_threshold_high: float = 2.0
+    volume_zscore_threshold_very_high: float = 3.0
+    volume_zscore_threshold_low: float = -1.0
+    volume_lookback_periods: int = 96
+    volume_min_samples: int = 20
     
-    # Percentile метод (альтернатива Z-Score)
     enable_percentile_method: bool = True
-    volume_percentile_very_high: float = 95.0  # Топ 5% = дуже високий
-    volume_percentile_high: float = 75.0  # Топ 25% = високий
-    volume_percentile_low: float = 25.0  # Низ 25% = низький
+    volume_percentile_very_high: float = 95.0
+    volume_percentile_high: float = 75.0
+    volume_percentile_low: float = 25.0
     
-    # EMA-based (швидкий метод)
     enable_ema_volume_analysis: bool = True
     ema_fast_period: int = 20
     ema_slow_period: int = 100
-    ema_ratio_high: float = 2.0  # >2x від EMA = високий
-    ema_ratio_very_high: float = 3.0  # >3x від EMA = дуже високий
+    ema_ratio_high: float = 2.0
+    ema_ratio_very_high: float = 3.0
     
-    # 🆕 O'HARA METHOD 3: Trade Frequency Analysis
     enable_trade_frequency_analysis: bool = True
     frequency_baseline_window_sec: int = 300
     frequency_very_high_multiplier: float = 5.0
     frequency_high_multiplier: float = 2.5
     frequency_very_low_multiplier: float = 0.3
     
-    # 🆕 O'HARA METHOD 5: Volume Confirmation (АДАПТИВНО)
     enable_volume_confirmation: bool = True
-    volume_baseline_window_sec: int = 86400  # 24 години
-    volume_confirmation_zscore: float = 1.2  # >1.5σ = підтверджений рух
-    volume_weak_zscore: float = -0.5  # <-0.5σ = слабкий рух
+    volume_baseline_window_sec: int = 86400
+    volume_confirmation_zscore: float = 1.2
+    volume_weak_zscore: float = -0.5
     
-    # 🆕 O'HARA METHOD 2: Large Order Tracking (АДАПТИВНО)
     enable_large_order_tracker: bool = True
     large_order_lookback_sec: int = 600
-    large_order_strong_threshold: int = 3  # 3+ великих = сильний сигнал
+    large_order_strong_threshold: int = 3
+    
+    # 🆕 MTF налаштування
+    enable_multi_timeframe_analysis: bool = True
 
 class AdaptiveSettings(BaseSettings):
     """Налаштування адаптивних механізмів"""
@@ -280,151 +284,153 @@ class AdaptiveSettings(BaseSettings):
     
     max_window_expansion: float = 2.0
     min_window_reduction: float = 0.5
-    
-    # 🆕 МУЛЬТИ-ТАЙМФРЕЙМ АДАПТАЦІЯ
-    enable_multi_tf_adaptation: bool = True
-    tf_adaptation_volatility_threshold: float = 2.0  # % волатильності для адаптації
-    tf_adaptation_trend_strength_threshold: float = 0.3  # Сила тренду для адаптації
-    
-    # Динамічні ваги для факторів залежно від умов ринку
-    adaptive_weight_multipliers: Dict[str, Dict[str, float]] = {
-        "high_volatility": {
-            "imbalance": 1.2,  # Збільшити вагу імбалансу при високій волатильності
-            "momentum": 0.8,   # Зменшити вагу моментуму
-            "multi_tf_trend": 1.5,  # Збільшити тренд на вищих таймфреймах
-            "multi_tf_volatility": 1.3,
-            "multi_tf_prints": 0.7,
-            "multi_tf_imbalance": 1.4
-        },
-        "low_volatility": {
-            "imbalance": 0.8,
-            "momentum": 1.3,
-            "multi_tf_trend": 0.7,
-            "multi_tf_volatility": 0.5,
-            "multi_tf_prints": 1.2,
-            "multi_tf_imbalance": 0.9
-        },
-        "strong_trend": {
-            "imbalance": 1.1,
-            "momentum": 1.4,
-            "multi_tf_trend": 1.6,
-            "multi_tf_volatility": 0.8,
-            "multi_tf_prints": 1.0,
-            "multi_tf_imbalance": 1.2
-        },
-        "sideways": {
-            "imbalance": 1.5,
-            "momentum": 0.7,
-            "multi_tf_trend": 0.5,
-            "multi_tf_volatility": 1.2,
-            "multi_tf_prints": 1.3,
-            "multi_tf_imbalance": 1.5
-        }
-    }
 
 class SignalSettings(BaseSettings):
     """Налаштування генерації сигналів"""
-    # 🆕 ОПТИМІЗОВАНІ ВАГИ
-    weight_momentum: float = 0.20          # було 0.15
-    weight_ohara_bayesian: float = 0.12    # без змін
-    weight_ohara_large_orders: float = 0.08  # було 0.10 (зменшено)
-    weight_imbalance: float = 0.45         # було 0.50 (трохи зменшено)
-    weight_ohara_frequency: float = 0.075  # було 0.065
-    weight_ohara_volume_confirm: float = 0.075  # було 0.065
+    
+    # =====================================================
+    # 🐋 WHALE STRATEGY: ОНОВЛЕНІ ВАГИ (більше на momentum і large orders)
+    # =====================================================
+    weight_momentum: float = 0.25           # підвищено з 0.20 - momentum важливіший
+    weight_ohara_bayesian: float = 0.10     # знижено з 0.12
+    weight_ohara_large_orders: float = 0.12 # підвищено з 0.08 - слідуємо за китами! 
+    weight_imbalance: float = 0.38          # знижено з 0.45
+    weight_ohara_frequency: float = 0.07    # було 0.075
+    weight_ohara_volume_confirm: float = 0.08  # підвищено - об'єм підтверджує
     spike_bonus: float = 0.1
     
     smoothing_alpha: float = 0.75
-    hold_threshold: float = 0.12
+    hold_threshold: float = 0.15            # підвищено з 0.12 - менше шуму
     
-    # Composite score thresholds
+    # Composite score thresholds - підвищені пороги
     composite_thresholds: dict = {
-        "strength_1": 0.15,
-        "strength_2": 0.30,
-        "strength_3": 0.40,
-        "strength_4": 0.65,
-        "strength_5": 0.80
+        "strength_1": 0.20,   # було 0.15
+        "strength_2": 0.35,   # було 0.30
+        "strength_3": 0.45,   # було 0.40 - головний поріг входу
+        "strength_4": 0.60,   # було 0.65
+        "strength_5": 0.75    # було 0.80
     }
     
     min_strength_for_action: int = 3
     
-    # 🆕 АДАПТИВНІ ПОРОГИ
+    # =====================================================
+    # 🐋 WHALE STRATEGY: АДАПТИВНІ ПОРОГИ (підвищені)
+    # =====================================================
     enable_adaptive_threshold: bool = True
-    base_threshold: float = 0.40
-    min_threshold: float = 0.32
-    max_threshold: float = 0.50
+    base_threshold: float = 0.45            # підвищено з 0.40 - чекаємо сильніший сигнал
+    min_threshold: float = 0.38             # підвищено з 0.32
+    max_threshold: float = 0.55             # підвищено з 0.50
     
-    # Коригування порогу на основі волатильності
-    high_volatility_threshold_reduction: float = 0.05  # знижуємо поріг при високій волатильності
-    low_volatility_threshold_increase: float = 0.03   # підвищуємо при низькій
+    high_volatility_threshold_reduction: float = 0.03  # зменшено з 0.05
+    low_volatility_threshold_increase: float = 0.05    # підвищено з 0.03
     volatility_high_level: float = 2.0
     volatility_low_level: float = 0.5
     
-    # Коригування на основі ліквідності
-    high_liquidity_threshold_reduction: float = 0.03
-    low_liquidity_threshold_increase: float = 0.05
+    high_liquidity_threshold_reduction: float = 0.02   # зменшено з 0.03
+    low_liquidity_threshold_increase: float = 0.07     # підвищено з 0.05
     
-    # 🆕 EARLY ENTRY PARAMETERS
-    early_entry_enabled: bool = True
+    # =====================================================
+    # 🐋 WHALE STRATEGY: ВИМКНЕНО EARLY ENTRY (причина збитків!)
+    # =====================================================
+    early_entry_enabled: bool = False       # 🚫 ВИМКНЕНО!  було True
     early_entry_momentum_threshold: float = 40.0
     early_entry_volatility_threshold: float = 0.3
     early_entry_ohara_threshold: int = 6
     early_entry_imbalance_threshold: float = 35.0
     early_entry_threshold_multiplier: float = 0.72
     
-    # 🆕 ПОКРАЩЕНИЙ LATE ENTRY
-    late_entry_momentum_threshold: float = 85.0  # було 70.0
+    # =====================================================
+    # 🐋 WHALE STRATEGY: ПІДТВЕРДЖЕННЯ РУХУ (нові параметри)
+    # =====================================================
+    # Мінімальний momentum для входу - чекаємо підтвердження
+    min_momentum_for_entry: float = 45.0    # 🆕 не входимо якщо momentum < 45%
+    max_momentum_for_entry: float = 88.0    # 🆕 не входимо якщо > 88% (занадто пізно)
+    
+    # Мінімальний imbalance для входу
+    min_imbalance_for_entry: float = 8.0   # 🆕 не входимо якщо imbalance < 8%
+    
+    # =====================================================
+    # 🐋 WHALE STRATEGY: LATE ENTRY (тепер основний режим)
+    # =====================================================
+    late_entry_momentum_threshold: float = 92.0  # підвищено з 85.0
     late_entry_allow_strong_trend: bool = True
     late_entry_min_ohara_for_override: int = 7
-    late_entry_position_size_reduction: float = 0.5  # половина позиції для late entry
-    late_entry_high_momentum_threshold: float = 70.0  # High momentum warning level
+    late_entry_position_size_reduction: float = 0.5
+    late_entry_high_momentum_threshold: float = 80.0  # підвищено з 70.0
     
-    # 🆕 LARGE ORDER COUNT BONUS
-    large_order_count_bonus_threshold: int = 3  # Minimum count for bonus
-    large_order_count_bonus_per_order: float = 0.03  # Bonus per large order
-    large_order_count_bonus_max: float = 0.15  # Maximum count bonus
+    # =====================================================
+    # 🐋 WHALE STRATEGY: LARGE ORDER REQUIREMENTS (підвищені)
+    # =====================================================
+    large_order_count_bonus_threshold: int = 3
+    large_order_count_bonus_per_order: float = 0.04   # підвищено з 0.03
+    large_order_count_bonus_max: float = 0.20         # підвищено з 0.15
     
-    # 🆕 O'HARA THRESHOLD ADJUSTMENT
-    ohara_strong_score_threshold: int = 8  # Strong O'Hara score level
-    ohara_threshold_reduction: float = 0.03  # Threshold reduction for strong O'Hara
+    # Мінімум великих ордерів для входу
+    min_large_orders_for_entry: int = 1     # 🆕 потрібно мінімум 1 великий ордер
     
-    # 🆕 CONTRADICTORY LARGE ORDERS OVERRIDE
-    allow_override_contradictory_orders: bool = True
-    override_imbalance_threshold: float = 40.0
-    override_momentum_threshold: float = 50.0
+    # =====================================================
+    # 🐋 WHALE STRATEGY: O'HARA SCORE (підвищені вимоги)
+    # =====================================================
+    ohara_strong_score_threshold: int = 7   # знижено з 8 для більшої гнучкості
+    ohara_threshold_reduction: float = 0.04 # підвищено з 0.03
+    min_ohara_for_entry: int = 4            # 🆕 мінімальний O'Hara score для входу
+    
+    # =====================================================
+    # 🆕 MULTI-TIMEFRAME SETTINGS (MTF)
+    # =====================================================
+    enable_mtf_filter: bool = True
+    mtf_convergence_threshold: float = 0.7
+    min_mtf_timeframes_confirmed: int = 2
+    mtf_confirmation_boost: float = 1.2
+    mtf_weight_1min: float = 0.4
+    mtf_weight_5min: float = 0.35
+    mtf_weight_30min: float = 0.25
+    mtf_require_confirmation_for_entry: bool = True
+    mtf_allow_override_on_strong_signal: bool = True
+    mtf_override_strength_threshold: int = 4
+    enable_multi_timeframe_analysis: bool = True
+    
+    # Contradictory orders
+    allow_override_contradictory_orders: bool = False  # 🚫 ВИМКНЕНО - не йдемо проти китів
+    override_imbalance_threshold: float = 45.0         # підвищено з 40.0
+    override_momentum_threshold: float = 55.0          # підвищено з 50.0
     strong_cooldown_level: int = 3
     cooldown_seconds: float = 180.0
     
     allow_reversal_during_cooldown: bool = True
     require_signal_consistency: bool = True
-    max_imbalance_contradiction: float = 20.0
+    max_imbalance_contradiction: float = 15.0  # знижено з 20.0 - суворіший фільтр
     
     enable_volume_validation: bool = True
-    min_short_volume_for_signal: float = 1000.0
-    min_trades_for_signal: int = 10
+    min_short_volume_for_signal: float = 1500.0  # підвищено з 1000.0
+    min_trades_for_signal: int = 15              # підвищено з 10
     
-    volatility_filter_threshold: float = 0.25
+    volatility_filter_threshold: float = 0.20    # знижено з 0.25 - суворіший фільтр
     
+    # =====================================================
+    # 🐋 WHALE STRATEGY: EXHAUSTION FILTER (підсилений)
+    # =====================================================
     enable_exhaustion_filter: bool = True
-    max_momentum_for_entry: float = 80.0
-    min_imbalance_for_high_momentum: float = 15.0
+    max_momentum_for_entry: float = 88.0         # знижено з 80.0 (тепер = max_momentum)
+    min_imbalance_for_high_momentum: float = 20.0  # підвищено з 15.0
 
 class SpreadSettings(BaseSettings):
-    """🆕 O'HARA METHOD 7: Spread as Risk Measure"""
+    """O'HARA METHOD 7: Spread as Risk Measure"""
     enable_spread_monitor: bool = True
     
-    max_spread_threshold_bps: float = 20.0
-    high_risk_spread_multiplier: float = 3.0
-    very_high_risk_spread_multiplier: float = 5.0
+    max_spread_threshold_bps: float = 15.0       # знижено з 20.0 - суворіший контроль
+    high_risk_spread_multiplier: float = 2.5     # знижено з 3.0
+    very_high_risk_spread_multiplier: float = 4.0  # знижено з 5.0
     
     spread_history_size: int = 100
     spread_baseline_window_sec: int = 3600
     
     avoid_trading_on_very_high_spread: bool = True
     reduce_size_on_high_spread: bool = True
-    high_spread_size_reduction_pct: float = 0.5
+    high_spread_size_reduction_pct: float = 0.6  # підвищено з 0.5
 
 class OHaraSettings(BaseSettings):
-    """🆕 O'HARA METHODS: Comprehensive Settings"""
+    """O'HARA METHODS: Comprehensive Settings"""
     
     enable_bayesian_updating: bool = True
     bayesian_update_step: float = 0.05
@@ -432,13 +438,40 @@ class OHaraSettings(BaseSettings):
     bayesian_bearish_threshold: float = 0.35
     bayesian_decay_factor: float = 0.98
     
-    large_order_min_count_strong: int = 3
+    # =====================================================
+    # 🐋 WHALE STRATEGY: LARGE ORDERS (підвищені вимоги)
+    # =====================================================
+    large_order_min_count_strong: int = 4   # підвищено з 3 - потрібно більше підтверджень
     large_order_min_count_medium: int = 2
-    large_order_net_threshold: int = 2
+    large_order_net_threshold: int = 3      # підвищено з 2
     
     enable_combined_ohara_score: bool = True
-    min_ohara_score_for_trade: int = 4
-    strong_ohara_score_threshold: int = 8
+    min_ohara_score_for_trade: int = 5      # підвищено з 4 - суворіший поріг
+    strong_ohara_score_threshold: int = 7   # знижено з 8 для гнучкості
+
+class MultiTimeframeSettings(BaseSettings):
+    """🆕 Налаштування багатотаймфреймового аналізу"""
+    enable_multi_timeframe_analysis: bool = True
+    timeframes_seconds: list = [60, 300, 1800]  # 1, 5, 30 хвилин
+    timeframe_weights: list = [0.4, 0.35, 0.25]  # Ваги для комбінації
+    
+    # Конвергенція
+    convergence_threshold: float = 0.7
+    min_confirmed_timeframes: int = 2
+    
+    # Фільтри
+    require_mtf_confirmation_for_entry: bool = True
+    mtf_confirmation_boost: float = 1.2  # Бонус до сили сигналу
+    
+    # Lifetime корекція
+    enable_mtf_lifetime_adjustment: bool = True
+    high_convergence_lifetime_multiplier: float = 1.2
+    low_convergence_lifetime_multiplier: float = 0.8
+    
+    # Таймфреймові ваги для різних аналізів
+    mtf_weight_imbalance: list = [0.4, 0.35, 0.25]
+    mtf_weight_momentum: list = [0.45, 0.35, 0.20]
+    mtf_weight_volatility: list = [0.3, 0.35, 0.35]
 
 class Settings(BaseSettings):
     """Головний клас налаштувань"""
@@ -457,5 +490,6 @@ class Settings(BaseSettings):
     signals: SignalSettings = SignalSettings()
     spread: SpreadSettings = SpreadSettings()
     ohara: OHaraSettings = OHaraSettings()
+    multi_timeframe: MultiTimeframeSettings = MultiTimeframeSettings()  # 🆕 Додано
 
 settings = Settings()
