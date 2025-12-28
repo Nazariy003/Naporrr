@@ -12,7 +12,10 @@ from analysis.volume import VolumeAnalyzer
 from analysis.signals import SignalGenerator
 from trading.bybit_api_manager import BybitAPIManager
 from trading.executor import TradeExecutor
+
+# Import both orchestrators
 from trading.orchestrator import TradingOrchestrator
+from trading.orchestrator_ta import TradingOrchestratorTA
 
 if sys.platform.startswith("win"):
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -95,7 +98,14 @@ async def main():
     vol_analyzer = VolumeAnalyzer(storage)
     signal_generator = SignalGenerator()
     executor = TradeExecutor(storage, api_manager)
-    orchestrator = TradingOrchestrator(storage, imb_analyzer, vol_analyzer, signal_generator, executor)
+    
+    # Choose orchestrator based on mode
+    if settings.technical_analysis.enable_ta_mode:
+        orchestrator = TradingOrchestratorTA(storage, imb_analyzer, vol_analyzer, signal_generator, executor)
+        logger.info("🎯 [MAIN] Using Technical Analysis (TA) Orchestrator")
+    else:
+        orchestrator = TradingOrchestrator(storage, imb_analyzer, vol_analyzer, signal_generator, executor)
+        logger.info("🎯 [MAIN] Using Legacy (Imbalance) Orchestrator")
 
     try:
         await collector.start()
@@ -103,12 +113,22 @@ async def main():
         await orchestrator.start()
 
         try:
-            await notifier.send(f"🤖 Bot started in {mode_info['mode']} mode with Optimized Monitoring System")
+            mode_suffix = " (TA Mode)" if settings.technical_analysis.enable_ta_mode else " (Legacy Mode)"
+            await notifier.send(f"🤖 Bot started in {mode_info['mode']}{mode_suffix}")
         except Exception:
             logger.warning("Failed to send startup notification")
 
         logger.info("=" * 60)
-        logger.info("✅ BOT IS RUNNING WITH OPTIMIZED MONITORING SYSTEM")
+        if settings.technical_analysis.enable_ta_mode:
+            logger.info("✅ BOT IS RUNNING WITH TECHNICAL ANALYSIS MODE")
+            logger.info("=" * 60)
+            logger.info("📊 Technical Analysis Features:")
+            logger.info("   • Chart Patterns (Bulkowski): Double Bottom, Head & Shoulders, Triangles")
+            logger.info("   • Candlestick Patterns (Nison/Bigalow): Hammer, Engulfing, Morning Star, Doji")
+            logger.info("   • Technical Indicators (Murphy): 200-MA, RSI, MACD, Stochastic, Bollinger")
+            logger.info("   • Risk Management (Bigalow): 1-2% per trade, 2:1 R:R, 2-5x leverage")
+        else:
+            logger.info("✅ BOT IS RUNNING WITH OPTIMIZED MONITORING SYSTEM")
         logger.info("=" * 60)
         logger.info("📊 Data Sources:")
         logger.info("   • Public WS:  Orderbook & Trades (real-time)")

@@ -473,6 +473,88 @@ class MultiTimeframeSettings(BaseSettings):
     mtf_weight_momentum: list = [0.45, 0.35, 0.20]
     mtf_weight_volatility: list = [0.3, 0.35, 0.35]
 
+class TechnicalAnalysisSettings(BaseSettings):
+    """
+    Technical Analysis Settings
+    Based on Murphy, Bulkowski, Nison, Bigalow
+    """
+    # Enable TA mode (replaces orderbook imbalance analysis)
+    enable_ta_mode: bool = True
+    
+    # Candle aggregation
+    candle_timeframe_seconds: int = 3600  # 1 hour candles
+    min_candles_required: int = 210  # Need 200+ for MA200
+    
+    # Minimum signal requirements (Bulkowski/Bigalow)
+    min_signal_strength: int = 3  # 1-5 scale
+    min_confidence: float = 65.0  # Minimum confidence %
+    
+    # Pattern detection
+    enable_chart_patterns: bool = True
+    enable_candlestick_patterns: bool = True
+    
+    # Technical indicators (Murphy)
+    enable_trend_analysis: bool = True  # 200-day MA
+    enable_rsi: bool = True  # RSI for overbought/oversold
+    enable_macd: bool = True  # MACD for trend confirmation
+    enable_stochastic: bool = True  # Stochastic oscillator
+    enable_bollinger_bands: bool = True  # Volatility
+    
+    # Confirmation requirements
+    require_trend_confirmation: bool = True  # Must align with 200 MA
+    require_volume_confirmation: bool = True  # Patterns must have volume
+    require_indicator_confirmation: bool = False  # RSI + MACD (optional)
+    
+    # Signal score thresholds
+    min_score_for_trade: float = 60.0  # Minimum combined score to trade
+    
+    # Pattern-specific settings
+    double_bottom_min_confidence: float = 60.0
+    head_shoulders_min_confidence: float = 60.0
+    triangle_min_confidence: float = 60.0
+    hammer_min_confidence: float = 60.0
+    engulfing_min_confidence: float = 65.0
+    morning_star_min_confidence: float = 70.0
+    
+    # Risk management (Bigalow)
+    risk_per_trade_pct: float = 0.015  # 1.5% per trade
+    max_portfolio_risk_pct: float = 0.08  # 8% max
+    min_risk_reward_ratio: float = 1.5  # Minimum 1.5:1
+    target_risk_reward_ratio: float = 2.0  # Target 2:1
+    
+    # Position sizing
+    base_position_size_pct: float = 0.02  # 2% per trade
+    strong_signal_multiplier: float = 1.5  # Increase for strength 5
+    high_volatility_reduction: float = 0.7  # Reduce 30% in high vol
+    
+    # Leverage (2-5x per problem statement)
+    min_leverage: float = 2.0
+    max_leverage: float = 5.0
+    default_leverage: float = 3.0
+    
+    # Stop-loss (Bigalow: 1-2% below pattern)
+    stop_loss_pct_min: float = 0.01  # 1%
+    stop_loss_pct_max: float = 0.02  # 2%
+    stop_loss_atr_multiplier: float = 1.5  # 1.5x ATR
+    
+    # Take-profit (Bigalow: 2:1 reward-risk)
+    use_pattern_projection: bool = True  # Use pattern height
+    take_profit_atr_multiplier: float = 3.0  # 2:1 from 1.5 ATR SL
+    
+    # Holding periods
+    max_holding_period_hours: int = 72  # 3 days max
+    min_holding_period_hours: int = 1  # 1 hour min
+    
+    # Backtesting
+    backtest_enabled: bool = False
+    backtest_initial_balance: float = 10000.0
+    backtest_commission_rate: float = 0.0006  # 0.06% Bybit taker
+    backtest_trading_days_per_year: int = 252  # For Sharpe ratio calculation
+    
+    # Performance optimization
+    orchestrator_batch_size: int = 3  # Symbols to process in parallel
+    api_rate_limit_delay_sec: float = 0.2  # Delay between API requests
+
 class Settings(BaseSettings):
     """Головний клас налаштувань"""
     system: SystemSettings = SystemSettings()
@@ -490,6 +572,7 @@ class Settings(BaseSettings):
     signals: SignalSettings = SignalSettings()
     spread: SpreadSettings = SpreadSettings()
     ohara: OHaraSettings = OHaraSettings()
-    multi_timeframe: MultiTimeframeSettings = MultiTimeframeSettings()  # 🆕 Додано
+    multi_timeframe: MultiTimeframeSettings = MultiTimeframeSettings()
+    technical_analysis: TechnicalAnalysisSettings = TechnicalAnalysisSettings()  # 🆕 TA settings
 
 settings = Settings()

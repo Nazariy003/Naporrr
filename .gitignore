@@ -44,6 +44,9 @@ config/.env
 utils/data_storage/raw/
 utils/data_storage/aggregated/
 utils/data_storage/metadata/
+data/*.csv
+data/*.json
+data/historical/
 
 # Backup files
 *.bak
@@ -54,3 +57,8 @@ config/.backup/
 .DS_Store
 Thumbs.db
 *.csv
+
+# Backtest results
+backtest_results/
+*.png
+*.jpg

@@ -1,0 +1,24 @@
+# Core dependencies
+asyncio
+websockets>=10.0
+aiohttp>=3.8.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=0.19.0
+
+# Bybit API
+pybit>=5.0.0
+
+# Technical Analysis
+TA-Lib>=0.4.28
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+pandas-ta>=0.3.14b0
+
+# Candlestick patterns
+mplfinance>=0.12.0
+
+# Logging & utilities
+colorlog>=6.7.0
+requests>=2.28.0
