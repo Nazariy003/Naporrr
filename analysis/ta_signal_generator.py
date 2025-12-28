@@ -275,7 +275,7 @@ class TechnicalAnalysisSignalGenerator:
             bearish_reasons.append("macd_bearish")
         
         # Determine action based on scores
-        min_score_for_trade = 60  # Require strong confirmation
+        min_score_for_trade = settings.technical_analysis.min_score_for_trade  # From configuration
         
         if bullish_score >= min_score_for_trade and bullish_score > bearish_score:
             action = "BUY"

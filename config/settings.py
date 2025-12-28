@@ -505,6 +505,9 @@ class TechnicalAnalysisSettings(BaseSettings):
     require_volume_confirmation: bool = True  # Patterns must have volume
     require_indicator_confirmation: bool = False  # RSI + MACD (optional)
     
+    # Signal score thresholds
+    min_score_for_trade: float = 60.0  # Minimum combined score to trade
+    
     # Pattern-specific settings
     double_bottom_min_confidence: float = 60.0
     head_shoulders_min_confidence: float = 60.0
@@ -546,6 +549,11 @@ class TechnicalAnalysisSettings(BaseSettings):
     backtest_enabled: bool = False
     backtest_initial_balance: float = 10000.0
     backtest_commission_rate: float = 0.0006  # 0.06% Bybit taker
+    backtest_trading_days_per_year: int = 252  # For Sharpe ratio calculation
+    
+    # Performance optimization
+    orchestrator_batch_size: int = 3  # Symbols to process in parallel
+    api_rate_limit_delay_sec: float = 0.2  # Delay between API requests
 
 class Settings(BaseSettings):
     """Головний клас налаштувань"""

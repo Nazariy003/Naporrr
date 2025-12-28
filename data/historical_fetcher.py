@@ -197,8 +197,9 @@ class BybitHistoricalDataFetcher:
                 # Update end_time for next batch (oldest timestamp from current batch)
                 end_time = int(df_batch.iloc[0]['timestamp']) - 1
                 
-                # Rate limiting
-                await asyncio.sleep(0.2)
+                # Rate limiting (configurable)
+                from config.settings import settings
+                await asyncio.sleep(settings.technical_analysis.api_rate_limit_delay_sec)
                 
                 # Check if we have enough data
                 total_fetched = sum(len(df) for df in all_dfs)

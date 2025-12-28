@@ -377,7 +377,9 @@ class PatternBacktester:
         if len(self.equity_history) > 1:
             returns = np.diff(self.equity_history) / self.equity_history[:-1]
             if returns.std() > 0:
-                results.sharpe_ratio = (returns.mean() / returns.std()) * np.sqrt(252)  # Annualized
+                from config.settings import settings
+                trading_days = settings.technical_analysis.backtest_trading_days_per_year
+                results.sharpe_ratio = (returns.mean() / returns.std()) * np.sqrt(trading_days)  # Annualized
         
         # Pattern performance
         pattern_stats = {}

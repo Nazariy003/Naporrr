@@ -89,7 +89,7 @@ class TradingOrchestratorTA:
         
         # Create symbol batches for parallel processing
         symbols = settings.pairs.trade_pairs
-        batch_size = 3
+        batch_size = settings.technical_analysis.orchestrator_batch_size  # From configuration
         symbol_batches = [symbols[i:i + batch_size] for i in range(0, len(symbols), batch_size)]
         batch_index = 0
         
