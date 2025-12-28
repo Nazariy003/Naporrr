@@ -2171,3 +2171,4 @@
 2025-12-16 20:25:07 | DEBUG | bot | [MTF_FILTER] SOLUSDT: MTG recommendation is HOLD, skipping
 2025-12-16 20:25:07 | DEBUG | bot | [MTG_O'HARA_FILTER] ADAUSDT: O'Hara score too low (2) without MTF confirmation
 2025-12-16 20:25:07 | DEBUG | bot | [MTF_FILTER] DOGEUSDT: MTG recommendation is HOLD, skipping
+2025-12-28 17:34:48 | INFO | bot | [LOGGER] mode=work console=INFO file=DEBUG
