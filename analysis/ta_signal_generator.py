@@ -15,6 +15,7 @@ import numpy as np
 from typing import Dict, Any, Optional, Tuple
 from dataclasses import dataclass
 from utils.logger import logger
+from config.settings import settings
 from analysis.technical_indicators import TechnicalIndicators
 from analysis.chart_patterns import ChartPatternDetector
 from analysis.candlestick_patterns import CandlestickPatternDetector
