@@ -1,0 +1,9 @@
+timestamp,symbol,action,side,qty,entry_price,stop_loss,take_profit,leverage,position_size_pct,confidence,reason,order_id,status,close_reason
+2025-12-29 21:46:17,BTCUSDT,SELL,Sell,0.002,87727.3,89629.44,84218.30399999999,10,0.1,70,"trend_bearish_200ma, head_shoulders_60%, macd_bearish",da679a18-5971-4842-9cb2-f7ea75b020e5,OPEN,
+2025-12-29 21:46:19,SOLUSDT,SELL,Sell,1.9,124.12,127.14300000000001,119.16,10,0.1,70,"trend_bearish_200ma, head_shoulders_75%, macd_bearish",202b0516-af9b-4663-8a2b-36e8cf281506,OPEN,
+2025-12-29 21:46:19,DOGEUSDT,SELL,Sell,1977.0,0.12385,0.12671459999999998,0.1189056,10,0.1,70,"trend_bearish_200ma, head_shoulders_85%, macd_bearish",4e26bb8a-c32e-4b67-b3fa-e438a5ac9cee,OPEN,
+2025-12-29 21:46:19,ADAUSDT,SELL,Sell,660.0,0.3708,0.38301,0.355968,10,0.1,70,"trend_bearish_200ma, head_shoulders_70%, macd_bearish",899ccaaa-2f81-41ac-aaa9-4c79773a69b4,OPEN,
+2025-12-29 21:46:21,AVAXUSDT,SELL,Sell,19.1,12.745000000000001,13.0305,12.236159999999998,10,0.1,70,"trend_bearish_200ma, head_shoulders_75%, macd_bearish",f6123784-fb7c-4361-b403-08aac3ee88a6,OPEN,
+2025-12-29 21:46:21,AAVEUSDT,SELL,Sell,1.58,154.3,158.5488,148.12800000000001,10,0.1,70,"trend_bearish_200ma, head_shoulders_75%, macd_bearish",d82ff13d-daca-4867-b9e0-7e8c170f6cc5,OPEN,
+2025-12-29 21:46:23,STRKUSDT,SELL,Sell,2924.9,0.08352,0.0856494,0.0801792,10,0.1,70,"trend_bearish_200ma, head_shoulders_85%, macd_bearish",3a81d68d-b06b-41df-aa00-a5cfdbc0c081,OPEN,
+2025-12-29 21:49:14,ETHUSDT,SELL,Sell,0.08,2933.11,3000.84,2815.7904,10,0.1,70,"trend_bearish_200ma, head_shoulders_75%, macd_bearish",d5b61552-92cc-445f-92b2-c1146182eb11,OPEN,

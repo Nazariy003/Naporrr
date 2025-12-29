@@ -1,0 +1,2 @@
+2025-12-29 21:46:19 | ERROR | bot | [API] Error: TakeProfit:35590000 set for Sell position should be lower than base_price:35400000??LastPrice (code: 10001)
+2025-12-29 21:46:23 | ERROR | bot | [API] Error: TakeProfit:8017000 set for Sell position should be lower than base_price:7963000??LastPrice (code: 10001)

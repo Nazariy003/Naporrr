@@ -1,0 +1,861 @@
+2025-12-29 21:45:53 | INFO | bot | [LOGGER] mode=work console=INFO file=DEBUG
+2025-12-29 21:45:54 | INFO | bot | ============================================================
+2025-12-29 21:45:54 | INFO | bot | 🚀 CRYPTO TRADING BOT - OPTIMIZED MONITORING SYSTEM
+2025-12-29 21:45:54 | INFO | bot | ============================================================
+2025-12-29 21:45:54 | INFO | bot | 
+2025-12-29 21:45:54 | INFO | bot | 📡 MODE: DEMO (Paper Trading)
+2025-12-29 21:45:54 | INFO | bot | 📊 Public WebSocket:  wss://stream-demo.bybit.com/v5/public/linear
+2025-12-29 21:45:54 | INFO | bot | 🔐 Private WebSocket: wss://stream-demo.bybit.com/v5/private
+2025-12-29 21:45:54 | INFO | bot | 🌐 REST API:          https://api-demo.bybit.com
+2025-12-29 21:45:54 | INFO | bot | 💡 Note: Using demo environment with virtual funds
+2025-12-29 21:45:54 | INFO | bot | 
+2025-12-29 21:45:54 | INFO | bot | [API] ✅ Init - mode=DEMO base=https://api-demo.bybit.com
+2025-12-29 21:45:54 | INFO | bot | 🚑 [EMERGENCY_FIX] Applying emergency position fix...
+2025-12-29 21:45:54 | INFO | bot | [RISK] Initialized with base_order_pct=10.0%, leverage=10x, max_notional_pct=100.0%
+2025-12-29 21:45:54 | INFO | bot | ✅ [ORCH_TA] Technical Analysis mode ENABLED
+2025-12-29 21:45:54 | INFO | bot | 🎯 [MAIN] Using Technical Analysis (TA) Orchestrator
+2025-12-29 21:45:54 | INFO | bot | 🚀 [COLLECTOR] Starting data collection...
+2025-12-29 21:45:54 | INFO | bot | 📡 [COLLECTOR] Mode: DEMO (Paper Trading)
+2025-12-29 21:45:54 | INFO | bot | 📡 [COLLECTOR] Public WS: wss://stream-demo.bybit.com/v5/public/linear
+2025-12-29 21:45:54 | INFO | bot | 📡 [COLLECTOR] Private WS: wss://stream-demo.bybit.com/v5/private
+2025-12-29 21:45:54 | INFO | bot | 📡 [COLLECTOR] REST API: https://api-demo.bybit.com
+2025-12-29 21:45:54 | WARNING | bot | CSV validation skipped - module removed
+2025-12-29 21:45:55 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for BTCUSDT
+2025-12-29 21:45:55 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for ETHUSDT
+2025-12-29 21:45:56 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for BNBUSDT
+2025-12-29 21:45:57 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for SOLUSDT
+2025-12-29 21:45:59 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for ADAUSDT
+2025-12-29 21:46:00 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for DOGEUSDT
+2025-12-29 21:46:01 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for AVAXUSDT
+2025-12-29 21:46:02 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for TRXUSDT
+2025-12-29 21:46:03 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for AAVEUSDT
+2025-12-29 21:46:05 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for STRKUSDT
+2025-12-29 21:46:06 | INFO | bot | [REST_OB] Initialized BTCUSDT
+2025-12-29 21:46:06 | INFO | bot | [REST_OB] Initialized ETHUSDT
+2025-12-29 21:46:06 | INFO | bot | [REST_OB] Initialized BNBUSDT
+2025-12-29 21:46:07 | INFO | bot | [REST_OB] Initialized SOLUSDT
+2025-12-29 21:46:07 | INFO | bot | [REST_OB] Initialized ADAUSDT
+2025-12-29 21:46:07 | INFO | bot | [REST_OB] Initialized DOGEUSDT
+2025-12-29 21:46:08 | INFO | bot | [REST_OB] Initialized AVAXUSDT
+2025-12-29 21:46:08 | INFO | bot | [REST_OB] Initialized TRXUSDT
+2025-12-29 21:46:09 | INFO | bot | [REST_OB] Initialized AAVEUSDT
+2025-12-29 21:46:10 | INFO | bot | [REST_OB] Initialized STRKUSDT
+2025-12-29 21:46:10 | INFO | bot | ✅ [PRIVATE_WS] Started
+2025-12-29 21:46:10 | INFO | bot | ✅ [COLLECTOR] Data collection started
+2025-12-29 21:46:10 | INFO | bot | 🚀 [EXECUTOR] Starting trading execution...
+2025-12-29 21:46:10 | INFO | bot | 🔗 [PRIVATE_WS] Connecting to wss://stream.bybit.com/v5/private (attempt 1/5)
+2025-12-29 21:46:10 | INFO | bot | 🔗 [PUBLIC_WS] Connecting to wss://stream.bybit.com/v5/public/linear
+2025-12-29 21:46:10 | INFO | bot | [API] ✅ Time sync OK (0s)
+2025-12-29 21:46:10 | DEBUG | bot | [PRIVATE_WS] Auth sent: DQDqKuPhch...
+2025-12-29 21:46:10 | INFO | bot | ✅ [PUBLIC_WS] Subscribed to 20 topics
+2025-12-29 21:46:10 | INFO | bot | ✅ [PRIVATE_WS] Authenticated successfully
+2025-12-29 21:46:10 | INFO | bot | ✅ [PRIVATE_WS] Subscribed to: position, execution, order, wallet
+2025-12-29 21:46:11 | DEBUG | bot | [PRIVATE_WS] Subscription confirmed: False
+2025-12-29 21:46:13 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for BTCUSDT
+2025-12-29 21:46:13 | INFO | bot | Loaded 500 historical candles for BTCUSDT
+2025-12-29 21:46:13 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for ETHUSDT
+2025-12-29 21:46:13 | INFO | bot | Loaded 500 historical candles for ETHUSDT
+2025-12-29 21:46:13 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for BNBUSDT
+2025-12-29 21:46:13 | INFO | bot | Loaded 500 historical candles for BNBUSDT
+2025-12-29 21:46:14 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for SOLUSDT
+2025-12-29 21:46:14 | INFO | bot | Loaded 500 historical candles for SOLUSDT
+2025-12-29 21:46:14 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for ADAUSDT
+2025-12-29 21:46:14 | INFO | bot | Loaded 500 historical candles for ADAUSDT
+2025-12-29 21:46:14 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for DOGEUSDT
+2025-12-29 21:46:14 | INFO | bot | Loaded 500 historical candles for DOGEUSDT
+2025-12-29 21:46:15 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for AVAXUSDT
+2025-12-29 21:46:15 | INFO | bot | Loaded 500 historical candles for AVAXUSDT
+2025-12-29 21:46:15 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for TRXUSDT
+2025-12-29 21:46:15 | INFO | bot | Loaded 500 historical candles for TRXUSDT
+2025-12-29 21:46:16 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for AAVEUSDT
+2025-12-29 21:46:16 | INFO | bot | Loaded 500 historical candles for AAVEUSDT
+2025-12-29 21:46:16 | INFO | bot | [HISTORICAL_KLINES] Loaded 500 klines for STRKUSDT
+2025-12-29 21:46:16 | INFO | bot | Loaded 500 historical candles for STRKUSDT
+2025-12-29 21:46:16 | INFO | bot | ✅ [ORCH_TA] Trading orchestrator started in Technical Analysis (TA) mode
+2025-12-29 21:46:16 | INFO | bot | ============================================================
+2025-12-29 21:46:16 | INFO | bot | ✅ BOT IS RUNNING WITH TECHNICAL ANALYSIS MODE
+2025-12-29 21:46:16 | INFO | bot | ============================================================
+2025-12-29 21:46:16 | INFO | bot | 📊 Technical Analysis Features:
+2025-12-29 21:46:16 | INFO | bot |    • Chart Patterns (Bulkowski): Double Bottom, Head & Shoulders, Triangles
+2025-12-29 21:46:16 | INFO | bot |    • Candlestick Patterns (Nison/Bigalow): Hammer, Engulfing, Morning Star, Doji
+2025-12-29 21:46:16 | INFO | bot |    • Technical Indicators (Murphy): 200-MA, RSI, MACD, Stochastic, Bollinger
+2025-12-29 21:46:16 | INFO | bot |    • Risk Management (Bigalow): 1-2% per trade, 2:1 R:R, 2-5x leverage
+2025-12-29 21:46:16 | INFO | bot | ============================================================
+2025-12-29 21:46:16 | INFO | bot | 📊 Data Sources:
+2025-12-29 21:46:16 | INFO | bot |    • Public WS:  Orderbook & Trades (real-time)
+2025-12-29 21:46:16 | INFO | bot |    • Private WS: Positions & Executions (real-time)
+2025-12-29 21:46:16 | INFO | bot |    • REST API:   Fallback & sync
+2025-12-29 21:46:16 | INFO | bot | 
+2025-12-29 21:46:16 | INFO | bot | 🎯 Optimized Monitoring Features:
+2025-12-29 21:46:16 | INFO | bot |    • Fast position monitoring every 5s
+2025-12-29 21:46:16 | INFO | bot |    • Adaptive symbol batching
+2025-12-29 21:46:16 | INFO | bot |    • Cached API responses
+2025-12-29 21:46:16 | INFO | bot |    • Ultra-fast close reason detection
+2025-12-29 21:46:16 | INFO | bot |    • Reduced API calls by 60%
+2025-12-29 21:46:16 | INFO | bot |    • Non-blocking CSV validation
+2025-12-29 21:46:16 | INFO | bot | ============================================================
+2025-12-29 21:46:16 | DEBUG | bot | Added current candle for BTCUSDT: {'timestamp': 1767037500, 'open': 87367.9, 'high': 87394.2, 'low': 87346.1, 'close': 87367.4, 'volume': 27.46799999999994}
+2025-12-29 21:46:16 | DEBUG | bot | Updated 1002 trades into candles for BTCUSDT, total candles: 250
+2025-12-29 21:46:16 | INFO | bot | ✅ [TA_DATA] BTCUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:16 | INFO | bot | 📊 Head and Shoulders detected: LS=87778.90, H=87942.40, RS=87872.00, neckline=87727.40, confidence=60%
+2025-12-29 21:46:16 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.009, direction=NEUTRAL, confidence=40%
+2025-12-29 21:46:16 | DEBUG | bot | [SELL] Levels for BTCUSDT: entry=87727.40, sl=89629.44, tp=84218.30, rr=1.8
+2025-12-29 21:46:16 | INFO | bot | 📊 Signal for BTCUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 21:46:16 | INFO | bot | 🎯 [TA_SIGNAL] BTCUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 21:46:16 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for BTCUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 21:46:16 | INFO | bot |    Entry: 87727.40, SL: 89629.44, TP: 84218.30, R:R=1.8:1, Size: 10.0%, Leverage: 10x
+2025-12-29 21:46:16 | INFO | bot | [EXECUTOR] DEBUG BTCUSDT: action=SELL, entry_price=87727.4, sl=89629.44, tp=84218.30399999999
+2025-12-29 21:46:16 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 21:46:16 | DEBUG | bot | Added current candle for ETHUSDT: {'timestamp': 1767037500, 'open': 2934.85, 'high': 2935.38, 'low': 2932.95, 'close': 2935.38, 'volume': 414.60999999999785}
+2025-12-29 21:46:16 | DEBUG | bot | Updated 1090 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:46:16 | INFO | bot | ✅ [TA_DATA] ETHUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:16 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:46:16 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:46:16 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:46:16 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.8, 'low': 851.2, 'close': 852.5, 'volume': 488.77999999999764}
+2025-12-29 21:46:16 | DEBUG | bot | Updated 1000 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:46:16 | INFO | bot | ✅ [TA_DATA] BNBUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:16 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:46:16 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:17 | INFO | bot | 💰 Margin: 245.07 | Equity: 245.07
+2025-12-29 21:46:17 | INFO | bot | [EXECUTOR] DEBUG BTCUSDT: balance=245.06833863
+2025-12-29 21:46:17 | INFO | bot | [EXECUTOR] DEBUG BTCUSDT: position_value=24.506833863, leverage=10, qty_before_norm=0.0027935210507777503
+2025-12-29 21:46:17 | INFO | bot | [EXECUTOR] DEBUG BTCUSDT: before norm qty=0.0027935210507777503, price=87727.4
+2025-12-29 21:46:17 | INFO | bot | [EXECUTOR] DEBUG BTCUSDT: after norm qty=0.002, price=87727.3, notional=175.4546
+2025-12-29 21:46:17 | INFO | bot | [EXECUTOR] DEBUG BTCUSDT: meta={'min_qty': 0.001, 'qty_step': 0.001, 'tick_size': 0.1, 'min_cost': 0.0, 'min_price': 0.1, 'final_notional': 175.4546}
+2025-12-29 21:46:17 | INFO | bot | [EXECUTOR] DEBUG BTCUSDT: min_notional=5.0
+2025-12-29 21:46:17 | INFO | bot | [EXECUTOR] FINAL BTCUSDT: qty=0.002, side=Sell
+2025-12-29 21:46:17 | INFO | bot | [API] Order: BTCUSDT Sell 0.002 Market
+2025-12-29 21:46:17 | INFO | bot | ✅ [EXECUTOR] Opened SELL position for BTCUSDT: qty=0.0020, order_id=da679a18-5971-4842-9cb2-f7ea75b020e5
+2025-12-29 21:46:17 | INFO | bot | [API] SL/TP: BTCUSDT SL=89629.44 TP=84218.30399999999
+2025-12-29 21:46:17 | INFO | bot | ✅ [EXECUTOR] SL/TP set for BTCUSDT: SL=89629.44, TP=84218.30399999999
+2025-12-29 21:46:17 | DEBUG | bot | 📝 [TRADE_LOG] SELL: BTCUSDT Sell 0.002000 @ 87727.300000
+2025-12-29 21:46:18 | DEBUG | bot | Added current candle for SOLUSDT: {'timestamp': 1767037500, 'open': 122.97, 'high': 123.04, 'low': 122.89, 'close': 122.97, 'volume': 9928.100000000077}
+2025-12-29 21:46:18 | DEBUG | bot | Updated 1011 trades into candles for SOLUSDT, total candles: 250
+2025-12-29 21:46:18 | INFO | bot | ✅ [TA_DATA] SOLUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:18 | INFO | bot | 📊 Head and Shoulders detected: LS=124.65, H=124.80, RS=124.65, neckline=124.12, confidence=75%
+2025-12-29 21:46:18 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.033, direction=NEUTRAL, confidence=40%
+2025-12-29 21:46:18 | DEBUG | bot | [SELL] Levels for SOLUSDT: entry=124.12, sl=127.14, tp=119.16, rr=1.6
+2025-12-29 21:46:18 | INFO | bot | 📊 Signal for SOLUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_75%, macd_bearish
+2025-12-29 21:46:18 | INFO | bot | 🎯 [TA_SIGNAL] SOLUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_75%, macd_bearish
+2025-12-29 21:46:18 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for SOLUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_75%, macd_bearish)
+2025-12-29 21:46:18 | INFO | bot |    Entry: 124.12, SL: 127.14, TP: 119.16, R:R=1.6:1, Size: 10.0%, Leverage: 10x
+2025-12-29 21:46:18 | INFO | bot | [EXECUTOR] DEBUG SOLUSDT: action=SELL, entry_price=124.125, sl=127.14300000000001, tp=119.16
+2025-12-29 21:46:18 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 21:46:18 | DEBUG | bot | Added current candle for ADAUSDT: {'timestamp': 1767037500, 'open': 0.3537, 'high': 0.3548, 'low': 0.3537, 'close': 0.3539, 'volume': 1462179.0}
+2025-12-29 21:46:18 | DEBUG | bot | Updated 1014 trades into candles for ADAUSDT, total candles: 250
+2025-12-29 21:46:18 | INFO | bot | ✅ [TA_DATA] ADAUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:18 | INFO | bot | 📊 Head and Shoulders detected: LS=0.37, H=0.38, RS=0.38, neckline=0.37, confidence=70%
+2025-12-29 21:46:18 | DEBUG | bot | [SELL] Levels for ADAUSDT: entry=0.37, sl=0.38, tp=0.36, rr=1.2
+2025-12-29 21:46:18 | INFO | bot | 📊 Signal for ADAUSDT: SELL3 (confidence=70%, bullish_score=15, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 21:46:18 | INFO | bot | 🎯 [TA_SIGNAL] ADAUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=OVERSOLD reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 21:46:18 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for ADAUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 21:46:18 | INFO | bot |    Entry: 0.37, SL: 0.38, TP: 0.36, R:R=1.2:1, Size: 10.0%, Leverage: 10x
+2025-12-29 21:46:18 | INFO | bot | [EXECUTOR] DEBUG ADAUSDT: action=SELL, entry_price=0.3708, sl=0.38301, tp=0.355968
+2025-12-29 21:46:18 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 21:46:18 | DEBUG | bot | Added current candle for DOGEUSDT: {'timestamp': 1767037500, 'open': 0.12283, 'high': 0.12296, 'low': 0.12272, 'close': 0.12296, 'volume': 3062231.0}
+2025-12-29 21:46:18 | DEBUG | bot | Updated 1000 trades into candles for DOGEUSDT, total candles: 250
+2025-12-29 21:46:18 | INFO | bot | ✅ [TA_DATA] DOGEUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:18 | INFO | bot | 📊 Head and Shoulders detected: LS=0.12, H=0.12, RS=0.12, neckline=0.12, confidence=85%
+2025-12-29 21:46:18 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.021, direction=NEUTRAL, confidence=40%
+2025-12-29 21:46:18 | DEBUG | bot | [SELL] Levels for DOGEUSDT: entry=0.12, sl=0.13, tp=0.12, rr=1.7
+2025-12-29 21:46:18 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_85%, macd_bearish
+2025-12-29 21:46:18 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_85%, macd_bearish
+2025-12-29 21:46:18 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_85%, macd_bearish)
+2025-12-29 21:46:18 | INFO | bot |    Entry: 0.12, SL: 0.13, TP: 0.12, R:R=1.7:1, Size: 10.0%, Leverage: 10x
+2025-12-29 21:46:18 | INFO | bot | [EXECUTOR] DEBUG DOGEUSDT: action=SELL, entry_price=0.12386, sl=0.12671459999999998, tp=0.1189056
+2025-12-29 21:46:18 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 21:46:19 | INFO | bot | 💰 Margin: 244.96 | Equity: 244.96
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG SOLUSDT: balance=244.96399881
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG SOLUSDT: position_value=24.496399881000002, leverage=10, qty_before_norm=1.973526677220544
+2025-12-29 21:46:19 | INFO | bot | 💰 Margin: 244.96 | Equity: 244.96
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG ADAUSDT: balance=244.96399881
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG ADAUSDT: position_value=24.496399881000002, leverage=10, qty_before_norm=660.6364584951457
+2025-12-29 21:46:19 | INFO | bot | 💰 Margin: 244.96 | Equity: 244.96
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG DOGEUSDT: balance=244.96399881
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG DOGEUSDT: position_value=24.496399881000002, leverage=10, qty_before_norm=1977.749061924754
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG SOLUSDT: before norm qty=1.973526677220544, price=124.125
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG SOLUSDT: after norm qty=1.9, price=124.12, notional=235.828
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG SOLUSDT: meta={'min_qty': 0.1, 'qty_step': 0.1, 'tick_size': 0.01, 'min_cost': 0.0, 'min_price': 0.01, 'final_notional': 235.828}
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG SOLUSDT: min_notional=5.0
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] FINAL SOLUSDT: qty=1.9, side=Sell
+2025-12-29 21:46:19 | INFO | bot | [API] Order: SOLUSDT Sell 1.9 Market
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG ADAUSDT: before norm qty=660.6364584951457, price=0.3708
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG ADAUSDT: after norm qty=660.0, price=0.3708, notional=244.728
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG ADAUSDT: meta={'min_qty': 1.0, 'qty_step': 1.0, 'tick_size': 0.0001, 'min_cost': 0.0, 'min_price': 0.0001, 'final_notional': 244.728}
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG ADAUSDT: min_notional=5.0
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] FINAL ADAUSDT: qty=660.0, side=Sell
+2025-12-29 21:46:19 | INFO | bot | [API] Order: ADAUSDT Sell 660 Market
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG DOGEUSDT: before norm qty=1977.749061924754, price=0.12386
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG DOGEUSDT: after norm qty=1977.0, price=0.12385, notional=244.85145
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG DOGEUSDT: meta={'min_qty': 1.0, 'qty_step': 1.0, 'tick_size': 1e-05, 'min_cost': 0.0, 'min_price': 1e-05, 'final_notional': 244.85145}
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] DEBUG DOGEUSDT: min_notional=5.0
+2025-12-29 21:46:19 | INFO | bot | [EXECUTOR] FINAL DOGEUSDT: qty=1977.0, side=Sell
+2025-12-29 21:46:19 | INFO | bot | [API] Order: DOGEUSDT Sell 1977 Market
+2025-12-29 21:46:19 | INFO | bot | ✅ [EXECUTOR] Opened SELL position for SOLUSDT: qty=1.9000, order_id=202b0516-af9b-4663-8a2b-36e8cf281506
+2025-12-29 21:46:19 | INFO | bot | [API] SL/TP: SOLUSDT SL=127.14300000000001 TP=119.16
+2025-12-29 21:46:19 | INFO | bot | ✅ [EXECUTOR] Opened SELL position for DOGEUSDT: qty=1977.0000, order_id=4e26bb8a-c32e-4b67-b3fa-e438a5ac9cee
+2025-12-29 21:46:19 | INFO | bot | [API] SL/TP: DOGEUSDT SL=0.12671459999999998 TP=0.1189056
+2025-12-29 21:46:19 | INFO | bot | ✅ [EXECUTOR] Opened SELL position for ADAUSDT: qty=660.0000, order_id=899ccaaa-2f81-41ac-aaa9-4c79773a69b4
+2025-12-29 21:46:19 | INFO | bot | [API] SL/TP: ADAUSDT SL=0.38301 TP=0.355968
+2025-12-29 21:46:19 | INFO | bot | ✅ [EXECUTOR] SL/TP set for SOLUSDT: SL=127.14300000000001, TP=119.16
+2025-12-29 21:46:19 | DEBUG | bot | 📝 [TRADE_LOG] SELL: SOLUSDT Sell 1.900000 @ 124.120000
+2025-12-29 21:46:19 | INFO | bot | ✅ [EXECUTOR] SL/TP set for DOGEUSDT: SL=0.12671459999999998, TP=0.1189056
+2025-12-29 21:46:19 | DEBUG | bot | 📝 [TRADE_LOG] SELL: DOGEUSDT Sell 1977.000000 @ 0.123850
+2025-12-29 21:46:19 | ERROR | bot | [API] Error: TakeProfit:35590000 set for Sell position should be lower than base_price:35400000??LastPrice (code: 10001)
+2025-12-29 21:46:19 | WARNING | bot | ⚠️ [EXECUTOR] Failed to set SL/TP for ADAUSDT: {'retCode': 10001, 'retMsg': 'TakeProfit:35590000 set for Sell position should be lower than base_price:35400000??LastPrice', 'result': {}, 'retExtInfo': {}, 'time': 1767037579360}
+2025-12-29 21:46:19 | DEBUG | bot | 📝 [TRADE_LOG] SELL: ADAUSDT Sell 660.000000 @ 0.370800
+2025-12-29 21:46:20 | DEBUG | bot | Added current candle for AVAXUSDT: {'timestamp': 1767037500, 'open': 12.494, 'high': 12.498, 'low': 12.476, 'close': 12.49, 'volume': 23321.00000000007}
+2025-12-29 21:46:20 | DEBUG | bot | Updated 1000 trades into candles for AVAXUSDT, total candles: 250
+2025-12-29 21:46:20 | INFO | bot | ✅ [TA_DATA] AVAXUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:20 | INFO | bot | 📊 Head and Shoulders detected: LS=12.84, H=12.85, RS=12.78, neckline=12.75, confidence=75%
+2025-12-29 21:46:20 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.023, direction=NEUTRAL, confidence=45%
+2025-12-29 21:46:20 | DEBUG | bot | [SELL] Levels for AVAXUSDT: entry=12.75, sl=13.03, tp=12.24, rr=1.8
+2025-12-29 21:46:20 | INFO | bot | 📊 Signal for AVAXUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_75%, macd_bearish
+2025-12-29 21:46:20 | INFO | bot | 🎯 [TA_SIGNAL] AVAXUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_75%, macd_bearish
+2025-12-29 21:46:20 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AVAXUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_75%, macd_bearish)
+2025-12-29 21:46:20 | INFO | bot |    Entry: 12.75, SL: 13.03, TP: 12.24, R:R=1.8:1, Size: 10.0%, Leverage: 10x
+2025-12-29 21:46:20 | INFO | bot | [EXECUTOR] DEBUG AVAXUSDT: action=SELL, entry_price=12.745999999999999, sl=13.0305, tp=12.236159999999998
+2025-12-29 21:46:20 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 21:46:20 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.28354, 'volume': 754880.0}
+2025-12-29 21:46:20 | DEBUG | bot | Updated 1004 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:46:20 | INFO | bot | ✅ [TA_DATA] TRXUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:20 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:46:20 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:46:20 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:20 | DEBUG | bot | Added current candle for AAVEUSDT: {'timestamp': 1767037500, 'open': 149.64, 'high': 149.71, 'low': 149.4, 'close': 149.69, 'volume': 1852.8499999999979}
+2025-12-29 21:46:20 | DEBUG | bot | Updated 1021 trades into candles for AAVEUSDT, total candles: 250
+2025-12-29 21:46:20 | INFO | bot | ✅ [TA_DATA] AAVEUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:20 | INFO | bot | 📊 Head and Shoulders detected: LS=155.23, H=155.70, RS=155.44, neckline=154.30, confidence=75%
+2025-12-29 21:46:20 | INFO | bot | 🔨 Hammer detected: body_ratio=0.11, lower_shadow_ratio=6.9x, volume_confirmed=True, confidence=85%
+2025-12-29 21:46:20 | DEBUG | bot | [SELL] Levels for AAVEUSDT: entry=154.30, sl=158.55, tp=148.13, rr=1.5
+2025-12-29 21:46:20 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=35, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_75%, macd_bearish
+2025-12-29 21:46:20 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=OVERSOLD reason=trend_bearish_200ma, head_shoulders_75%, macd_bearish
+2025-12-29 21:46:20 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_75%, macd_bearish)
+2025-12-29 21:46:20 | INFO | bot |    Entry: 154.30, SL: 158.55, TP: 148.13, R:R=1.5:1, Size: 10.0%, Leverage: 10x
+2025-12-29 21:46:20 | INFO | bot | [EXECUTOR] DEBUG AAVEUSDT: action=SELL, entry_price=154.3, sl=158.5488, tp=148.12800000000001
+2025-12-29 21:46:20 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 21:46:21 | INFO | bot | 💰 Margin: 244.64 | Equity: 244.64
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AVAXUSDT: balance=244.63831001
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AVAXUSDT: position_value=24.463831001000003, leverage=10, qty_before_norm=19.193339872116745
+2025-12-29 21:46:21 | INFO | bot | 💰 Margin: 244.64 | Equity: 244.64
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AAVEUSDT: balance=244.63831001
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AAVEUSDT: position_value=24.463831001000003, leverage=10, qty_before_norm=1.5854718730395334
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AVAXUSDT: before norm qty=19.193339872116745, price=12.745999999999999
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AVAXUSDT: after norm qty=19.1, price=12.745000000000001, notional=243.42950000000005
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AVAXUSDT: meta={'min_qty': 0.1, 'qty_step': 0.1, 'tick_size': 0.001, 'min_cost': 0.0, 'min_price': 0.001, 'final_notional': 243.42950000000005}
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AVAXUSDT: min_notional=5.0
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] FINAL AVAXUSDT: qty=19.1, side=Sell
+2025-12-29 21:46:21 | INFO | bot | [API] Order: AVAXUSDT Sell 19.1 Market
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AAVEUSDT: before norm qty=1.5854718730395334, price=154.3
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AAVEUSDT: after norm qty=1.58, price=154.3, notional=243.79400000000004
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AAVEUSDT: meta={'min_qty': 0.01, 'qty_step': 0.01, 'tick_size': 0.01, 'min_cost': 0.0, 'min_price': 0.01, 'final_notional': 243.79400000000004}
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] DEBUG AAVEUSDT: min_notional=5.0
+2025-12-29 21:46:21 | INFO | bot | [EXECUTOR] FINAL AAVEUSDT: qty=1.58, side=Sell
+2025-12-29 21:46:21 | INFO | bot | [API] Order: AAVEUSDT Sell 1.58 Market
+2025-12-29 21:46:21 | INFO | bot | ✅ [EXECUTOR] Opened SELL position for AVAXUSDT: qty=19.1000, order_id=f6123784-fb7c-4361-b403-08aac3ee88a6
+2025-12-29 21:46:21 | INFO | bot | [API] SL/TP: AVAXUSDT SL=13.0305 TP=12.236159999999998
+2025-12-29 21:46:21 | INFO | bot | ✅ [EXECUTOR] Opened SELL position for AAVEUSDT: qty=1.5800, order_id=d82ff13d-daca-4867-b9e0-7e8c170f6cc5
+2025-12-29 21:46:21 | INFO | bot | [API] SL/TP: AAVEUSDT SL=158.5488 TP=148.12800000000001
+2025-12-29 21:46:21 | INFO | bot | ✅ [EXECUTOR] SL/TP set for AVAXUSDT: SL=13.0305, TP=12.236159999999998
+2025-12-29 21:46:21 | DEBUG | bot | 📝 [TRADE_LOG] SELL: AVAXUSDT Sell 19.100000 @ 12.745000
+2025-12-29 21:46:21 | INFO | bot | ✅ [EXECUTOR] SL/TP set for AAVEUSDT: SL=158.5488, TP=148.12800000000001
+2025-12-29 21:46:21 | DEBUG | bot | 📝 [TRADE_LOG] SELL: AAVEUSDT Sell 1.580000 @ 154.300000
+2025-12-29 21:46:22 | DEBUG | bot | Added current candle for STRKUSDT: {'timestamp': 1767037500, 'open': 0.07963, 'high': 0.07964, 'low': 0.07923, 'close': 0.07926, 'volume': 722513.199999999}
+2025-12-29 21:46:22 | DEBUG | bot | Updated 1000 trades into candles for STRKUSDT, total candles: 250
+2025-12-29 21:46:22 | INFO | bot | ✅ [TA_DATA] STRKUSDT: Sufficient candle data ready for TA analysis (250 candles)
+2025-12-29 21:46:22 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.08, RS=0.08, neckline=0.08, confidence=85%
+2025-12-29 21:46:22 | INFO | bot | 🔨 Hammer detected: body_ratio=0.01, lower_shadow_ratio=80.0x, volume_confirmed=True, confidence=85%
+2025-12-29 21:46:22 | INFO | bot | 🎯 DRAGONFLY Doji detected: body_ratio=0.012, direction=BULLISH, confidence=65%
+2025-12-29 21:46:22 | DEBUG | bot | [SELL] Levels for STRKUSDT: entry=0.08, sl=0.09, tp=0.08, rr=1.6
+2025-12-29 21:46:22 | INFO | bot | 📊 Signal for STRKUSDT: SELL3 (confidence=70%, bullish_score=35, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_85%, macd_bearish
+2025-12-29 21:46:22 | INFO | bot | 🎯 [TA_SIGNAL] STRKUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=OVERSOLD reason=trend_bearish_200ma, head_shoulders_85%, macd_bearish
+2025-12-29 21:46:22 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for STRKUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_85%, macd_bearish)
+2025-12-29 21:46:22 | INFO | bot |    Entry: 0.08, SL: 0.09, TP: 0.08, R:R=1.6:1, Size: 10.0%, Leverage: 10x
+2025-12-29 21:46:22 | INFO | bot | [EXECUTOR] DEBUG STRKUSDT: action=SELL, entry_price=0.08352000000000001, sl=0.0856494, tp=0.0801792
+2025-12-29 21:46:22 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 21:46:23 | INFO | bot | 💰 Margin: 244.29 | Equity: 244.29
+2025-12-29 21:46:23 | INFO | bot | [EXECUTOR] DEBUG STRKUSDT: balance=244.29138403
+2025-12-29 21:46:23 | INFO | bot | [EXECUTOR] DEBUG STRKUSDT: position_value=24.429138403, leverage=10, qty_before_norm=2924.944732159961
+2025-12-29 21:46:23 | INFO | bot | [EXECUTOR] DEBUG STRKUSDT: before norm qty=2924.944732159961, price=0.08352000000000001
+2025-12-29 21:46:23 | INFO | bot | [EXECUTOR] DEBUG STRKUSDT: after norm qty=2924.9, price=0.08352, notional=244.287648
+2025-12-29 21:46:23 | INFO | bot | [EXECUTOR] DEBUG STRKUSDT: meta={'min_qty': 0.1, 'qty_step': 0.1, 'tick_size': 1e-05, 'min_cost': 0.0, 'min_price': 1e-05, 'final_notional': 244.287648}
+2025-12-29 21:46:23 | INFO | bot | [EXECUTOR] DEBUG STRKUSDT: min_notional=5.0
+2025-12-29 21:46:23 | INFO | bot | [EXECUTOR] FINAL STRKUSDT: qty=2924.9, side=Sell
+2025-12-29 21:46:23 | INFO | bot | [API] Order: STRKUSDT Sell 2924.9 Market
+2025-12-29 21:46:23 | INFO | bot | ✅ [EXECUTOR] Opened SELL position for STRKUSDT: qty=2924.9000, order_id=3a81d68d-b06b-41df-aa00-a5cfdbc0c081
+2025-12-29 21:46:23 | INFO | bot | [API] SL/TP: STRKUSDT SL=0.0856494 TP=0.0801792
+2025-12-29 21:46:23 | ERROR | bot | [API] Error: TakeProfit:8017000 set for Sell position should be lower than base_price:7963000??LastPrice (code: 10001)
+2025-12-29 21:46:23 | WARNING | bot | ⚠️ [EXECUTOR] Failed to set SL/TP for STRKUSDT: {'retCode': 10001, 'retMsg': 'TakeProfit:8017000 set for Sell position should be lower than base_price:7963000??LastPrice', 'result': {}, 'retExtInfo': {}, 'time': 1767037583317}
+2025-12-29 21:46:23 | DEBUG | bot | 📝 [TRADE_LOG] SELL: STRKUSDT Sell 2924.900000 @ 0.083520
+2025-12-29 21:46:24 | DEBUG | bot | Updated 1143 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:46:24 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:46:24 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:46:24 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:46:24 | DEBUG | bot | Updated 1000 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:46:24 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:46:24 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:28 | DEBUG | bot | Updated 1004 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:46:28 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:46:28 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:46:28 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:30 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:46:31 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:46:32 | DEBUG | bot | Updated 1149 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:46:32 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:46:32 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:46:32 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:46:32 | DEBUG | bot | Updated 1001 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:46:33 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:46:33 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:36 | DEBUG | bot | Updated 1006 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:46:37 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:46:37 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:46:37 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:40 | DEBUG | bot | Updated 1153 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:46:41 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:46:41 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:46:41 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:46:41 | DEBUG | bot | Updated 1002 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:46:41 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:46:41 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:44 | DEBUG | bot | Updated 1006 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:46:45 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:46:45 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:46:45 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:49 | DEBUG | bot | Updated 1158 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:46:49 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:46:49 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:46:49 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:46:49 | DEBUG | bot | Updated 1002 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:46:49 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:46:49 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:50 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:46:51 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:46:53 | DEBUG | bot | Updated 1007 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:46:53 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:46:53 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:46:53 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:46:57 | DEBUG | bot | Updated 1163 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:46:57 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:46:57 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:46:57 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:46:57 | DEBUG | bot | Updated 1002 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:46:57 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:46:57 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:01 | DEBUG | bot | Updated 1007 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:47:01 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:47:01 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:47:01 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:05 | DEBUG | bot | Updated 1184 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:47:05 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:47:05 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:47:05 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:47:05 | DEBUG | bot | Updated 1002 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:47:05 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:47:05 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:09 | DEBUG | bot | Updated 1009 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:47:09 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:47:09 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:47:09 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:10 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:47:11 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:47:13 | DEBUG | bot | Updated 1237 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:47:13 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:47:13 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:47:13 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:47:13 | DEBUG | bot | Updated 1002 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:47:13 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:47:13 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:17 | DEBUG | bot | Updated 1009 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:47:17 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:47:17 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:47:17 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:21 | DEBUG | bot | Updated 1243 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:47:21 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:47:21 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:47:21 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:47:21 | DEBUG | bot | Updated 1002 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:47:21 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:47:21 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:25 | DEBUG | bot | Updated 1015 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:47:25 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:47:25 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:47:25 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:29 | DEBUG | bot | Updated 1365 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:47:29 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:47:29 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:47:29 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:47:29 | DEBUG | bot | Updated 1002 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:47:29 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:47:29 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:30 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:47:31 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:47:33 | DEBUG | bot | Updated 1015 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:47:33 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:47:33 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:47:33 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:37 | DEBUG | bot | Updated 1383 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:47:37 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:47:37 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:47:37 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:47:37 | DEBUG | bot | Updated 1004 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:47:37 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:47:37 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:41 | DEBUG | bot | Updated 1015 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:47:41 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:47:41 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:47:41 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:45 | DEBUG | bot | Updated 1393 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:47:45 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:47:45 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:47:45 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:47:45 | DEBUG | bot | Updated 1004 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:47:45 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:47:45 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:49 | DEBUG | bot | Updated 1015 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:47:49 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:47:49 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:47:49 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:50 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:47:51 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:47:53 | DEBUG | bot | Updated 1455 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:47:53 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:47:53 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:47:53 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:47:53 | DEBUG | bot | Updated 1004 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:47:53 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:47:53 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:47:57 | DEBUG | bot | Updated 1015 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:47:57 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:47:57 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:47:57 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:01 | DEBUG | bot | Updated 1479 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:48:01 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:48:01 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:48:01 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:48:01 | DEBUG | bot | Updated 1004 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:48:01 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:48:01 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:05 | DEBUG | bot | Updated 1016 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:48:05 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:48:05 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:48:05 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:09 | DEBUG | bot | Updated 1687 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:48:09 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:48:09 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:48:09 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:48:09 | DEBUG | bot | Updated 1015 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:48:09 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:48:09 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:10 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:48:11 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:48:13 | DEBUG | bot | Updated 1017 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:48:13 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:48:13 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:48:13 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:17 | DEBUG | bot | Updated 1810 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:48:17 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:48:17 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:48:17 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:48:17 | DEBUG | bot | Updated 1015 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:48:17 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:48:17 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:21 | DEBUG | bot | Updated 1020 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:48:21 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:48:21 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:48:21 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:25 | DEBUG | bot | Updated 1957 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:48:25 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:48:25 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:48:25 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:48:25 | DEBUG | bot | Updated 1015 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:48:25 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:48:25 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:29 | DEBUG | bot | Updated 1025 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:48:29 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:48:29 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:48:29 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:31 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:48:31 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:48:33 | DEBUG | bot | Updated 2045 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:48:33 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:48:33 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:48:33 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:48:33 | DEBUG | bot | Updated 1015 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:48:33 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:48:33 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:37 | DEBUG | bot | Updated 1028 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:48:37 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:48:37 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:48:37 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:41 | DEBUG | bot | Updated 2311 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:48:41 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:48:41 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:48:41 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:48:41 | DEBUG | bot | Updated 1031 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:48:41 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:48:41 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.031, direction=NEUTRAL, confidence=45%
+2025-12-29 21:48:41 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:45 | DEBUG | bot | Updated 1029 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:48:45 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:48:45 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=45%
+2025-12-29 21:48:45 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:49 | DEBUG | bot | Updated 2385 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:48:49 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:48:49 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:48:49 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:48:49 | DEBUG | bot | Updated 1051 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:48:49 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:48:49 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:51 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:48:51 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:48:53 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:48:53 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:48:53 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.039, direction=NEUTRAL, confidence=45%
+2025-12-29 21:48:53 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:48:57 | DEBUG | bot | Updated 2591 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:48:57 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:48:57 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:48:57 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:48:57 | DEBUG | bot | Updated 1070 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:48:57 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:48:57 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:01 | DEBUG | bot | Updated 1035 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:49:01 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:49:01 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.039, direction=NEUTRAL, confidence=45%
+2025-12-29 21:49:01 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:05 | DEBUG | bot | Updated 2675 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:49:05 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:49:05 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:49:05 | INFO | bot | 📊 Signal for ETHUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_75%
+2025-12-29 21:49:05 | DEBUG | bot | Updated 1080 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:49:05 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:49:05 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 21:49:05 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:09 | DEBUG | bot | Updated 1038 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:49:09 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:49:09 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.039, direction=NEUTRAL, confidence=45%
+2025-12-29 21:49:09 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:11 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:49:11 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:49:13 | DEBUG | bot | Updated 3010 trades into candles for ETHUSDT, total candles: 250
+2025-12-29 21:49:13 | INFO | bot | 📊 Head and Shoulders detected: LS=2939.63, H=2942.50, RS=2942.00, neckline=2933.11, confidence=75%
+2025-12-29 21:49:13 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.019, direction=NEUTRAL, confidence=45%
+2025-12-29 21:49:13 | DEBUG | bot | [SELL] Levels for ETHUSDT: entry=2933.11, sl=3000.84, tp=2815.79, rr=1.7
+2025-12-29 21:49:13 | INFO | bot | 📊 Signal for ETHUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_75%, macd_bearish
+2025-12-29 21:49:13 | INFO | bot | 🎯 [TA_SIGNAL] ETHUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_75%, macd_bearish
+2025-12-29 21:49:13 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for ETHUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_75%, macd_bearish)
+2025-12-29 21:49:13 | INFO | bot |    Entry: 2933.11, SL: 3000.84, TP: 2815.79, R:R=1.7:1, Size: 10.0%, Leverage: 10x
+2025-12-29 21:49:13 | INFO | bot | [EXECUTOR] DEBUG ETHUSDT: action=SELL, entry_price=2933.115, sl=3000.84, tp=2815.7904
+2025-12-29 21:49:13 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 21:49:13 | DEBUG | bot | Updated 1094 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:49:13 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:49:13 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:13 | INFO | bot | 💰 Margin: 243.52 | Equity: 243.52
+2025-12-29 21:49:13 | INFO | bot | [EXECUTOR] DEBUG ETHUSDT: balance=243.52234381
+2025-12-29 21:49:13 | INFO | bot | [EXECUTOR] DEBUG ETHUSDT: position_value=24.352234381000002, leverage=10, qty_before_norm=0.08302516055797336
+2025-12-29 21:49:13 | INFO | bot | [EXECUTOR] DEBUG ETHUSDT: before norm qty=0.08302516055797336, price=2933.115
+2025-12-29 21:49:13 | INFO | bot | [EXECUTOR] DEBUG ETHUSDT: after norm qty=0.08, price=2933.11, notional=234.64880000000002
+2025-12-29 21:49:13 | INFO | bot | [EXECUTOR] DEBUG ETHUSDT: meta={'min_qty': 0.01, 'qty_step': 0.01, 'tick_size': 0.01, 'min_cost': 0.0, 'min_price': 0.01, 'final_notional': 234.64880000000002}
+2025-12-29 21:49:13 | INFO | bot | [EXECUTOR] DEBUG ETHUSDT: min_notional=5.0
+2025-12-29 21:49:13 | INFO | bot | [EXECUTOR] FINAL ETHUSDT: qty=0.08, side=Sell
+2025-12-29 21:49:13 | INFO | bot | [API] Order: ETHUSDT Sell 0.08 Market
+2025-12-29 21:49:13 | INFO | bot | ✅ [EXECUTOR] Opened SELL position for ETHUSDT: qty=0.0800, order_id=d5b61552-92cc-445f-92b2-c1146182eb11
+2025-12-29 21:49:13 | INFO | bot | [API] SL/TP: ETHUSDT SL=3000.84 TP=2815.7904
+2025-12-29 21:49:14 | INFO | bot | ✅ [EXECUTOR] SL/TP set for ETHUSDT: SL=3000.84, TP=2815.7904
+2025-12-29 21:49:14 | DEBUG | bot | 📝 [TRADE_LOG] SELL: ETHUSDT Sell 0.080000 @ 2933.110000
+2025-12-29 21:49:17 | DEBUG | bot | Updated 1039 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:49:17 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:49:17 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.039, direction=NEUTRAL, confidence=45%
+2025-12-29 21:49:17 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:21 | DEBUG | bot | Updated 1095 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:49:21 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:49:21 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:25 | DEBUG | bot | Updated 1047 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:49:25 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:49:25 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.039, direction=NEUTRAL, confidence=45%
+2025-12-29 21:49:25 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:29 | DEBUG | bot | Updated 1095 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:49:29 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:49:29 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:31 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:49:31 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:49:33 | DEBUG | bot | Updated 1049 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:49:33 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:49:33 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.039, direction=NEUTRAL, confidence=45%
+2025-12-29 21:49:33 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:37 | DEBUG | bot | Updated 1097 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:49:37 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:49:37 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:41 | DEBUG | bot | Updated 1061 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:49:41 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:49:41 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:45 | DEBUG | bot | Updated 1098 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:49:45 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:49:45 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:49 | DEBUG | bot | Updated 1065 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:49:49 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:49:49 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:51 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:49:51 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:49:53 | DEBUG | bot | Updated 1098 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:49:53 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:49:53 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:49:57 | DEBUG | bot | Updated 1067 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:49:57 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:49:57 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:50:01 | DEBUG | bot | Updated 1098 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:50:01 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:50:01 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:50:05 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 22115350.0}
+2025-12-29 21:50:05 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.28365, 'volume': 70660.0}
+2025-12-29 21:50:05 | DEBUG | bot | Updated 1118 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:50:05 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:50:05 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:50:09 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3499999999999, 'high': 852.3499999999999, 'low': 852.3499999999999, 'close': 852.3499999999999, 'volume': 0}
+2025-12-29 21:50:09 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:50:09 | DEBUG | bot | Updated 1098 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:50:09 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:50:09 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:50:11 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:50:11 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:50:13 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.283665, 'volume': 70660.0}
+2025-12-29 21:50:13 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:50:13 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.28365, 'volume': 70660.0}
+2025-12-29 21:50:13 | DEBUG | bot | Updated 1118 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:50:13 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:50:13 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:50:17 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3499999999999, 'high': 852.3499999999999, 'low': 852.3499999999999, 'close': 852.3499999999999, 'volume': 0}
+2025-12-29 21:50:17 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:50:17 | DEBUG | bot | Updated 1098 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:50:17 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=75%
+2025-12-29 21:50:17 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:50:21 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.283665, 'volume': 70660.0}
+2025-12-29 21:50:21 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:50:21 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.28367, 'volume': 70798.0}
+2025-12-29 21:50:21 | DEBUG | bot | Updated 1121 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:50:21 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:50:21 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=15, bearish_score=40) Reasons: no_signal
+2025-12-29 21:50:25 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3499999999999, 'high': 852.3499999999999, 'low': 852.3499999999999, 'close': 852.3499999999999, 'volume': 0}
+2025-12-29 21:50:25 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:50:25 | DEBUG | bot | Updated 1098 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:50:25 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:50:25 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=25, bearish_score=30) Reasons: no_signal
+2025-12-29 21:50:29 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.283665, 'volume': 70798.0}
+2025-12-29 21:50:29 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:50:29 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.28367, 'volume': 72756.0}
+2025-12-29 21:50:29 | DEBUG | bot | Updated 1124 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:50:29 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:50:29 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 21:50:31 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:50:31 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:50:33 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3499999999999, 'high': 852.3499999999999, 'low': 852.3499999999999, 'close': 852.3499999999999, 'volume': 0}
+2025-12-29 21:50:33 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:50:33 | DEBUG | bot | Updated 1098 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:50:33 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:50:33 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=25, bearish_score=30) Reasons: no_signal
+2025-12-29 21:50:37 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.283675, 'volume': 72756.0}
+2025-12-29 21:50:37 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:50:37 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.28367, 'volume': 72756.0}
+2025-12-29 21:50:37 | DEBUG | bot | Updated 1124 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:50:37 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:50:37 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=18, bearish_score=30) Reasons: no_signal
+2025-12-29 21:50:41 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3499999999999, 'high': 852.3499999999999, 'low': 852.3499999999999, 'close': 852.3499999999999, 'volume': 0}
+2025-12-29 21:50:41 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:50:41 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.0, 'volume': 79.23}
+2025-12-29 21:50:41 | DEBUG | bot | Updated 1149 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:50:41 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:50:41 | INFO | bot | 📊 SYMMETRICAL Triangle detected: breakout=BEARISH, confidence=60%
+2025-12-29 21:50:41 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=25, bearish_score=30) Reasons: no_signal
+2025-12-29 21:50:45 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.283675, 'volume': 72756.0}
+2025-12-29 21:50:45 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:50:45 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.28367, 'volume': 72840.0}
+2025-12-29 21:50:45 | DEBUG | bot | Updated 1125 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:50:45 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:50:45 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=18, bearish_score=30) Reasons: no_signal
+2025-12-29 21:50:49 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 851.95, 'volume': 79.23}
+2025-12-29 21:50:49 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:50:49 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.0, 'volume': 79.23}
+2025-12-29 21:50:49 | DEBUG | bot | Updated 1149 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:50:49 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:50:49 | INFO | bot | 📊 SYMMETRICAL Triangle detected: breakout=BEARISH, confidence=60%
+2025-12-29 21:50:49 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=25, bearish_score=30) Reasons: no_signal
+2025-12-29 21:50:51 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:50:51 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:50:53 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.283675, 'volume': 72840.0}
+2025-12-29 21:50:53 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:50:53 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.28367, 'volume': 72842.0}
+2025-12-29 21:50:53 | DEBUG | bot | Updated 1126 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:50:53 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:50:53 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=18, bearish_score=30) Reasons: no_signal
+2025-12-29 21:50:57 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 851.95, 'volume': 79.23}
+2025-12-29 21:50:57 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:50:57 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 851.9, 'volume': 79.46000000000001}
+2025-12-29 21:50:57 | DEBUG | bot | Updated 1151 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:50:57 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:50:57 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=25, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:01 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.283675, 'volume': 72842.0}
+2025-12-29 21:51:01 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:51:01 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.28367, 'volume': 72842.0}
+2025-12-29 21:51:01 | DEBUG | bot | Updated 1126 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:51:01 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:51:01 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=18, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:05 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 851.95, 'volume': 79.46000000000001}
+2025-12-29 21:51:05 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:51:05 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.0, 'volume': 82.74000000000002}
+2025-12-29 21:51:05 | DEBUG | bot | Updated 1158 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:51:05 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:51:05 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=25, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:09 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28368, 'low': 0.2836, 'close': 0.283675, 'volume': 72842.0}
+2025-12-29 21:51:09 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:51:09 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28373, 'low': 0.2836, 'close': 0.28373, 'volume': 141775.0}
+2025-12-29 21:51:09 | DEBUG | bot | Updated 1167 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:51:09 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:51:09 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:11 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:51:11 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:51:13 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.05, 'volume': 82.74000000000002}
+2025-12-29 21:51:13 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:51:13 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.2, 'volume': 104.01000000000003}
+2025-12-29 21:51:13 | DEBUG | bot | Updated 1177 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:51:13 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:51:13 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=18, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:17 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28373499999999996, 'low': 0.2836, 'close': 0.28373499999999996, 'volume': 141775.0}
+2025-12-29 21:51:17 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:51:17 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.28378, 'volume': 164603.0}
+2025-12-29 21:51:17 | DEBUG | bot | Updated 1215 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:51:17 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:51:17 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:21 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.25, 'volume': 104.01000000000003}
+2025-12-29 21:51:21 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:51:21 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.2, 'volume': 104.01000000000003}
+2025-12-29 21:51:21 | DEBUG | bot | Updated 1177 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:51:21 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:51:21 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=18, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:25 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.283775, 'volume': 164603.0}
+2025-12-29 21:51:25 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:51:25 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.28378, 'volume': 166583.0}
+2025-12-29 21:51:25 | DEBUG | bot | Updated 1219 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:51:25 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:51:25 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:29 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.25, 'volume': 104.01000000000003}
+2025-12-29 21:51:29 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:51:29 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.3, 'volume': 105.42000000000004}
+2025-12-29 21:51:29 | DEBUG | bot | Updated 1181 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:51:29 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:51:29 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=18, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:31 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:51:31 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:51:33 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.283775, 'volume': 166583.0}
+2025-12-29 21:51:33 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:51:33 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.28378, 'volume': 166583.0}
+2025-12-29 21:51:33 | DEBUG | bot | Updated 1219 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:51:33 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:51:33 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:37 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3499999999999, 'low': 851.9, 'close': 852.3499999999999, 'volume': 105.42000000000004}
+2025-12-29 21:51:37 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:51:37 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.3, 'volume': 105.42000000000004}
+2025-12-29 21:51:37 | DEBUG | bot | Updated 1181 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:51:37 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:51:37 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=18, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:41 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.283775, 'volume': 166583.0}
+2025-12-29 21:51:41 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:51:41 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.28378, 'volume': 166583.0}
+2025-12-29 21:51:41 | DEBUG | bot | Updated 1219 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:51:41 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:51:41 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=30) Reasons: no_signal
+2025-12-29 21:51:45 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3499999999999, 'low': 851.9, 'close': 852.3499999999999, 'volume': 105.42000000000004}
+2025-12-29 21:51:45 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:51:45 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.3, 'volume': 105.42000000000004}
+2025-12-29 21:51:45 | DEBUG | bot | Updated 1181 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:51:45 | INFO | bot | 📉 Death Cross detected - Strong bearish signal!
+2025-12-29 21:51:45 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:51:45 | DEBUG | bot | [SELL] Levels for BNBUSDT: entry=841.05, sl=860.37, tp=807.41, rr=1.7
+2025-12-29 21:51:45 | INFO | bot | 📊 Signal for BNBUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_60%
+2025-12-29 21:51:49 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.283775, 'volume': 166583.0}
+2025-12-29 21:51:49 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:51:49 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.28378, 'volume': 166583.0}
+2025-12-29 21:51:49 | DEBUG | bot | Updated 1219 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:51:49 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:51:49 | DEBUG | bot | [SELL] Levels for TRXUSDT: entry=0.28, sl=0.29, tp=0.27, rr=1.9
+2025-12-29 21:51:49 | INFO | bot | 📊 Signal for TRXUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_70%
+2025-12-29 21:51:51 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:51:51 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:51:53 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3499999999999, 'low': 851.9, 'close': 852.3499999999999, 'volume': 105.42000000000004}
+2025-12-29 21:51:53 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:51:53 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.3, 'volume': 105.42000000000004}
+2025-12-29 21:51:53 | DEBUG | bot | Updated 1181 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:51:53 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:51:53 | DEBUG | bot | [SELL] Levels for BNBUSDT: entry=841.05, sl=860.37, tp=807.41, rr=1.7
+2025-12-29 21:51:53 | INFO | bot | 📊 Signal for BNBUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_60%
+2025-12-29 21:51:57 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.283775, 'volume': 166583.0}
+2025-12-29 21:51:57 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:51:57 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.28378, 'volume': 166583.0}
+2025-12-29 21:51:57 | DEBUG | bot | Updated 1219 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:51:57 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:51:57 | DEBUG | bot | [SELL] Levels for TRXUSDT: entry=0.28, sl=0.29, tp=0.27, rr=1.9
+2025-12-29 21:51:57 | INFO | bot | 📊 Signal for TRXUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_70%
+2025-12-29 21:52:01 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3499999999999, 'low': 851.9, 'close': 852.3499999999999, 'volume': 105.42000000000004}
+2025-12-29 21:52:01 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:52:01 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.3, 'volume': 105.42000000000004}
+2025-12-29 21:52:01 | DEBUG | bot | Updated 1181 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:52:01 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:52:01 | DEBUG | bot | [SELL] Levels for BNBUSDT: entry=841.05, sl=860.37, tp=807.41, rr=1.7
+2025-12-29 21:52:01 | INFO | bot | 📊 Signal for BNBUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_60%
+2025-12-29 21:52:05 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.2838, 'low': 0.2836, 'close': 0.283775, 'volume': 166583.0}
+2025-12-29 21:52:05 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:52:05 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28398, 'low': 0.2836, 'close': 0.28391, 'volume': 326137.0}
+2025-12-29 21:52:05 | DEBUG | bot | Updated 1327 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:52:05 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 21:52:05 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=45) Reasons: no_signal
+2025-12-29 21:52:09 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3499999999999, 'low': 851.9, 'close': 852.3499999999999, 'volume': 105.42000000000004}
+2025-12-29 21:52:09 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:52:09 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.3, 'volume': 105.42000000000004}
+2025-12-29 21:52:09 | DEBUG | bot | Updated 1181 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:52:09 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:52:09 | DEBUG | bot | [SELL] Levels for BNBUSDT: entry=841.05, sl=860.37, tp=807.41, rr=1.7
+2025-12-29 21:52:09 | INFO | bot | 📊 Signal for BNBUSDT: SELL2 (confidence=60%, bullish_score=18, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_60%
+2025-12-29 21:52:11 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:52:11 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:52:13 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28398, 'low': 0.2836, 'close': 0.28390499999999996, 'volume': 326137.0}
+2025-12-29 21:52:13 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:52:13 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28398, 'low': 0.2836, 'close': 0.28383, 'volume': 341586.0}
+2025-12-29 21:52:13 | DEBUG | bot | Updated 1356 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:52:13 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:52:13 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=30) Reasons: no_signal
+2025-12-29 21:52:17 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3499999999999, 'low': 851.9, 'close': 852.3499999999999, 'volume': 105.42000000000004}
+2025-12-29 21:52:17 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:52:17 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.3, 'volume': 105.42000000000004}
+2025-12-29 21:52:17 | DEBUG | bot | Updated 1181 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:52:17 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:52:17 | DEBUG | bot | [SELL] Levels for BNBUSDT: entry=841.05, sl=860.37, tp=807.41, rr=1.7
+2025-12-29 21:52:17 | INFO | bot | 📊 Signal for BNBUSDT: SELL2 (confidence=60%, bullish_score=18, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_60%
+2025-12-29 21:52:21 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28398, 'low': 0.2836, 'close': 0.283825, 'volume': 341586.0}
+2025-12-29 21:52:21 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:52:21 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28398, 'low': 0.2836, 'close': 0.28383, 'volume': 341586.0}
+2025-12-29 21:52:21 | DEBUG | bot | Updated 1356 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:52:21 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:52:21 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=30) Reasons: no_signal
+2025-12-29 21:52:25 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3499999999999, 'low': 851.9, 'close': 852.3499999999999, 'volume': 105.42000000000004}
+2025-12-29 21:52:25 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:52:25 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3, 'low': 851.9, 'close': 852.3, 'volume': 105.42000000000004}
+2025-12-29 21:52:25 | DEBUG | bot | Updated 1181 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:52:25 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:52:25 | DEBUG | bot | [SELL] Levels for BNBUSDT: entry=841.05, sl=860.37, tp=807.41, rr=1.7
+2025-12-29 21:52:25 | INFO | bot | 📊 Signal for BNBUSDT: SELL2 (confidence=60%, bullish_score=10, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_60%
+2025-12-29 21:52:29 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28398, 'low': 0.2836, 'close': 0.283825, 'volume': 341586.0}
+2025-12-29 21:52:29 | DEBUG | bot | Closed candle for TRXUSDT: {'timestamp': 1767037500, 'open': 0.28353, 'high': 0.28362, 'low': 0.28324, 'close': 0.2836, 'volume': 771899.0}
+2025-12-29 21:52:29 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767037800, 'open': 0.2836, 'high': 0.28398, 'low': 0.2836, 'close': 0.28383, 'volume': 343555.0}
+2025-12-29 21:52:29 | DEBUG | bot | Updated 1360 trades into candles for TRXUSDT, total candles: 250
+2025-12-29 21:52:29 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.28, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 21:52:29 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=10, bearish_score=30) Reasons: no_signal
+2025-12-29 21:52:31 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 21:52:31 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 21:52:33 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.3499999999999, 'low': 851.9, 'close': 852.3499999999999, 'volume': 105.42000000000004}
+2025-12-29 21:52:33 | DEBUG | bot | Closed candle for BNBUSDT: {'timestamp': 1767037500, 'open': 852.5, 'high': 852.9, 'low': 851.2, 'close': 852.4, 'volume': 506.2699999999972}
+2025-12-29 21:52:33 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767037800, 'open': 852.3, 'high': 852.4, 'low': 851.9, 'close': 852.2, 'volume': 112.25000000000006}
+2025-12-29 21:52:33 | DEBUG | bot | Updated 1193 trades into candles for BNBUSDT, total candles: 250
+2025-12-29 21:52:33 | INFO | bot | 📊 Head and Shoulders detected: LS=841.50, H=843.70, RS=843.50, neckline=841.05, confidence=60%
+2025-12-29 21:52:33 | DEBUG | bot | [SELL] Levels for BNBUSDT: entry=841.05, sl=860.37, tp=807.41, rr=1.7
+2025-12-29 21:52:33 | INFO | bot | 📊 Signal for BNBUSDT: SELL2 (confidence=60%, bullish_score=18, bearish_score=60) Reasons: trend_bearish_200ma, head_shoulders_60%
