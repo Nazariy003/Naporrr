@@ -188,7 +188,7 @@ class DataStorage:
             logger.error(f"❌ [CALLBACK_TRIGGER_ERROR] {e}")
 
     async def update_position_from_exchange(self, position_data: Dict):
-        """Спрощене оновлення позиції"""
+        """Спрощене оновлення позиції з логуванням закриття"""
         symbol = position_data['symbol']
         current_time = time.time()
 
@@ -253,7 +253,16 @@ class DataStorage:
                     position.close_reason = "PENDING"
                 
                 self._closed_positions_history[symbol] = position
-                logger.info(f"🔒 [EXCHANGE_CLOSE] {symbol}: Status changed to CLOSED")
+                
+                # Логувати закриття в CSV через executor (якщо доступний)
+                # Припустимо, що storage має посилання на executor
+                if hasattr(self, '_executor') and self._executor:
+                    self._executor._log_trade(
+                        symbol, "CLOSE", position.side, position.qty, position.exit_price, 
+                        0, 0, position.leverage, 0, 0, "", "", "CLOSED", position.close_reason
+                    )
+                
+                logger.info(f"🔒 [EXCHANGE_CLOSE] {symbol}: Status changed to CLOSED, reason: {position.close_reason}")
 
         else:
             if new_side == 'UNKNOWN':

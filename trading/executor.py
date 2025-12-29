@@ -6,6 +6,7 @@ import csv
 import math
 from dataclasses import dataclass, field
 from typing import Dict, Optional, Any, List
+from pathlib import Path
 from config.settings import settings
 from utils.logger import logger
 from trading.bybit_api_manager import BybitAPIManager
@@ -89,232 +90,214 @@ class CloseReasonDetector:
         self.logger.debug(f"[CLOSE_REASON] {symbol}: lifetime={lifetime_sec:.0f}s, "
                          f"exit={exit_price:.6f}, entry={position.entry_price:.6f}")
         
-        # 🔴 ПРІОРИТЕТ 1: TIME_EXIT (перевіряємо ПЕРШИМ)
-        max_lifetime = self._get_max_lifetime(position)
-        time_exit_threshold = max_lifetime * 0.95  # 95% від максимального часу
+        # Check SL/TP first
+        if position.stop_loss > 0 and exit_price <= position.stop_loss:
+            return "STOP_LOSS"
+        if position.take_profit > 0 and exit_price >= position.take_profit:
+            return "TAKE_PROFIT"
         
-        if lifetime_sec >= time_exit_threshold:
-            self.logger.info(f"⏰ [CLOSE_REASON] {symbol}: TIME_EXIT "
-                           f"({lifetime_sec:.0f}s >= {time_exit_threshold:.0f}s)")
-            return "TIME_EXIT"
+        # Check lifetime thresholds
+        if lifetime_sec < 30:
+            return "FLASH_CRASH"
+        elif lifetime_sec < 300:  # 5 min
+            return "QUICK_CLOSE"
+        elif lifetime_sec > self.settings.max_position_lifetime_sec:
+            return "TIMEOUT_CLOSE"
         
-        # 🟢 ПРІОРИТЕТ 2: Перевірка вже встановленої причини від orchestrator
-        if position.close_reason in ["REVERSE", "opp_signal", "EMERGENCY_CLOSE"]:
-            self.logger.info(f"✅ [CLOSE_REASON] {symbol}: Using orchestrator reason: {position.close_reason}")
-            return position.close_reason
-        
-        # 🟡 ПРІОРИТЕТ 3: TP/SL по orderId (якщо є біржеві дані)
-        if exchange_data:
-            reason_from_exchange = self._check_exchange_order_ids(position, exchange_data)
-            if reason_from_exchange:
-                self.logger.info(f"🎯 [CLOSE_REASON] {symbol}: From exchange data: {reason_from_exchange}")
-                return reason_from_exchange
-        
-        # 🟡 ПРІОРИТЕТ 4: TP/SL по ціні з adaptive tolerance
-        if exit_price > 0 and position.entry_price > 0:
-            reason_by_price = self._check_price_based_reason(position, exit_price)
-            if reason_by_price:
-                self.logger.info(f"📊 [CLOSE_REASON] {symbol}: By price: {reason_by_price}")
-                return reason_by_price
-        
-        # 🔵 ПРІОРИТЕТ 5: Fallback
-        self.logger.info(f"🔄 [CLOSE_REASON] {symbol}: Using fallback: EXCHANGE_CLOSE")
-        return "EXCHANGE_CLOSE"
-    
-    def _get_max_lifetime(self, position: Position) -> float:
-        """Отримати максимальний lifetime для позиції (може бути адаптивним)"""
-        if hasattr(position, 'max_lifetime_sec') and position.max_lifetime_sec > 0:
-            return position.max_lifetime_sec
-        return self.settings.max_position_lifetime_sec
-    
-    def _check_exchange_order_ids(self, position: Position, exchange_data: Dict) -> Optional[str]:
-        """Перевірка по orderId з біржі"""
-        order_id = exchange_data.get("orderId") or exchange_data.get("orderID")
-        
-        if not order_id:
-            return None
-        
-        # Порівнюємо з збереженими TP/SL orderIds
-        if order_id == position.tp_order_id:
-            return "TP_HIT"
-        elif order_id == position.sl_order_id:
-            return "SL_HIT"
-        
-        # Перевірка exec_type
-        exec_type = str(exchange_data.get('execType', '')).upper()
-        if any(tp in exec_type for tp in ['TAKE_PROFIT', 'TP']):
-            return "TP_HIT"
-        elif any(sl in exec_type for sl in ['STOP_LOSS', 'STOP', 'SL']):
-            return "SL_HIT"
-        
-        return None
-    
-    def _check_price_based_reason(self, position: Position, exit_price: float) -> Optional[str]:
-        """Перевірка по ціні з ADAPTIVE tolerance"""
-        if exit_price <= 0 or position.entry_price <= 0:
-            return None
-        
-        tolerance = self._get_adaptive_tolerance(position.symbol, position.entry_price)
-        
-        tp_diff = abs(exit_price - position.take_profit)
-        sl_diff = abs(exit_price - position.stop_loss)
-        
-        # Збільшений tolerance для SL (більше slippage)
-        sl_tolerance = tolerance * 2.0
-        
-        self.logger.debug(f"[PRICE_CHECK] {position.symbol}: TP_diff={tp_diff:.6f}, "
-                         f"SL_diff={sl_diff:.6f}, tolerance={tolerance:.6f}")
-        
-        if position.side == "LONG":
-            # TP для LONG - ціна вище entry
-            if tp_diff <= tolerance and exit_price >= position.entry_price:
-                return "TP_HIT"
-            # SL для LONG - ціна нижче entry
-            elif sl_diff <= sl_tolerance and exit_price <= position.entry_price:
-                return "SL_HIT"
-            # Жорсткі межі
-            elif exit_price >= position.take_profit:
-                return "TP_HIT"
-            elif exit_price <= position.stop_loss:
-                return "SL_HIT"
-        
-        else:  # SHORT
-            # TP для SHORT - ціна нижче entry
-            if tp_diff <= tolerance and exit_price <= position.entry_price:
-                return "TP_HIT"
-            # SL для SHORT - ціна вище entry
-            elif sl_diff <= sl_tolerance and exit_price >= position.entry_price:
-                return "SL_HIT"
-            # Жорсткі межі
-            elif exit_price <= position.take_profit:
-                return "TP_HIT"
-            elif exit_price >= position.stop_loss:
-                return "SL_HIT"
-        
-        return None
-    
-    def _get_adaptive_tolerance(self, symbol: str, entry_price: float) -> float:
-        """Адаптивний tolerance на основі символу та ціни"""
-        # Базовий tolerance 0.1%
-        base_tolerance = entry_price * 0.001
-        
-        # Специфічні налаштування для символів
-        if symbol in ['BNBUSDT', 'SOLUSDT', 'AAVEUSDT', 'ETHUSDT']:
-            # Великі монети - менший tolerance
-            min_tolerance = max(entry_price * 0.0005, 0.1)
-            max_tolerance = entry_price * 0.002
-        elif symbol in ['ADAUSDT', 'DOGEUSDT', 'TRXUSDT', 'HFTUSDT']:
-            # Малі монети - більший tolerance
-            min_tolerance = max(entry_price * 0.001, 0.0001)
-            max_tolerance = entry_price * 0.003
-        else:
-            # Інші
-            min_tolerance = entry_price * 0.0007
-            max_tolerance = entry_price * 0.0025
-        
-        tolerance = max(min(base_tolerance, max_tolerance), min_tolerance)
-        
-        return tolerance
+        # Default reason
+        return "UNKNOWN_CLOSE"
 
 class TradeExecutor:
-    """🆕 ВИПРАВЛЕНИЙ Trade Executor з правильним розрахунком розміру позиції"""
-    
     def __init__(self, storage: DataStorage, api: BybitAPIManager):
         self.storage = storage
         self.tcfg = settings.trading
         self.exec_cfg = settings.execution
         self.api = api
-        self.risk = RiskManager(api_manager=api)
-        
-        # Централізований детектор причин
-        self.close_reason_detector = CloseReasonDetector(settings.risk)
+        self.risk = RiskManager()
 
         self.active_orders: Dict[str, ActiveOrder] = {}
-        self.positions: Dict[str, Position] = {}
         self._watch_tasks: Dict[str, asyncio.Task] = {}
-        self._monitor_task: Optional[asyncio.Task] = None
-        
-        # Rate limiting
         self.limit_sec = TokenBucket(self.tcfg.max_orders_per_second, self.tcfg.max_orders_per_second)
         self.limit_min = TokenBucket(self.tcfg.max_orders_per_minute, self.tcfg.max_orders_per_minute / 60.0)
-        
         self._lock = asyncio.Lock()
         self._start_balance = self.tcfg.start_balance_usdt
-        
-        # Захист від дублювання
-        self._blocked_symbols: Dict[str, str] = {}
-        self._running = False
-        self._processed_closures: Dict[str, float] = {}
-        self._reverse_close_tracking: Dict[str, float] = {}
-        self._pnl_attempts_cache: Dict[str, int] = {}
 
-    def _init_trade_log(self):
-        """Ініціалізація CSV файлу"""
+        # Захист від дублікатів
+        self._processed_closures: Dict[str, float] = {}
+        self._pnl_attempts_cache: Dict[str, int] = {}
+        self._blocked_symbols: Dict[str, str] = {}
+        self.positions = self.storage.positions  # Посилання на позиції в storage
+
+        # CSV логування трейдів
+        self.trades_csv_path = Path("logs/trades.csv")
+        self._init_trades_csv()
+
+    def _init_trades_csv(self):
+        """Ініціалізація CSV файлу для трейдів"""
+        if not self.trades_csv_path.exists():
+            self.trades_csv_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(self.trades_csv_path, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow([
+                    "timestamp", "symbol", "action", "side", "qty", "entry_price", "stop_loss", "take_profit",
+                    "leverage", "position_size_pct", "confidence", "reason", "order_id", "status", "close_reason"
+                ])
+
+    def _log_trade(self, symbol: str, action: str, side: str, qty: float, entry_price: float, 
+                  stop_loss: float, take_profit: float, leverage: float, position_size_pct: float,
+                  confidence: float, reason: str, order_id: str = "", status: str = "OPEN", close_reason: str = ""):
+        """Логування трейду в CSV (оновлена версія з 14 параметрами)"""
         try:
-            if not settings.logging.trades_log.exists():
-                settings.logging.trades_log.parent.mkdir(parents=True, exist_ok=True)
-                with open(settings.logging.trades_log, "w", newline="", encoding="utf-8") as f:
-                    writer = csv.writer(f)
-                    writer.writerow([
-                        "timestamp", "event", "symbol", "side", 
-                        "qty", "price", "sl", "tp", 
-                        "reason", "meta"
-                    ])
-                logger.info("✅ [TRADE_LOG] Initialized CSV file")
+            current_time = time.time()
+            
+            # Захист від дублікатів для CLOSE
+            if action == "CLOSE":
+                close_key = f"{symbol}_{action}_{side}_{qty:.6f}_{entry_price:.6f}_{reason}"
+                
+                if close_key in self._processed_closures:
+                    last_log_time = self._processed_closures[close_key]
+                    if current_time - last_log_time < 10:
+                        logger.debug(f"🛡️ [DUPLICATE_LOG] Skipping: {symbol}")
+                        return
+                
+                self._processed_closures[close_key] = current_time
+                
+                # Очищення старих записів
+                expired_keys = [k for k, v in self._processed_closures.items() 
+                              if current_time - v > 60]
+                for k in expired_keys:
+                    self._processed_closures.pop(k, None)
+            
+            with open(self.trades_csv_path, 'a', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow([
+                    time.strftime("%Y-%m-%d %H:%M:%S"),
+                    symbol, action, side, qty, entry_price, stop_loss, take_profit,
+                    leverage, position_size_pct, confidence, reason, order_id, status, close_reason
+                ])
+            
+            if action == "CLOSE":
+                logger.info(f"📝 [TRADE_LOG] {action}: {symbol} {side} {qty:.6f} @ {entry_price:.6f} | {reason}")
+            else:
+                logger.debug(f"📝 [TRADE_LOG] {action}: {symbol} {side} {qty:.6f} @ {entry_price:.6f}")
+        
         except Exception as e:
-            logger.error(f"❌ [TRADE_LOG] Failed to initialize: {e}")
+            logger.error(f"❌ [TRADE_LOG] Error: {e}", exc_info=True)
+
+    async def execute_signal(self, symbol: str, signal: Dict[str, Any]):
+        """Відкрити позицію на основі сигналу"""
+        try:
+            action = signal['action']
+            entry_price = signal.get('entry_price', 0)
+            stop_loss = signal.get('stop_loss', 0)
+            take_profit = signal.get('take_profit', 0)
+            position_size_pct = settings.trading.base_order_pct
+            leverage = settings.trading.leverage
+            confidence = signal.get('confidence', 0)
+            reason = signal.get('reason', 'unknown')
+
+            logger.info(f"[EXECUTOR] DEBUG {symbol}: action={action}, entry_price={entry_price}, sl={stop_loss}, tp={take_profit}")
+
+            # Розрахувати qty
+            balance = await self.api.get_wallet_balance()
+            logger.info(f"[EXECUTOR] DEBUG {symbol}: balance={balance}")
+            
+            if balance > 0:
+                position_value = balance * position_size_pct
+                qty = (position_value * leverage) / entry_price
+                logger.info(f"[EXECUTOR] DEBUG {symbol}: position_value={position_value}, leverage={leverage}, qty_before_norm={qty}")
+            else:
+                qty = 0.01
+                logger.warning(f"[EXECUTOR] No balance for {symbol}")
+
+            # Нормалізувати qty та price
+            info = await self.api.get_instrument_info(symbol)
+            if info:
+                logger.info(f"[EXECUTOR] DEBUG {symbol}: before norm qty={qty}, price={entry_price}")
+                qty, entry_price, meta = self.api.normalize_qty_price(symbol, info, qty, entry_price)
+                notional = qty * entry_price
+                logger.info(f"[EXECUTOR] DEBUG {symbol}: after norm qty={qty}, price={entry_price}, notional={notional}")
+                logger.info(f"[EXECUTOR] DEBUG {symbol}: meta={meta}")
+                
+                # Перевірка мінімального номіналу
+                min_notional = float(info.get('lotSizeFilter', {}).get('minOrderAmt', 5))
+                logger.info(f"[EXECUTOR] DEBUG {symbol}: min_notional={min_notional}")
+                if notional < min_notional:
+                    required_qty = min_notional / entry_price
+                    qty, entry_price, meta = self.api.normalize_qty_price(symbol, info, required_qty, entry_price)
+                    logger.info(f"[EXECUTOR] Adjusted {symbol} to min notional: qty={qty}, notional={qty*entry_price}")
+            else:
+                logger.warning(f"[EXECUTOR] No instrument info for {symbol}, using raw values")
+
+            logger.info(f"[EXECUTOR] FINAL {symbol}: qty={qty}, side={'Buy' if action == 'BUY' else 'Sell'}")
+
+            # Визначити сторону
+            side = "Buy" if action == "BUY" else "Sell"
+
+            # Відкрити позицію через API (без SL/TP)
+            order_response = await self.api.place_order(
+                symbol=symbol,
+                side=side,
+                order_type="Market",
+                qty=self._fmt_qty(qty),  # Використовувати _fmt_qty замість str(qty)
+                price=None  # Market order
+            )
+
+            if order_response and order_response.get('retCode') == 0:
+                order_id = order_response['result']['orderId']
+                logger.info(f"✅ [EXECUTOR] Opened {action} position for {symbol}: qty={qty:.4f}, order_id={order_id}")
+                
+                # Встановити SL/TP через set_trading_stop
+                if stop_loss > 0 or take_profit > 0:
+                    sl_tp_response = await self.api.set_trading_stop(
+                        symbol=symbol,
+                        take_profit=str(take_profit) if take_profit > 0 else None,
+                        stop_loss=str(stop_loss) if stop_loss > 0 else None,
+                        position_idx=0,  # 0 для односторонньої позиції
+                        tpsl_mode="Full"
+                    )
+                    if sl_tp_response and sl_tp_response.get('retCode') == 0:
+                        logger.info(f"✅ [EXECUTOR] SL/TP set for {symbol}: SL={stop_loss}, TP={take_profit}")
+                    else:
+                        logger.warning(f"⚠️ [EXECUTOR] Failed to set SL/TP for {symbol}: {sl_tp_response}")
+                
+                # Логувати відкриття
+                self._log_trade(symbol, action, side, qty, entry_price, stop_loss, take_profit, 
+                              leverage, position_size_pct, confidence, reason, order_id, "OPEN")
+                
+                # Зберегти позицію в storage
+                position = Position(
+                    symbol=symbol,
+                    side="LONG" if side == "Buy" else "SHORT",
+                    qty=qty,
+                    entry_price=entry_price,
+                    stop_loss=stop_loss,
+                    take_profit=take_profit,
+                    leverage=int(leverage)
+                )
+                self.storage.positions[symbol] = position
+            else:
+                logger.error(f"❌ [EXECUTOR] Failed to open {action} for {symbol}: {order_response}")
+
+        except Exception as e:
+            logger.error(f"Error executing signal for {symbol}: {e}")
 
     async def start(self):
-        """Запуск executor"""
-        logger.info("🚀 [EXECUTOR] Starting...")
-        
-        self._init_trade_log()
-        
+        logger.info("🚀 [EXECUTOR] Starting trading execution...")
         if not await self.api.check_time_sync():
-            logger.warning("[EXECUTOR] ⚠️ Time sync failed")
-        
-        # Встановлюємо leverage
+            logger.warning("[EXECUTOR] ⚠️ Time sync failed (continuing with risk)")
         for sym in settings.pairs.trade_pairs:
             try:
                 await self.api.set_leverage(sym, settings.trading.leverage)
                 await asyncio.sleep(0.05)
             except Exception as e:
-                logger.warning(f"[EXECUTOR] Leverage set fail {sym}: {e}")
-        
-        # Отримуємо баланс
-        bal = await self.api.get_wallet_balance()
-        if bal is not None:
-            self._start_balance = bal
-            logger.info(f"[EXECUTOR] 💰 Balance: {bal:.2f} USDT")
-        
-        self._running = True
-        
-        # Паралельний або послідовний моніторинг
-        if self.tcfg.enable_parallel_monitoring:
-            self._monitor_task = asyncio.create_task(self._parallel_monitor_loop())
-            logger.info("✅ [EXECUTOR] Started with PARALLEL monitoring")
-        else:
-            self._monitor_task = asyncio.create_task(self._sequential_monitor_loop())
-            logger.info("✅ [EXECUTOR] Started with sequential monitoring")
+                logger.warning(f"[EXECUTOR] Failed to set leverage for {sym}: {e}")
 
     async def stop(self):
-        """Зупинка executor"""
         logger.info("🛑 [EXECUTOR] Stopping...")
-        self._running = False
-        
-        if self._monitor_task:
-            self._monitor_task.cancel()
-            try:
-                await self._monitor_task
-            except asyncio.CancelledError:
-                pass
-        
-        for t in list(self._watch_tasks.values()):
-            t.cancel()
-        await asyncio.gather(*self._watch_tasks.values(), return_exceptions=True)
+        for task in self._watch_tasks.values():
+            task.cancel()
         self._watch_tasks.clear()
-        
-        logger.info("✅ [EXECUTOR] Stopped")
 
     # ==================== MONITORING ====================
     
@@ -612,50 +595,6 @@ class TradeExecutor:
         self._pnl_attempts_cache.pop(symbol, None)
         self._blocked_symbols.pop(symbol, None)
         logger.info(f"✅ [PNL_COMPLETE] {symbol}")
-
-    def _log_trade(self, event: str, symbol: str, side: str, qty: float, price: float,
-                   sl: float, tp: float, reason: str, meta: str):
-        """ОНОВЛЕНЕ логування з захистом від дублікатів"""
-        try:
-            current_time = time.time()
-            
-            # Захист від дублікатів для CLOSE
-            if event == "CLOSE":
-                close_key = f"{symbol}_{event}_{side}_{qty:.6f}_{price:.6f}_{reason}"
-                
-                if close_key in self._processed_closures:
-                    last_log_time = self._processed_closures[close_key]
-                    if current_time - last_log_time < 10:
-                        logger.debug(f"🛡️ [DUPLICATE_LOG] Skipping: {symbol}")
-                        return
-                
-                self._processed_closures[close_key] = current_time
-                
-                # Очищення старих записів
-                expired_keys = [k for k, v in self._processed_closures.items() 
-                              if current_time - v > 60]
-                for k in expired_keys:
-                    self._processed_closures.pop(k, None)
-            
-            timestamp_str = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(current_time))
-            
-            # Запис у CSV
-            with open(settings.logging.trades_log, "a", newline="", encoding="utf-8") as f:
-                writer = csv.writer(f)
-                writer.writerow([
-                    timestamp_str, event, symbol, side,
-                    f"{qty:.6f}", f"{price:.6f}",
-                    f"{sl:.6f}", f"{tp:.6f}",
-                    reason, meta
-                ])
-            
-            if event == "CLOSE":
-                logger.info(f"📝 [TRADE_LOG] {event}: {symbol} {side} {qty:.6f} @ {price:.6f} | {reason}")
-            else:
-                logger.debug(f"📝 [TRADE_LOG] {event}: {symbol} {side} {qty:.6f} @ {price:.6f}")
-        
-        except Exception as e:
-            logger.error(f"❌ [TRADE_LOG] Error: {e}", exc_info=True)
 
     # ==================== OPEN POSITION ====================
     

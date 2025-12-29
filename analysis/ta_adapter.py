@@ -28,7 +28,7 @@ class TechnicalAnalysisAdapter:
         self.ta_generator = TechnicalAnalysisSignalGenerator()
         
         # Candle aggregation (create OHLCV from trades)
-        self.candle_timeframe_sec = 3600  # 1 hour candles
+        self.candle_timeframe_sec = settings.technical_analysis.candle_timeframe_seconds  # З settings
         self.candles: Dict[str, deque] = {}  # symbol → deque of candles
         self.current_candle: Dict[str, Dict] = {}  # symbol → current forming candle
         
@@ -143,11 +143,14 @@ class TechnicalAnalysisAdapter:
             
             base_url = settings.system.rest_market_base.rstrip("/")
             url = f"{base_url}/v5/market/kline"
+            interval_minutes = self.candle_timeframe_sec // 60
+            interval_str = str(interval_minutes)
+            
             params = {
                 "category": "linear", 
                 "symbol": symbol, 
-                "interval": "60",  # 1 година
-                "limit": 220  # трохи більше 210 для TA
+                "interval": interval_str,  # Динамічний: "5" для 5 хв, "60" для 1 год
+                "limit": settings.technical_analysis.max_candles_to_load
             }
             
             timeout = aiohttp.ClientTimeout(total=10)

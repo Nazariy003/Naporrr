@@ -314,6 +314,7 @@ class TechnicalAnalysisSignalGenerator:
         
         # Calculate entry/exit levels
         entry_price, stop_loss, take_profit, risk_reward = self._calculate_levels(
+            symbol=symbol,  # Додано
             action=action,
             current_price=current_price,
             chart_patterns=chart_patterns,
@@ -375,6 +376,7 @@ class TechnicalAnalysisSignalGenerator:
     
     def _calculate_levels(
         self,
+        symbol: str,
         action: str,
         current_price: float,
         chart_patterns: Dict,
@@ -466,11 +468,28 @@ class TechnicalAnalysisSignalGenerator:
                 stop_loss = current_price + (atr * 1.5)  # 1.5 ATR stop
                 take_profit = current_price - (atr * 3)   # 2:1 reward-risk
         
+        # 🔧 ВИПРАВЛЕННЯ: Жорстка перевірка та корекція SL/TP залежно від сторони
+        if action == "BUY":
+            # Для LONG: SL < entry < TP
+            stop_loss = min(stop_loss, entry_price * 0.98) if stop_loss > 0 else entry_price * 0.98
+            take_profit = max(take_profit, entry_price * 1.04) if take_profit > 0 else entry_price * 1.04
+        elif action == "SELL":
+            # Для SHORT: TP < entry < SL (жорстка корекція)
+            stop_loss = max(stop_loss, entry_price * 1.02) if stop_loss > 0 else entry_price * 1.02
+            take_profit = min(take_profit, entry_price * 0.96) if take_profit > 0 else entry_price * 0.96  # Завжди нижче!
+        
+        # Додаткова перевірка для SELL
+        if action == "SELL" and take_profit >= entry_price:
+            take_profit = entry_price * 0.95  # Якщо все ж вище, примусово нижче
+            logger.warning(f"[SELL] Forced TP correction for {symbol}: tp={take_profit:.2f} < entry={entry_price:.2f}")
+        
         # Calculate actual risk-reward ratio
         if stop_loss != 0:
             risk = abs(entry_price - stop_loss)
             reward = abs(take_profit - entry_price)
             risk_reward = reward / risk if risk > 0 else 2.0
+        
+        logger.debug(f"[{action}] Levels for {symbol}: entry={entry_price:.2f}, sl={stop_loss:.2f}, tp={take_profit:.2f}, rr={risk_reward:.1f}")
         
         return entry_price, stop_loss, take_profit, risk_reward
     

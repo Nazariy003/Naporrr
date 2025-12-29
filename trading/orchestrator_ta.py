@@ -207,36 +207,33 @@ class TradingOrchestratorTA:
         """Execute a trading signal"""
         try:
             action = signal['action']
-            strength = signal['strength']
-            
+            strength = signal['strength']  # Додаємо визначення strength
+            entry_price = signal.get('entry_price', 0)
+            stop_loss = signal.get('stop_loss', 0)
+            take_profit = signal.get('take_profit', 0)
+            # Використовуємо з settings замість сигналу
+            position_size_pct = settings.trading.base_order_pct  # 10% з settings
+            leverage = settings.trading.leverage  # 10x з settings
+            confidence = signal.get('confidence', 0)
+            reason = signal.get('reason', 'unknown')
+
             logger.info(
-                f"💼 [ORCH_TA] Executing {action}{strength} for {symbol} "
-                f"(confidence={signal.get('confidence', 0):.0f}%, "
-                f"reason={signal.get('reason', 'unknown')})"
+                f"💼 [ORCH_TA] Executing {action}{strength} for {symbol} "  # Тепер strength визначена
+                f"(confidence={confidence:.0f}%, "
+                f"reason={reason})"
             )
             
             # In TA mode, we have stop-loss and take-profit from signal
             if self.ta_enabled:
-                stop_loss = signal.get('stop_loss', 0)
-                take_profit = signal.get('take_profit', 0)
-                position_size_pct = signal.get('position_size_pct', 0.02)
-                leverage = signal.get('leverage_recommended', 3.0)
-                
                 logger.info(
-                    f"   Entry: {signal.get('entry_price', 0):.2f}, "
+                    f"   Entry: {entry_price:.2f}, "
                     f"SL: {stop_loss:.2f}, TP: {take_profit:.2f}, "
                     f"R:R={signal.get('risk_reward_ratio', 0):.1f}:1, "
                     f"Size: {position_size_pct*100:.1f}%, Leverage: {leverage}x"
                 )
                 
-                # TODO: Integrate with executor to actually place orders
-                # For now, just log
-                logger.info(
-                    f"   Pattern: {signal.get('chart_pattern') or signal.get('candlestick_pattern') or 'None'}, "
-                    f"Trend: {signal.get('trend', 'NEUTRAL')}, "
-                    f"RSI: {signal.get('rsi_signal', 'N/A')}, "
-                    f"MACD: {signal.get('macd_signal', 'N/A')}"
-                )
+                # Відкрити позицію через executor
+                await self.executor.execute_signal(symbol, signal)
             
             # Update last trade time
             self._last_trade_time[symbol] = time.time()
