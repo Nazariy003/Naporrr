@@ -1,0 +1,1334 @@
+2025-12-29 13:09:06 | INFO | bot | [LOGGER] mode=work console=INFO file=DEBUG
+2025-12-29 13:09:08 | INFO | bot | ============================================================
+2025-12-29 13:09:08 | INFO | bot | 🚀 CRYPTO TRADING BOT - OPTIMIZED MONITORING SYSTEM
+2025-12-29 13:09:08 | INFO | bot | ============================================================
+2025-12-29 13:09:08 | INFO | bot | 
+2025-12-29 13:09:08 | INFO | bot | 📡 MODE: DEMO (Paper Trading)
+2025-12-29 13:09:08 | INFO | bot | 📊 Public WebSocket:  wss://stream-demo.bybit.com/v5/public/linear
+2025-12-29 13:09:08 | INFO | bot | 🔐 Private WebSocket: wss://stream-demo.bybit.com/v5/private
+2025-12-29 13:09:08 | INFO | bot | 🌐 REST API:          https://api-demo.bybit.com
+2025-12-29 13:09:08 | INFO | bot | 💡 Note: Using demo environment with virtual funds
+2025-12-29 13:09:08 | INFO | bot | 
+2025-12-29 13:09:08 | INFO | bot | [API] ✅ Init - mode=DEMO base=https://api-demo.bybit.com
+2025-12-29 13:09:08 | INFO | bot | 🚑 [EMERGENCY_FIX] Applying emergency position fix...
+2025-12-29 13:09:08 | INFO | bot | [RISK] Initialized with base_order_pct=10.0%, leverage=10x, max_notional_pct=100.0%
+2025-12-29 13:09:08 | INFO | bot | ✅ [ORCH_TA] Technical Analysis mode ENABLED
+2025-12-29 13:09:08 | INFO | bot | 🎯 [MAIN] Using Technical Analysis (TA) Orchestrator
+2025-12-29 13:09:08 | INFO | bot | 🚀 [COLLECTOR] Starting data collection...
+2025-12-29 13:09:08 | INFO | bot | 📡 [COLLECTOR] Mode: DEMO (Paper Trading)
+2025-12-29 13:09:08 | INFO | bot | 📡 [COLLECTOR] Public WS: wss://stream-demo.bybit.com/v5/public/linear
+2025-12-29 13:09:08 | INFO | bot | 📡 [COLLECTOR] Private WS: wss://stream-demo.bybit.com/v5/private
+2025-12-29 13:09:08 | INFO | bot | 📡 [COLLECTOR] REST API: https://api-demo.bybit.com
+2025-12-29 13:09:08 | WARNING | bot | CSV validation skipped - module removed
+2025-12-29 13:09:08 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for BTCUSDT
+2025-12-29 13:09:09 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for ETHUSDT
+2025-12-29 13:09:10 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for BNBUSDT
+2025-12-29 13:09:11 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for SOLUSDT
+2025-12-29 13:09:12 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for ADAUSDT
+2025-12-29 13:09:13 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for DOGEUSDT
+2025-12-29 13:09:14 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for AVAXUSDT
+2025-12-29 13:09:15 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for TRXUSDT
+2025-12-29 13:09:16 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for AAVEUSDT
+2025-12-29 13:09:16 | INFO | bot | [HISTORICAL_TRADES] Loaded 1000 trades for STRKUSDT
+2025-12-29 13:09:17 | INFO | bot | [REST_OB] Initialized BTCUSDT
+2025-12-29 13:09:18 | INFO | bot | [REST_OB] Initialized ETHUSDT
+2025-12-29 13:09:18 | INFO | bot | [REST_OB] Initialized BNBUSDT
+2025-12-29 13:09:18 | INFO | bot | [REST_OB] Initialized SOLUSDT
+2025-12-29 13:09:19 | INFO | bot | [REST_OB] Initialized ADAUSDT
+2025-12-29 13:09:19 | INFO | bot | [REST_OB] Initialized DOGEUSDT
+2025-12-29 13:09:19 | INFO | bot | [REST_OB] Initialized AVAXUSDT
+2025-12-29 13:09:20 | INFO | bot | [REST_OB] Initialized TRXUSDT
+2025-12-29 13:09:20 | INFO | bot | [REST_OB] Initialized AAVEUSDT
+2025-12-29 13:09:21 | INFO | bot | [REST_OB] Initialized STRKUSDT
+2025-12-29 13:09:21 | INFO | bot | ✅ [PRIVATE_WS] Started
+2025-12-29 13:09:21 | INFO | bot | ✅ [COLLECTOR] Data collection started
+2025-12-29 13:09:21 | INFO | bot | 🚀 [EXECUTOR] Starting...
+2025-12-29 13:09:21 | INFO | bot | ✅ [TRADE_LOG] Initialized CSV file
+2025-12-29 13:09:21 | INFO | bot | 🔗 [PRIVATE_WS] Connecting to wss://stream.bybit.com/v5/private (attempt 1/5)
+2025-12-29 13:09:21 | INFO | bot | 🔗 [PUBLIC_WS] Connecting to wss://stream.bybit.com/v5/public/linear
+2025-12-29 13:09:21 | INFO | bot | [API] ✅ Time sync OK (0s)
+2025-12-29 13:09:21 | DEBUG | bot | [PRIVATE_WS] Auth sent: DQDqKuPhch...
+2025-12-29 13:09:21 | INFO | bot | ✅ [PUBLIC_WS] Subscribed to 20 topics
+2025-12-29 13:09:22 | INFO | bot | ✅ [PRIVATE_WS] Authenticated successfully
+2025-12-29 13:09:22 | INFO | bot | ✅ [PRIVATE_WS] Subscribed to: position, execution, order, wallet
+2025-12-29 13:09:22 | DEBUG | bot | [PRIVATE_WS] Subscription confirmed: False
+2025-12-29 13:09:24 | INFO | bot | [API] 🔄 Getting balance...
+2025-12-29 13:09:24 | INFO | bot | 💰 Margin: 249.12 | Equity: 249.12
+2025-12-29 13:09:24 | INFO | bot | [EXECUTOR] 💰 Balance: 249.12 USDT
+2025-12-29 13:09:24 | INFO | bot | ✅ [EXECUTOR] Started with PARALLEL monitoring
+2025-12-29 13:09:24 | INFO | bot | 🔍 [PARALLEL_MONITOR] interval=5.0s, batch_size=5
+2025-12-29 13:09:25 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for BTCUSDT
+2025-12-29 13:09:25 | INFO | bot | Loaded 220 historical candles for BTCUSDT
+2025-12-29 13:09:25 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for ETHUSDT
+2025-12-29 13:09:25 | INFO | bot | Loaded 220 historical candles for ETHUSDT
+2025-12-29 13:09:25 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for BNBUSDT
+2025-12-29 13:09:25 | INFO | bot | Loaded 220 historical candles for BNBUSDT
+2025-12-29 13:09:26 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for SOLUSDT
+2025-12-29 13:09:26 | INFO | bot | Loaded 220 historical candles for SOLUSDT
+2025-12-29 13:09:26 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for ADAUSDT
+2025-12-29 13:09:26 | INFO | bot | Loaded 220 historical candles for ADAUSDT
+2025-12-29 13:09:26 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for DOGEUSDT
+2025-12-29 13:09:26 | INFO | bot | Loaded 220 historical candles for DOGEUSDT
+2025-12-29 13:09:27 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for AVAXUSDT
+2025-12-29 13:09:27 | INFO | bot | Loaded 220 historical candles for AVAXUSDT
+2025-12-29 13:09:27 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for TRXUSDT
+2025-12-29 13:09:27 | INFO | bot | Loaded 220 historical candles for TRXUSDT
+2025-12-29 13:09:27 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for AAVEUSDT
+2025-12-29 13:09:27 | INFO | bot | Loaded 220 historical candles for AAVEUSDT
+2025-12-29 13:09:28 | INFO | bot | [HISTORICAL_KLINES] Loaded 220 klines for STRKUSDT
+2025-12-29 13:09:28 | INFO | bot | Loaded 220 historical candles for STRKUSDT
+2025-12-29 13:09:28 | INFO | bot | ✅ [ORCH_TA] Trading orchestrator started in Technical Analysis (TA) mode
+2025-12-29 13:09:28 | INFO | bot | ============================================================
+2025-12-29 13:09:28 | INFO | bot | ✅ BOT IS RUNNING WITH TECHNICAL ANALYSIS MODE
+2025-12-29 13:09:28 | INFO | bot | ============================================================
+2025-12-29 13:09:28 | INFO | bot | 📊 Technical Analysis Features:
+2025-12-29 13:09:28 | INFO | bot |    • Chart Patterns (Bulkowski): Double Bottom, Head & Shoulders, Triangles
+2025-12-29 13:09:28 | INFO | bot |    • Candlestick Patterns (Nison/Bigalow): Hammer, Engulfing, Morning Star, Doji
+2025-12-29 13:09:28 | INFO | bot |    • Technical Indicators (Murphy): 200-MA, RSI, MACD, Stochastic, Bollinger
+2025-12-29 13:09:28 | INFO | bot |    • Risk Management (Bigalow): 1-2% per trade, 2:1 R:R, 2-5x leverage
+2025-12-29 13:09:28 | INFO | bot | ============================================================
+2025-12-29 13:09:28 | INFO | bot | 📊 Data Sources:
+2025-12-29 13:09:28 | INFO | bot |    • Public WS:  Orderbook & Trades (real-time)
+2025-12-29 13:09:28 | INFO | bot |    • Private WS: Positions & Executions (real-time)
+2025-12-29 13:09:28 | INFO | bot |    • REST API:   Fallback & sync
+2025-12-29 13:09:28 | INFO | bot | 
+2025-12-29 13:09:28 | INFO | bot | 🎯 Optimized Monitoring Features:
+2025-12-29 13:09:28 | INFO | bot |    • Fast position monitoring every 5s
+2025-12-29 13:09:28 | INFO | bot |    • Adaptive symbol batching
+2025-12-29 13:09:28 | INFO | bot |    • Cached API responses
+2025-12-29 13:09:28 | INFO | bot |    • Ultra-fast close reason detection
+2025-12-29 13:09:28 | INFO | bot |    • Reduced API calls by 60%
+2025-12-29 13:09:28 | INFO | bot |    • Non-blocking CSV validation
+2025-12-29 13:09:28 | INFO | bot | ============================================================
+2025-12-29 13:09:28 | DEBUG | bot | Added current candle for BTCUSDT: {'timestamp': 1767006000, 'open': 87701.8, 'high': 87738.6, 'low': 87701.7, 'close': 87732.3, 'volume': 69.27799999999961}
+2025-12-29 13:09:28 | DEBUG | bot | Updated 1405 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:09:28 | INFO | bot | ✅ [TA_DATA] BTCUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:28 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:09:28 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:28 | DEBUG | bot | Added current candle for ETHUSDT: {'timestamp': 1767006000, 'open': 2961.39, 'high': 2963.54, 'low': 2961.01, 'close': 2962.26, 'volume': 765.2599999999953}
+2025-12-29 13:09:28 | DEBUG | bot | Updated 1017 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:09:28 | INFO | bot | ✅ [TA_DATA] ETHUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:28 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:09:28 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:28 | DEBUG | bot | Added current candle for BNBUSDT: {'timestamp': 1767006000, 'open': 853.0, 'high': 853.9, 'low': 852.2, 'close': 853.5, 'volume': 501.97999999999877}
+2025-12-29 13:09:28 | DEBUG | bot | Updated 1000 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:09:28 | INFO | bot | ✅ [TA_DATA] BNBUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:28 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=60%
+2025-12-29 13:09:28 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:30 | DEBUG | bot | Added current candle for SOLUSDT: {'timestamp': 1767006000, 'open': 125.33, 'high': 125.41, 'low': 125.27, 'close': 125.32, 'volume': 22267.900000000052}
+2025-12-29 13:09:30 | DEBUG | bot | Updated 1036 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:09:30 | INFO | bot | ✅ [TA_DATA] SOLUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:30 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:09:30 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:30 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:30 | DEBUG | bot | Added current candle for ADAUSDT: {'timestamp': 1767006000, 'open': 0.3705, 'high': 0.3709, 'low': 0.3695, 'close': 0.3706, 'volume': 1034564.0}
+2025-12-29 13:09:30 | DEBUG | bot | Updated 1010 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:09:30 | INFO | bot | ✅ [TA_DATA] ADAUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:30 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:30 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:09:30 | DEBUG | bot | Added current candle for DOGEUSDT: {'timestamp': 1767006000, 'open': 0.12531, 'high': 0.12539, 'low': 0.12501, 'close': 0.12522, 'volume': 2561378.0}
+2025-12-29 13:09:30 | DEBUG | bot | Updated 1000 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:09:30 | INFO | bot | ✅ [TA_DATA] DOGEUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:30 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:09:30 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.039, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:30 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:09:30 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:09:30 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:09:30 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:09:30 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:09:32 | DEBUG | bot | Added current candle for AVAXUSDT: {'timestamp': 1767006000, 'open': 12.731, 'high': 12.738, 'low': 12.706, 'close': 12.733, 'volume': 9374.59999999997}
+2025-12-29 13:09:32 | DEBUG | bot | Updated 1002 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:09:32 | INFO | bot | ✅ [TA_DATA] AVAXUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:32 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=60%
+2025-12-29 13:09:32 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:32 | DEBUG | bot | Added current candle for TRXUSDT: {'timestamp': 1767006000, 'open': 0.28191, 'high': 0.28215, 'low': 0.28174, 'close': 0.2819, 'volume': 385765.0}
+2025-12-29 13:09:32 | DEBUG | bot | Updated 1008 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:09:32 | INFO | bot | ✅ [TA_DATA] TRXUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:32 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 13:09:32 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:32 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:32 | DEBUG | bot | Added current candle for AAVEUSDT: {'timestamp': 1767006000, 'open': 152.23, 'high': 152.47, 'low': 151.9, 'close': 152.25, 'volume': 895.9000000000019}
+2025-12-29 13:09:32 | DEBUG | bot | Updated 1004 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:09:32 | INFO | bot | ✅ [TA_DATA] AAVEUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:32 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:09:32 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.044, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:32 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:09:32 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:09:32 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:09:32 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:09:32 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:09:34 | DEBUG | bot | Added current candle for STRKUSDT: {'timestamp': 1767006000, 'open': 0.08123, 'high': 0.08131, 'low': 0.0809, 'close': 0.08125, 'volume': 790492.0000000001}
+2025-12-29 13:09:34 | DEBUG | bot | Updated 1003 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:09:34 | INFO | bot | ✅ [TA_DATA] STRKUSDT: Sufficient candle data ready for TA analysis (221 candles)
+2025-12-29 13:09:34 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:09:34 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:36 | DEBUG | bot | Updated 1462 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:09:36 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:09:36 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:36 | DEBUG | bot | Updated 1106 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:09:36 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:09:36 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:36 | DEBUG | bot | Updated 1002 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:09:36 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:09:36 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:38 | DEBUG | bot | Updated 1070 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:09:38 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:09:38 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:38 | DEBUG | bot | Updated 1016 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:09:38 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:38 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:09:40 | DEBUG | bot | Updated 1005 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:09:40 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=60%
+2025-12-29 13:09:40 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:40 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:40 | DEBUG | bot | Updated 1008 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:09:40 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 13:09:40 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:40 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:42 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:09:42 | DEBUG | bot | Updated 1003 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:09:42 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:09:42 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:42 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:09:44 | DEBUG | bot | Updated 1484 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:09:44 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:09:44 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:44 | DEBUG | bot | Updated 1169 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:09:44 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:09:44 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:44 | DEBUG | bot | Updated 1003 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:09:44 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:09:44 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:46 | DEBUG | bot | Updated 1115 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:09:46 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:09:46 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:46 | DEBUG | bot | Updated 1019 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:09:46 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:46 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:09:46 | DEBUG | bot | Updated 1062 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:09:46 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:09:46 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:46 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:09:46 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:09:46 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:09:46 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:09:46 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:09:48 | DEBUG | bot | Updated 1005 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:09:48 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=60%
+2025-12-29 13:09:48 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:48 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:48 | DEBUG | bot | Updated 1008 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:09:48 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 13:09:48 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:48 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:48 | DEBUG | bot | Updated 1004 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:09:48 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:09:48 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.026, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:48 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:09:48 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:09:48 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:09:48 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:09:48 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:09:50 | DEBUG | bot | Updated 1003 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:09:50 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:09:50 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:52 | DEBUG | bot | Updated 1512 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:09:52 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:09:52 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:52 | DEBUG | bot | Updated 1187 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:09:52 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:09:52 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:52 | DEBUG | bot | Updated 1003 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:09:52 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:09:52 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:54 | DEBUG | bot | Updated 1125 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:09:54 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:09:54 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:54 | DEBUG | bot | Updated 1021 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:09:54 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:54 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:09:56 | DEBUG | bot | Updated 1005 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:09:56 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=60%
+2025-12-29 13:09:56 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:56 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:56 | DEBUG | bot | Updated 1010 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:09:56 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 13:09:56 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:09:56 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:09:58 | DEBUG | bot | Updated 1006 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:09:58 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:09:58 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.037, direction=NEUTRAL, confidence=40%
+2025-12-29 13:09:58 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:00 | DEBUG | bot | Updated 1534 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:10:00 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:10:00 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:00 | DEBUG | bot | Updated 1234 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:10:00 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:10:00 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:00 | DEBUG | bot | Updated 1003 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:10:00 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:10:00 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:02 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:10:02 | DEBUG | bot | Updated 1160 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:10:02 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:10:02 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:02 | DEBUG | bot | Updated 1021 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:10:02 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:02 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:10:02 | DEBUG | bot | Updated 1065 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:10:02 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:10:02 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:02 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:10:02 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:10:02 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:10:02 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:10:02 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:10:02 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:10:04 | DEBUG | bot | Updated 1020 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:10:04 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=60%
+2025-12-29 13:10:04 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:04 | DEBUG | bot | Updated 1026 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:10:04 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 13:10:04 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:04 | DEBUG | bot | Updated 1004 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:10:04 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:10:04 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.026, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:04 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:10:04 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:10:04 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:10:04 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:10:04 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:10:06 | DEBUG | bot | Updated 1026 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:10:06 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:10:06 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:08 | DEBUG | bot | Updated 1744 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:10:08 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:10:08 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:08 | DEBUG | bot | Updated 1407 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:10:08 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:10:08 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:08 | DEBUG | bot | Updated 1004 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:10:08 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:10:08 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:08 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:10 | DEBUG | bot | Updated 1211 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:10:10 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:10:10 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:10 | DEBUG | bot | Updated 1034 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:10:10 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:10:12 | DEBUG | bot | Updated 1034 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:10:12 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=60%
+2025-12-29 13:10:12 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:12 | DEBUG | bot | Updated 1026 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:10:12 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 13:10:12 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:14 | DEBUG | bot | Updated 1049 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:10:14 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:10:14 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:16 | DEBUG | bot | Updated 1952 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:10:16 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:10:16 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:16 | DEBUG | bot | Updated 1562 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:10:16 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:10:16 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:16 | DEBUG | bot | Updated 1012 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:10:16 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:10:16 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:16 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:18 | DEBUG | bot | Updated 1229 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:10:18 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:10:18 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:18 | DEBUG | bot | Updated 1035 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:10:18 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:10:18 | DEBUG | bot | Updated 1081 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:10:18 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:10:18 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:10:18 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:10:18 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:10:18 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:10:18 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:10:20 | DEBUG | bot | Updated 1051 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:10:20 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=60%
+2025-12-29 13:10:20 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:20 | DEBUG | bot | Updated 1026 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:10:20 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 13:10:20 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:20 | DEBUG | bot | Updated 1024 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:10:20 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:10:20 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.009, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:20 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:10:20 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:10:20 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:10:20 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:10:20 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:10:22 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:10:22 | DEBUG | bot | Updated 1056 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:10:22 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:10:22 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:22 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:10:24 | DEBUG | bot | Updated 2204 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:10:24 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:10:24 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.028, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:24 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:24 | DEBUG | bot | Updated 1710 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:10:24 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:10:24 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:24 | DEBUG | bot | Updated 1016 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:10:24 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:10:24 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:24 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:26 | DEBUG | bot | Updated 1293 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:10:26 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:10:26 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:26 | DEBUG | bot | Updated 1040 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:10:26 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:10:28 | DEBUG | bot | Updated 1060 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:10:28 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=60%
+2025-12-29 13:10:28 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:28 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:10:28 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=70%
+2025-12-29 13:10:28 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:30 | DEBUG | bot | Updated 1064 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:10:30 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:10:30 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:32 | DEBUG | bot | Updated 2292 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:10:32 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:10:32 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:32 | DEBUG | bot | Updated 1764 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:10:32 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:10:32 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:32 | DEBUG | bot | Updated 1021 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:10:32 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:10:32 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:32 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:34 | DEBUG | bot | Updated 1308 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:10:34 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:10:34 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:34 | DEBUG | bot | Updated 1046 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:10:34 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:10:34 | DEBUG | bot | Updated 1104 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:10:34 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:10:34 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:10:34 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:10:34 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:10:34 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:10:34 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:10:36 | DEBUG | bot | Updated 1062 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:10:36 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:10:36 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:36 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:10:36 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:10:36 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:36 | DEBUG | bot | Updated 1038 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:10:36 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:10:36 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.009, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:36 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:10:36 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:10:36 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:10:36 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:10:36 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:10:38 | DEBUG | bot | Updated 1072 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:10:38 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:10:38 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:40 | DEBUG | bot | Updated 2381 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:10:40 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:10:40 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:40 | DEBUG | bot | Updated 1836 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:10:40 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:10:40 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:40 | DEBUG | bot | Updated 1021 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:10:40 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:10:40 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 13:10:40 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:42 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:10:42 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:10:42 | DEBUG | bot | Updated 1316 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:10:42 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:10:42 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:42 | DEBUG | bot | Updated 1046 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:10:42 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:10:44 | DEBUG | bot | Updated 1066 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:10:44 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:10:44 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:44 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:10:44 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:10:44 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:46 | DEBUG | bot | Updated 1074 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:10:46 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:10:46 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:48 | DEBUG | bot | Updated 2430 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:10:48 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:10:48 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:48 | DEBUG | bot | Updated 1848 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:10:48 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:10:48 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:48 | DEBUG | bot | Updated 1023 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:10:48 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:10:48 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 13:10:48 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:50 | DEBUG | bot | Updated 1322 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:10:50 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:10:50 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:50 | DEBUG | bot | Updated 1049 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:10:50 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:10:50 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:10:50 | DEBUG | bot | Updated 1110 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:10:50 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:10:50 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:50 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:10:50 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:10:50 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:10:50 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:10:50 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:10:52 | DEBUG | bot | Updated 1069 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:10:52 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:10:52 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:52 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:10:52 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:10:52 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:52 | DEBUG | bot | Updated 1041 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:10:52 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:10:52 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.026, direction=NEUTRAL, confidence=40%
+2025-12-29 13:10:52 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:10:52 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:10:52 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:10:52 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:10:52 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:10:54 | DEBUG | bot | Updated 1088 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:10:54 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:10:54 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:56 | DEBUG | bot | Updated 2491 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:10:56 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:10:56 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:56 | DEBUG | bot | Updated 1867 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:10:56 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:10:56 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:56 | DEBUG | bot | Updated 1023 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:10:56 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:10:56 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 13:10:56 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:58 | DEBUG | bot | Updated 1333 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:10:58 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:10:58 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:10:58 | DEBUG | bot | Updated 1050 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:10:58 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:10:58 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:11:00 | DEBUG | bot | Updated 1069 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:11:00 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:11:00 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:00 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:11:00 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:11:00 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:02 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:11:02 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:11:02 | DEBUG | bot | Updated 1089 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:11:02 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:11:02 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:04 | DEBUG | bot | Updated 2582 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:11:04 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:11:04 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:04 | DEBUG | bot | Updated 1911 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:11:04 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:11:04 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:04 | DEBUG | bot | Updated 1023 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:11:04 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:11:04 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:04 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:06 | DEBUG | bot | Updated 1371 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:11:06 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:11:06 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:06 | DEBUG | bot | Updated 1051 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:11:06 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:11:06 | DEBUG | bot | Updated 1114 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:11:06 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:11:06 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:11:06 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:11:06 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:11:06 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:11:06 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:11:08 | DEBUG | bot | Updated 1072 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:11:08 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:11:08 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:08 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:11:08 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:11:08 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:08 | DEBUG | bot | Updated 1061 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:11:08 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:11:08 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.044, direction=NEUTRAL, confidence=40%
+2025-12-29 13:11:08 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:11:08 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:11:08 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:11:08 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:11:08 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:11:10 | DEBUG | bot | Updated 1096 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:11:10 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:11:10 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:12 | DEBUG | bot | Updated 2614 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:11:12 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:11:12 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:12 | DEBUG | bot | Updated 2025 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:11:12 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:11:12 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:12 | DEBUG | bot | Updated 1032 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:11:12 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:11:12 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:12 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:14 | DEBUG | bot | Updated 1393 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:11:14 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:11:14 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:14 | DEBUG | bot | Updated 1052 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:11:14 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:11:16 | DEBUG | bot | Updated 1072 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:11:16 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:11:16 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:16 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:11:16 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:11:16 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:18 | DEBUG | bot | Updated 1108 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:11:18 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:11:18 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:20 | DEBUG | bot | Updated 2677 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:11:20 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:11:20 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:20 | DEBUG | bot | Updated 2135 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:11:20 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:11:20 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:20 | DEBUG | bot | Updated 1032 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:11:20 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:11:20 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:20 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:22 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:11:22 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:11:22 | DEBUG | bot | Updated 1401 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:11:22 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:11:22 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:22 | DEBUG | bot | Updated 1052 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:11:22 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:11:22 | DEBUG | bot | Updated 1151 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:11:22 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:11:22 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:11:22 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:11:22 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:11:22 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:11:22 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:11:24 | DEBUG | bot | Updated 1082 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:11:24 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:11:24 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:24 | DEBUG | bot | Updated 1033 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:11:24 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:11:24 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:24 | DEBUG | bot | Updated 1069 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:11:24 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:11:24 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:11:24 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:11:24 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:11:24 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:11:24 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:11:26 | DEBUG | bot | Updated 1118 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:11:26 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:11:26 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:28 | DEBUG | bot | Updated 2791 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:11:28 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:11:28 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.024, direction=NEUTRAL, confidence=40%
+2025-12-29 13:11:28 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:28 | DEBUG | bot | Updated 2274 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:11:28 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:11:28 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:28 | DEBUG | bot | Updated 1033 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:11:28 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:11:28 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:28 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:30 | DEBUG | bot | Updated 1411 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:11:30 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:11:30 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:30 | DEBUG | bot | Updated 1057 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:11:30 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:30 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:11:32 | DEBUG | bot | Updated 1082 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:11:32 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:11:32 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:32 | DEBUG | bot | Updated 1036 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:11:32 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:11:32 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:34 | DEBUG | bot | Updated 1139 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:11:34 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:11:34 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:36 | DEBUG | bot | Updated 2837 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:11:36 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:11:36 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.024, direction=NEUTRAL, confidence=40%
+2025-12-29 13:11:36 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:36 | DEBUG | bot | Updated 2292 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:11:36 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:11:36 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:36 | DEBUG | bot | Updated 1033 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:11:36 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:11:36 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.029, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:36 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:38 | DEBUG | bot | Updated 1413 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:11:38 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:11:38 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:38 | DEBUG | bot | Updated 1058 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:11:38 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:38 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:11:38 | DEBUG | bot | Updated 1188 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:11:38 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:11:38 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=40%
+2025-12-29 13:11:38 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:11:38 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:11:38 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:11:38 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:11:38 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:11:40 | DEBUG | bot | Updated 1087 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:11:40 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:11:40 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:40 | DEBUG | bot | Updated 1036 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:11:40 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:11:40 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:40 | DEBUG | bot | Updated 1082 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:11:40 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:11:40 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:11:40 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:11:40 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:11:40 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:11:40 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:11:42 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:11:42 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:11:42 | DEBUG | bot | Updated 1145 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:11:42 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:11:42 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:44 | DEBUG | bot | Updated 2954 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:11:44 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:11:44 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:44 | DEBUG | bot | Updated 2508 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:11:44 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:11:44 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:44 | DEBUG | bot | Updated 1096 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:11:44 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:11:44 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:46 | DEBUG | bot | Updated 1427 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:11:46 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:11:46 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:46 | DEBUG | bot | Updated 1058 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:11:46 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:46 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:11:48 | DEBUG | bot | Updated 1091 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:11:48 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:11:48 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:48 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:48 | DEBUG | bot | Updated 1036 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:11:48 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:11:48 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:50 | DEBUG | bot | Updated 1145 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:11:50 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:11:50 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:52 | DEBUG | bot | Updated 3013 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:11:52 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:11:52 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:52 | DEBUG | bot | Updated 2589 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:11:52 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:11:52 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:52 | DEBUG | bot | Updated 1097 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:11:52 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:11:52 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:54 | DEBUG | bot | Updated 1432 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:11:54 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:11:54 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:54 | DEBUG | bot | Updated 1060 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:11:54 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:54 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:11:54 | DEBUG | bot | Updated 1245 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:11:54 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:11:54 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:11:54 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:11:54 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:11:54 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:11:54 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:11:56 | DEBUG | bot | Updated 1091 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:11:56 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:11:56 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=45%
+2025-12-29 13:11:56 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:56 | DEBUG | bot | Updated 1036 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:11:56 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:11:56 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:11:56 | DEBUG | bot | Updated 1086 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:11:56 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:11:56 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:11:56 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:11:56 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:11:56 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:11:56 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:11:58 | DEBUG | bot | Updated 1145 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:11:58 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:11:58 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:00 | DEBUG | bot | Updated 3059 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:12:00 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:12:00 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:00 | DEBUG | bot | Updated 2685 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:12:00 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:12:00 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:00 | DEBUG | bot | Updated 1097 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:12:00 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:12:00 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:02 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:12:02 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:12:02 | DEBUG | bot | Updated 1459 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:12:02 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:12:02 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:02 | DEBUG | bot | Updated 1066 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:12:02 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:02 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:12:04 | DEBUG | bot | Updated 1101 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:12:04 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:12:04 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:04 | DEBUG | bot | Updated 1037 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:12:04 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:12:04 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:06 | DEBUG | bot | Updated 1150 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:12:06 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:12:06 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:08 | DEBUG | bot | Updated 3102 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:12:08 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:12:08 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:08 | DEBUG | bot | Updated 2738 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:12:08 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:12:08 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:08 | DEBUG | bot | Updated 1097 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:12:08 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:12:08 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:10 | DEBUG | bot | Updated 1487 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:12:10 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:12:10 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:10 | DEBUG | bot | Updated 1069 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:12:10 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:10 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:12:10 | DEBUG | bot | Updated 1279 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:12:10 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:12:10 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:12:10 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:12:10 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:12:10 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:12:10 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:12:12 | DEBUG | bot | Updated 1101 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:12:12 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:12:12 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:12 | DEBUG | bot | Updated 1046 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:12:12 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:12:12 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:12 | DEBUG | bot | Updated 1086 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:12:12 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:12:12 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:12:12 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:12:12 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:12:12 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:12:12 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:12:14 | DEBUG | bot | Updated 1150 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:12:14 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:12:14 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:16 | DEBUG | bot | Updated 3176 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:12:16 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:12:16 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:16 | DEBUG | bot | Updated 2774 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:12:16 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:12:16 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:16 | DEBUG | bot | Updated 1097 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:12:16 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:12:16 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:18 | DEBUG | bot | Updated 1493 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:12:18 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:12:18 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:18 | DEBUG | bot | Updated 1071 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:12:18 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:18 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:12:20 | DEBUG | bot | Updated 1103 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:12:20 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:12:20 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:20 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:20 | DEBUG | bot | Updated 1047 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:12:20 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:12:20 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:22 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:12:22 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:12:22 | DEBUG | bot | Updated 1150 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:12:22 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:12:22 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:24 | DEBUG | bot | Updated 3234 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:12:24 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:12:24 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:24 | DEBUG | bot | Updated 2811 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:12:24 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:12:24 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:24 | DEBUG | bot | Updated 1108 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:12:24 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:12:24 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:26 | DEBUG | bot | Updated 1501 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:12:26 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:12:26 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:26 | DEBUG | bot | Updated 1073 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:12:26 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:26 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:12:26 | DEBUG | bot | Updated 1304 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:12:26 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:12:26 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:12:26 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:12:26 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:12:26 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:12:26 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:12:28 | DEBUG | bot | Updated 1103 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:12:28 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:12:28 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:28 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:28 | DEBUG | bot | Updated 1047 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:12:28 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:12:28 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:28 | DEBUG | bot | Updated 1091 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:12:28 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:12:28 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:12:28 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:12:28 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:12:28 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:12:28 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:12:30 | DEBUG | bot | Updated 1150 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:12:30 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:12:30 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:32 | DEBUG | bot | Updated 3259 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:12:32 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:12:32 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:32 | DEBUG | bot | Updated 2830 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:12:32 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:12:32 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:32 | DEBUG | bot | Updated 1110 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:12:32 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:12:32 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:34 | DEBUG | bot | Updated 1550 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:12:34 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:12:34 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:34 | DEBUG | bot | Updated 1078 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:12:34 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:34 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:12:36 | DEBUG | bot | Updated 1103 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:12:36 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:12:36 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:36 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:36 | DEBUG | bot | Updated 1058 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:12:36 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:12:36 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:36 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:38 | DEBUG | bot | Updated 1174 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:12:38 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:12:38 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:40 | DEBUG | bot | Updated 3296 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:12:40 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:12:40 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:40 | DEBUG | bot | Updated 2882 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:12:40 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:12:40 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:40 | DEBUG | bot | Updated 1112 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:12:40 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:12:40 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:42 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:12:42 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:12:42 | DEBUG | bot | Updated 1557 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:12:42 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:12:42 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:42 | DEBUG | bot | Updated 1079 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:12:42 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:42 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:12:42 | DEBUG | bot | Updated 1327 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:12:42 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:12:42 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.013, direction=NEUTRAL, confidence=40%
+2025-12-29 13:12:42 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:12:42 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:12:42 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:12:42 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:12:42 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:12:44 | DEBUG | bot | Updated 1134 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:12:44 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:12:44 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.047, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:44 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:44 | DEBUG | bot | Updated 1058 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:12:44 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:12:44 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:44 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:44 | DEBUG | bot | Updated 1094 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:12:44 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:12:44 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:12:44 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:12:44 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:12:44 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:12:44 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:12:46 | DEBUG | bot | Updated 1174 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:12:46 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:12:46 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:48 | DEBUG | bot | Updated 3322 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:12:48 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:12:48 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:48 | DEBUG | bot | Updated 2919 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:12:48 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:12:48 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:48 | DEBUG | bot | Updated 1112 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:12:48 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:12:48 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:50 | DEBUG | bot | Updated 1584 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:12:50 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:12:50 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:50 | DEBUG | bot | Updated 1100 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:12:50 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:50 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:12:52 | DEBUG | bot | Updated 1146 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:12:52 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:12:52 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:52 | DEBUG | bot | Updated 1058 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:12:52 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:12:52 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:52 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:54 | DEBUG | bot | Updated 1174 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:12:54 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:12:54 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:56 | DEBUG | bot | Updated 3525 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:12:56 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:12:56 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:56 | DEBUG | bot | Updated 3030 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:12:56 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=60%
+2025-12-29 13:12:56 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:56 | DEBUG | bot | Updated 1112 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:12:56 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:12:56 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:58 | DEBUG | bot | Updated 1628 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:12:58 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:12:58 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:12:58 | DEBUG | bot | Updated 1103 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:12:58 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:12:58 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:12:58 | DEBUG | bot | Updated 1348 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:12:58 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:12:58 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:12:58 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:12:58 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:12:58 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:12:58 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:13:00 | DEBUG | bot | Updated 1159 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:13:00 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:13:00 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:00 | DEBUG | bot | Updated 1058 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:13:00 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:13:00 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:00 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:00 | DEBUG | bot | Updated 1097 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:13:00 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:13:00 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:13:00 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:13:00 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:13:00 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:13:00 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:13:02 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:13:02 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:13:02 | DEBUG | bot | Updated 1174 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:13:02 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:13:02 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:04 | DEBUG | bot | Updated 3575 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:13:04 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:13:04 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:04 | DEBUG | bot | Updated 3142 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:13:04 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:13:04 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:04 | DEBUG | bot | Updated 1112 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:13:04 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:13:04 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:06 | DEBUG | bot | Updated 1667 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:13:06 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:13:06 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:06 | DEBUG | bot | Updated 1119 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:13:06 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:06 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:13:08 | DEBUG | bot | Updated 1167 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:13:08 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:13:08 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:08 | DEBUG | bot | Updated 1059 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:13:08 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:13:08 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:08 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:10 | DEBUG | bot | Updated 1174 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:13:10 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:13:10 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:12 | DEBUG | bot | Updated 3688 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:13:12 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:13:12 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:12 | DEBUG | bot | Updated 3186 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:13:12 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:13:12 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:12 | DEBUG | bot | Updated 1113 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:13:12 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:13:12 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:14 | DEBUG | bot | Updated 1767 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:13:14 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:13:14 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:14 | DEBUG | bot | Updated 1120 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:13:14 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:14 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:13:14 | DEBUG | bot | Updated 1397 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:13:14 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:13:14 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:13:14 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:13:14 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:13:14 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:13:14 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:13:16 | DEBUG | bot | Updated 1167 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:13:16 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:13:16 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:16 | DEBUG | bot | Updated 1059 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:13:16 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:13:16 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:16 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:16 | DEBUG | bot | Updated 1102 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:13:16 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:13:16 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:13:16 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:13:16 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:13:16 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:13:16 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:13:18 | DEBUG | bot | Updated 1174 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:13:18 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:13:18 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:20 | DEBUG | bot | Updated 3722 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:13:20 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=60%
+2025-12-29 13:13:20 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:20 | DEBUG | bot | Updated 3227 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:13:20 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:13:20 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:20 | DEBUG | bot | Updated 1188 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:13:20 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:13:20 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:22 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:13:22 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:13:22 | DEBUG | bot | Updated 1781 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:13:22 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:13:22 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:22 | DEBUG | bot | Updated 1121 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:13:22 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:22 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:13:24 | DEBUG | bot | Updated 1173 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:13:24 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:13:24 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:24 | DEBUG | bot | Updated 1065 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:13:24 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:13:24 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:24 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:26 | DEBUG | bot | Updated 1174 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:13:26 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:13:26 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:28 | DEBUG | bot | Updated 3742 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:13:28 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=75%
+2025-12-29 13:13:28 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:28 | DEBUG | bot | Updated 3257 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:13:28 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:13:28 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:28 | DEBUG | bot | Updated 1189 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:13:28 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:13:28 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:30 | DEBUG | bot | Updated 1804 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:13:30 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:13:30 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:30 | DEBUG | bot | Updated 1124 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:13:30 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:30 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:13:30 | DEBUG | bot | Updated 1402 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:13:30 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:13:30 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:13:30 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:13:30 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:13:30 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:13:30 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:13:32 | DEBUG | bot | Updated 1178 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:13:32 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:13:32 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:32 | DEBUG | bot | Updated 1065 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:13:32 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:13:32 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:32 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:32 | DEBUG | bot | Updated 1105 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:13:32 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:13:32 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:13:32 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:13:32 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:13:32 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:13:32 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:13:34 | DEBUG | bot | Updated 1175 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:13:34 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:13:34 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:36 | DEBUG | bot | Updated 3798 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:13:36 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=75%
+2025-12-29 13:13:36 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:36 | DEBUG | bot | Updated 3285 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:13:36 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:13:36 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:36 | DEBUG | bot | Updated 1189 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:13:36 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:13:36 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:38 | DEBUG | bot | Updated 1819 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:13:38 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:13:38 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:38 | DEBUG | bot | Updated 1125 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:13:38 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:38 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:13:40 | DEBUG | bot | Updated 1178 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:13:40 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:13:40 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:40 | DEBUG | bot | Updated 1065 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:13:40 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:13:40 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:40 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:42 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:13:42 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:13:42 | DEBUG | bot | Updated 1175 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:13:42 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:13:42 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:44 | DEBUG | bot | Updated 3816 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:13:44 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=75%
+2025-12-29 13:13:44 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:44 | DEBUG | bot | Updated 3325 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:13:44 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:13:44 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:44 | DEBUG | bot | Updated 1196 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:13:44 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:13:44 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:46 | DEBUG | bot | Updated 1825 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:13:46 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:13:46 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:46 | DEBUG | bot | Updated 1126 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:13:46 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:46 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:13:46 | DEBUG | bot | Updated 1403 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:13:46 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:13:46 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:13:46 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:13:46 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:13:46 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:13:46 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:13:48 | DEBUG | bot | Updated 1178 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:13:48 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:13:48 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:48 | DEBUG | bot | Updated 1065 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:13:48 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:13:48 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:48 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:48 | DEBUG | bot | Updated 1106 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:13:48 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:13:48 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:13:48 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:13:48 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:13:48 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:13:48 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:13:50 | DEBUG | bot | Updated 1176 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:13:50 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:13:50 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:52 | DEBUG | bot | Updated 3829 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:13:52 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=75%
+2025-12-29 13:13:52 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:52 | DEBUG | bot | Updated 3342 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:13:52 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:13:52 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:52 | DEBUG | bot | Updated 1196 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:13:52 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:13:52 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:54 | DEBUG | bot | Updated 1831 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:13:54 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:13:54 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:54 | DEBUG | bot | Updated 1126 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:13:54 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:54 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:13:56 | DEBUG | bot | Updated 1179 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:13:56 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:13:56 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:56 | DEBUG | bot | Updated 1065 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:13:56 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:13:56 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:13:56 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:13:58 | DEBUG | bot | Updated 1177 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:13:58 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:13:58 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:00 | DEBUG | bot | Updated 3848 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:14:00 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=75%
+2025-12-29 13:14:00 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:00 | DEBUG | bot | Updated 3353 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:14:00 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:14:00 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:00 | DEBUG | bot | Updated 1196 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:14:00 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:14:00 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:02 | DEBUG | bot | [PRIVATE_WS] Ping sent
+2025-12-29 13:14:02 | DEBUG | bot | [PRIVATE_WS] Pong received
+2025-12-29 13:14:02 | DEBUG | bot | Updated 1845 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:14:02 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:14:02 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:02 | DEBUG | bot | Updated 1128 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:14:02 | INFO | bot | 🎯 STANDARD Doji detected: body_ratio=0.036, direction=NEUTRAL, confidence=45%
+2025-12-29 13:14:02 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:14:02 | DEBUG | bot | Updated 1416 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:14:02 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:14:02 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:14:02 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:14:02 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:14:02 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:14:02 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:14:04 | DEBUG | bot | Updated 1179 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:14:04 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:14:04 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:04 | DEBUG | bot | Updated 1065 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:14:04 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:14:04 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:14:04 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:04 | DEBUG | bot | Updated 1115 trades into candles for AAVEUSDT, total candles: 221
+2025-12-29 13:14:04 | INFO | bot | 📊 Head and Shoulders detected: LS=154.47, H=157.23, RS=157.10, neckline=149.95, confidence=60%
+2025-12-29 13:14:04 | INFO | bot | 📊 Signal for AAVEUSDT: SELL3 (confidence=70%, bullish_score=8, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:14:04 | INFO | bot | 🎯 [TA_SIGNAL] AAVEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish
+2025-12-29 13:14:04 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for AAVEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_60%, macd_bearish)
+2025-12-29 13:14:04 | INFO | bot |    Entry: 149.95, SL: 160.24, TP: 135.40, R:R=1.4:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:14:04 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
+2025-12-29 13:14:06 | DEBUG | bot | Updated 1209 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:14:06 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:14:06 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:08 | DEBUG | bot | Updated 3947 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:14:08 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=75%
+2025-12-29 13:14:08 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:08 | DEBUG | bot | Updated 3650 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:14:08 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:14:08 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:08 | DEBUG | bot | Updated 1196 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:14:08 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:14:08 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:10 | DEBUG | bot | Updated 1925 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:14:10 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:14:10 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:10 | DEBUG | bot | Updated 1140 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:14:10 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:14:12 | DEBUG | bot | Updated 1185 trades into candles for AVAXUSDT, total candles: 221
+2025-12-29 13:14:12 | INFO | bot | 📊 Head and Shoulders detected: LS=12.39, H=12.89, RS=12.85, neckline=12.52, confidence=75%
+2025-12-29 13:14:12 | INFO | bot | 📊 Signal for AVAXUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:12 | DEBUG | bot | Updated 1065 trades into candles for TRXUSDT, total candles: 221
+2025-12-29 13:14:12 | INFO | bot | 📊 Head and Shoulders detected: LS=0.28, H=0.29, RS=0.28, neckline=0.28, confidence=85%
+2025-12-29 13:14:12 | INFO | bot | 🎯 LONG_LEGGED Doji detected: body_ratio=0.012, direction=NEUTRAL, confidence=45%
+2025-12-29 13:14:12 | INFO | bot | 📊 Signal for TRXUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:14 | DEBUG | bot | Updated 1209 trades into candles for STRKUSDT, total candles: 221
+2025-12-29 13:14:14 | INFO | bot | 📊 Head and Shoulders detected: LS=0.08, H=0.09, RS=0.09, neckline=0.08, confidence=70%
+2025-12-29 13:14:14 | INFO | bot | 📊 Signal for STRKUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:16 | DEBUG | bot | Updated 3980 trades into candles for BTCUSDT, total candles: 221
+2025-12-29 13:14:16 | INFO | bot | 📊 Head and Shoulders detected: LS=89606.80, H=90588.80, RS=88345.80, neckline=87193.55, confidence=75%
+2025-12-29 13:14:16 | INFO | bot | 📊 Signal for BTCUSDT: HOLD0 (confidence=0%, bullish_score=8, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:16 | DEBUG | bot | Updated 3675 trades into candles for ETHUSDT, total candles: 221
+2025-12-29 13:14:16 | INFO | bot | 📊 Head and Shoulders detected: LS=3060.00, H=3076.53, RS=3033.83, neckline=2964.72, confidence=75%
+2025-12-29 13:14:16 | INFO | bot | 📊 Signal for ETHUSDT: HOLD0 (confidence=0%, bullish_score=0, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:16 | DEBUG | bot | Updated 1201 trades into candles for BNBUSDT, total candles: 221
+2025-12-29 13:14:16 | INFO | bot | 📊 Head and Shoulders detected: LS=867.60, H=870.80, RS=852.80, neckline=848.45, confidence=75%
+2025-12-29 13:14:16 | INFO | bot | 📊 Signal for BNBUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:18 | DEBUG | bot | Updated 1931 trades into candles for SOLUSDT, total candles: 221
+2025-12-29 13:14:18 | INFO | bot | 📊 Head and Shoulders detected: LS=128.50, H=128.74, RS=126.87, neckline=124.25, confidence=60%
+2025-12-29 13:14:18 | INFO | bot | 📊 Signal for SOLUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=40) Reasons: no_signal
+2025-12-29 13:14:18 | DEBUG | bot | Updated 1141 trades into candles for ADAUSDT, total candles: 221
+2025-12-29 13:14:18 | INFO | bot | 📊 Signal for ADAUSDT: HOLD0 (confidence=0%, bullish_score=30, bearish_score=10) Reasons: no_signal
+2025-12-29 13:14:18 | DEBUG | bot | Updated 1444 trades into candles for DOGEUSDT, total candles: 221
+2025-12-29 13:14:18 | INFO | bot | 📊 Head and Shoulders detected: LS=0.13, H=0.14, RS=0.13, neckline=0.13, confidence=70%
+2025-12-29 13:14:18 | INFO | bot | 📊 Signal for DOGEUSDT: SELL3 (confidence=70%, bullish_score=0, bearish_score=70) Reasons: trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:14:18 | INFO | bot | 🎯 [TA_SIGNAL] DOGEUSDT: SELL3 confidence=70% patterns=HEAD_AND_SHOULDERS trend=BEARISH rsi=NEUTRAL reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish
+2025-12-29 13:14:18 | INFO | bot | 💼 [ORCH_TA] Executing SELL3 for DOGEUSDT (confidence=70%, reason=trend_bearish_200ma, head_shoulders_70%, macd_bearish)
+2025-12-29 13:14:18 | INFO | bot |    Entry: 0.13, SL: 0.14, TP: 0.12, R:R=1.7:1, Size: 1.5%, Leverage: 3.0x
+2025-12-29 13:14:18 | INFO | bot |    Pattern: HEAD_AND_SHOULDERS, Trend: BEARISH, RSI: NEUTRAL, MACD: BEARISH
